@@ -1,7 +1,7 @@
 Unfortunately, since the Arduino Playground shut their doors as a Wiki and became a website, I have nowhere particularly great to post this code. So, I'm posting it here!
 
 The ATtiny85 is an awesome little MCU that I fell in like with. One of the things that plague me is how to generate my own PWM frequencies, because you need to do this sometimes.
-In this case, I needed to generate a reference frequency so that I could calibrate the internal 8MHz clock, because it was quite frankly horrible in terms of accuracy. I wanted a good enough accuracy so that over the course of the day, perhaps I lost a minute or two at most. This led me down a rabbit hole of realizing that the timers of the ATtiny85 were not the same as the ATmega328p. Why should they be?!? A while ago, I posted a guide to FastPWM for the ATmega328p here:
+In this case, I needed to generate a reference frequency so that I could calibrate the internal 8MHz clock, because it was quite frankly horrible in terms of accuracy. I wanted a good enough accuracy so that over the course of the day, perhaps I lost a minute or two at most. This led me down a rabbit hole after realizing that the registers to control the ATtiny85 timers were not the same as the ATmega328p. Why should they be?!? A while ago, I posted a guide to FastPWM for the ATmega328p here:
 
 https://playground.arduino.cc/Code/FastPWM/
 
