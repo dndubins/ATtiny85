@@ -36,6 +36,7 @@ Here is a chart of frequencies (in Hz) spanning your options, assuming an 8MHz c
 
 
 | OCR1A | Prescaler: 1 | 8 | 64 | 256 | 1024 |
+| --- | --- | --- | --- | --- | --- |
 | 0 | 4000000 | 500000 | 62500 | 15625 | 3906 |
 | 1 | 2000000 | 250000 | 31250 | 7813 | 1953 |
 | 3 | 1000000 | 125000 | 15625 | 3906 | 977 |
