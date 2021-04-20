@@ -27,7 +27,7 @@ The code for Pin PB0 only, usint Timer 0
   //TCCR0B = _BV(WGM02) | _BV(CS01) | _BV(CS00);  // nprscaler=64
   //TCCR0B = _BV(WGM02) | _BV(CS02);  // prescaler=256
   //TCCR0B = _BV(WGM02) | _BV(CS02) | _BV(CS00);  // prescaler=1024
-  OCR0A = 0; // counter limit: 255, duty cycle fixed at 50% in this mode. OCR0A=0 with no prescalar gives freq=4MHz.
+  OCR0A = 0; // counter limit: 255, duty cycle fixed at 50% in this mode. OCR0A=0 with no prescaler gives freq=4MHz.
 ```
 
 There is only one counter in this mode: OCR0A. You are unfortunately stuck with a 50% duty cycle here, but you can set the frequency based on the prescaler value, and the value of OCR0A. The formula, as indicated in the code, is: frequency=fclk/((OCR0A+1)*2*N)
@@ -56,7 +56,7 @@ Here is a chart of frequencies (in Hz) spanning your options, assuming an 8MHz c
 
 ### "I want to output a specific frequency on Pin PB1 only, using Timer 0."
 
-You are in luck! Using OCR0A, you can control the frequency using the formula: frequency=fclk/((OCR0A+1)*N). You can control the duty cycle of the signal using OCR0B, using the formula: duty cycle=OCR0B/OCR0A. You can also set the prescalar values as above.
+You are in luck! Using OCR0A, you can control the frequency using the formula: frequency=fclk/((OCR0A+1)*N). You can control the duty cycle of the signal using OCR0B, using the formula: duty cycle=OCR0B/OCR0A. You can also set the prescaler values as above.
 
 ```
   // Custon PWM on Pin PB1 only, using Timer 0: (Page80 on ATtiny85 full datasheet)
@@ -93,7 +93,7 @@ This gives rise to the following frequency table (in Hz) assuming an 8MHz clock 
 
 ### "I want a custom PWM signal on Pins PB0 and PB1 at the same time, using Timer 0."
 
-Well, you can do this, but your options are a bit more limited. The frequency is set using the prescalar value only, calculated using the formula: frequency=fclk/(N*256). OCR0A and OCR0B are used to control the duty cycles of PB0 and PB1, respectively, using the formula: duty cycle=OCR0X/255. Here is the code:
+Well, you can do this, but your options are a bit more limited. The frequency is set using the prescaler value only, calculated using the formula: frequency=fclk/(N*256). OCR0A and OCR0B are used to control the duty cycles of PB0 and PB1, respectively, using the formula: duty cycle=OCR0X/255. Here is the code:
 ```
   // Custom PWM on Pin PB0 and PB1 together, using Timer 0: (Page80 on ATtiny85 full datasheet)
   //Formula: wave frequency= fclk /(N x 510)
@@ -117,7 +117,7 @@ Here are the frequencies you can attain (in Hz) using an 8 MHz clock speed:
 
 Timer 1 (Controls PB0, PB1, PB3, and PB4!)
 ------------------------------------------
-When I first saw that Timer1 was a 255-bit timer, I was disappointed. BUT THEN I saw how many prescalar values this thing has. WOW!!!! Surely you can find the right combination to attain the frequency you would like. Let's start with Pin PB0.
+When I first saw that Timer1 was a 255-bit timer, I was disappointed. BUT THEN I saw how many prescaler values this thing has. WOW!!!! Surely you can find the right combination to attain the frequency you would like. Let's start with Pin PB0.
 
 ### "I want a custom PWM signal on PB1 only, using Timer 1."
 
