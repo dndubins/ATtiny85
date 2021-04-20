@@ -16,7 +16,7 @@ Timer 0 (controls Pins PB0 and PB1)
 Before you do this, know that messing with Timer 0 will screw with your delay() and millis() functions, which you can account for, but it's another headache.
 
 The code for Pin PB0 only, usint Timer 0
-'''
+```
   //Custom PWM on Pin PB0 only, using Timer 0: (Page80 on ATtiny85 full datasheet)
   //duty cycle fixed at 50% in this mode.
   //Formula: wave frequency=fclk/((OCR0A+1)*2*N)
@@ -28,7 +28,7 @@ The code for Pin PB0 only, usint Timer 0
   //TCCR0B = _BV(WGM02) | _BV(CS02);  // prescaler=256
   //TCCR0B = _BV(WGM02) | _BV(CS02) | _BV(CS00);  // prescaler=1024
   OCR0A = 0; // counter limit: 255, duty cycle fixed at 50% in this mode. OCR0A=0 with no prescalar gives freq=4MHz.
-'''
+```
 
 There is only one counter in this mode: OCR0A. You are unfortunately stuck with a 50% duty cycle here, but you can set the frequency based on the prescaler value, and the value of OCR0A. The formula, as indicated in the code, is: frequency=fclk/((OCR0A+1)*2*N)
 
@@ -58,7 +58,7 @@ The formatting here looks terrible. I'm sorry! But if you copy this into Excel a
 
 You are in luck! Using OCR0A, you can control the frequency using the formula: frequency=fclk/((OCR0A+1)*N). You can control the duty cycle of the signal using OCR0B, using the formula: duty cycle=OCR0B/OCR0A. You can also set the prescalar values as above.
 
-'''
+```
   // Custon PWM on Pin PB1 only, using Timer 0: (Page80 on ATtiny85 full datasheet)
   //Formula: wave frequency=fclk/((OCR0A+1)*N)
   pinMode(1, OUTPUT); // output pin for OCR0B is PB1 (physical pin 6)
@@ -70,7 +70,7 @@ You are in luck! Using OCR0A, you can control the frequency using the formula: f
   //TCCR0B = _BV(WGM02) | _BV(CS02) | _BV(CS00);  // prescaler=1024
   OCR0A = 0; // counter limit: 255
   OCR0B = 10; //duty cycle=OCR0B/OCR0A. OCR0B can't be greater than OCR0A. (OCR0B=0.5*OCR0A for 50% duty cycle)
-'''
+```
 This gives rise to the following frequency table (in Hz) assuming an 8MHz clock speed:
 
 OCR0A | 	Prescaler: 1 | 	8 | 	64 | 	256 | 	1024 | 
@@ -93,7 +93,7 @@ OCR0A | 	Prescaler: 1 | 	8 | 	64 | 	256 | 	1024 |
 "I want a custom PWM signal on Pins PB0 and PB1 at the same time, using Timer 0."
 
 Well, you can do this, but your options are a bit more limited. The frequency is set using the prescalar value only, calculated using the formula: frequency=fclk/(N*256). OCR0A and OCR0B are used to control the duty cycles of PB0 and PB1, respectively, using the formula: duty cycle=OCR0X/255. Here is the code:
-'''
+```
   // Custom PWM on Pin PB0 and PB1 together, using Timer 0: (Page80 on ATtiny85 full datasheet)
   //Formula: wave frequency= fclk /(N x 510)
   pinMode(0, OUTPUT); // output pin for OCR0A is PB0 (physical pin 5)
@@ -106,7 +106,7 @@ Well, you can do this, but your options are a bit more limited. The frequency is
   //TCCR0B = _BV(CS02) | _BV(CS00);  // prescaler=1024
   OCR0A = 50; // counter limit: 255 (duty cycle PB0 =OCR0A/255, 50% duty cycle=127)
   OCR0B = 200; // counter limit: 255 (duty cycle PB1 =OCR0B/255, 50% duty cycle=127)
-'''
+```
 Here are the frequencies you can attain (in Hz) using an 8 MHz clock speed:
 Prescaler: | 	1 | 	8 | 	64 | 	256 | 	1024 | 
 Frequency (Hz): | 	31250 | 	3906 | 	488 | 	122 | 	31 | 
@@ -119,7 +119,7 @@ When I first saw that Timer1 was a 255-bit timer, I was disappointed. BUT THEN I
 "I want a custom PWM signal on PB1 only, using Timer 1."
 
 To set the frequency in this mode, the following equation is used: frequency=fclk/((OCR1C+1)*N). OCR1A is used to set the duty cycle. This equation will hold for all of the following examples. This makes life slightly less confusing! Here is the code for PB0 only, using Timer 1:
-'''
+```
  // Custom PWM on Pin PB1 only, using Timer 1: 
  //Formula: frequency=fclk/((OCR1C+1)*N)
  pinMode(1, OUTPUT); // output is PB1 (physical pin 6)
@@ -140,7 +140,7 @@ TCCR1 |= _BV(CS10); // prescaler=1
 //TCCR1 |= _BV(CS13) |  _BV(CS12) |  _BV(CS11) |  _BV(CS10); // prescaler=16384
 OCR1C = 132; // Set betw 1-255 (prescaler=1, OCR1C=132 -->  60 kHz)
 OCR1A = 66; // duty cycle=OCR1A/OCR1C. OCR1A can't be greater than OCR1C. (OCR1A=0.5*OCR1C for 50% duty cycle)
-'''
+```
 You can see it's much longer, but that's only because of all those groovy prescaler options! OCR1B is used to set the duty cycle, using the formula: duty cycle=OCR1A/OCR1C.
 This gives rise to the widest table yet, assuming an 8MHz clock speed:
 
@@ -167,7 +167,7 @@ This chart will also apply to the following examples. (Nice!)
 
 So, PB0 has a complementary output to PB1, so really the above code will do the job if you set pin PB1 to OUTPUT mode instead, and then keep in mind the duty cycle is inverted. Or, you can just copy this code:
 
-'''
+```
 // Custom PWM on Pin PB0 only using Timer 1
 // Note: PB0 has a complementary output to PB1 with Timer 1.
  //Formula: frequency=fclk/((OCR1C+1)*N)
@@ -189,13 +189,13 @@ TCCR1 |= _BV(CS10); // prescaler=1
 //TCCR1 |= _BV(CS13) |  _BV(CS12) |  _BV(CS11) |  _BV(CS10); // prescaler=16384
 OCR1C = 132; // Set betw 1-255 (prescaler=1, OCR1C=132 -->  60 kHz)
 OCR1A = 66;  // duty cycle=(255-OCR1A)/OCR1C. OCR1A can't be greater than OCR1C. (OCR1A=0.5*OCR1C for 50% duty cycle)
-'''
+```
 
 "I want a custom PWM signal on both pins PB0 and PB1, using Timer 1."
 
 Similarly, you just need to set BOTH pins to output mode. The down side is that one will be inverted with respect to the other. If you need two square waves, that's no problem! But if you need their duty cycles to be independent, this mode is not for you. Here's the code:
 
-'''
+```
 //Custom PWM on Pin PB0 and PB1 (together) using Timer 1.
 //Note: PB0 has a complementary output to PB1 with Timer 1.
 //Formula: frequency=fclk/((OCR1C+1)*N)
@@ -220,13 +220,13 @@ OCR1C = 132; // Set betw 1-255 (prescaler=1, OCR1C=132 -->  60 kHz)
 // duty cycle for PB0=(255-OCR1A)/OCR1C. OCR1A can't be greater than OCR1C. (OCR1A=0.5*OCR1C for 50% duty cycle)
 // duty cycle for PB1=OCR1A/OCR1C. OCR1A can't be greater than OCR1C. (OCR1A=0.5*OCR1C for 50% duty cycle)
 OCR1A = 33;  
-'''
+```
 
 "I want a custom PWM signal on pin PB4 only, using Timer 1."
 
 OCR1C is still used to set the frequency, as per the mammoth chart above. This time, OCR1B is used to set the duty cycle, and different registers are used. The GTCCR register and TCCR1 sets PWM mode in this case:
 
-'''
+```
 // Custom PWM on Pin PB4 only, using Timer 1
  //Formula: frequency=fclk/((OCR1C+1)*N)
  pinMode(4, OUTPUT); // output is PB4 (physical pin 3)
@@ -248,13 +248,13 @@ TCCR1 |= _BV(CS10); // prescaler=1
 //TCCR1 |= _BV(CS13) |  _BV(CS12) |  _BV(CS11) |  _BV(CS10); // prescaler=16384
 OCR1C = 255; // Set betw 1-255 (prescaler=1, OCR1C=132 -->  60 kHz)
 OCR1B = 127;  // duty cycle=OCR1B/OCR1C. OCR1B can't be greater than OCR1C. (OCR1B=0.5*OCR1C for 50% duty cycle)
-'''
+```
 
 "I want a custom PWM signal on pin PB3 only, using Timer 1."
 
 PB3 is complementary to PB4, so you need only set PB3 to OUTPUT mode in the code above to get it going, and keep in mind the duty cycle is inverted. Or you can just copy the following sketch:
 
-'''
+```
 //Custom PWM on Pin PB3 only, using Timer 1.
 //Note: PB3 has a complementary output to PB4 (inverted).
  //Formula: frequency=fclk/((OCR1C+1)*N)
@@ -277,13 +277,13 @@ TCCR1 |= _BV(CS10); // prescaler=1
 //TCCR1 |= _BV(CS13) |  _BV(CS12) |  _BV(CS11) |  _BV(CS10); // prescaler=16384
 OCR1C = 255; // Set betw 1-255 (prescaler=1, OCR1C=132 -->  60 kHz)
 OCR1B = 66;  // duty cycle=(255-OCR1B)/OCR1C. OCR1B can't be greater than OCR1C. (OCR1A=0.5*OCR1C for 50% duty cycle)
-'''
+```
 
 "I want a custom PWM signal on PB3 and PB4 at the same time."
 
 When you get pins PB3 and PB4 beating at the same time, they will be bound by the same frequency, and will have inverted duty cycles. All you need to do is set both pins to OUTPUT mode, or copy the following code:
 
-'''
+```
 //Custom PWM on Pins PB3 and PB4 together, using Timer 1.
 //Note: PB3 has a complementary output to PB4 (inverted).
 //Formula: frequency=fclk/((OCR1C+1)*N)
@@ -309,7 +309,7 @@ OCR1C = 255; // Set betw 1-255 (prescaler=1, OCR1C=132 -->  60 kHz)
 // duty cycle for PB3=(255-OCR1B)/OCR1C. OCR1B can't be greater than OCR1C. (OCR1A=0.5*OCR1C for 50% duty cycle)
 // duty cycle for PB4=(OCR1B)/OCR1C. OCR1B can't be greater than OCR1C. (OCR1B=0.5*OCR1C for 50% duty cycle)
 OCR1B = 66;  // For PB3, duty cycle=(255-OCR1B)/OCR1C. OCR1B can't be greater than OCR1C. (OCR1A=0.5*OCR1C for 50% duty cycle)
-'''
+```
 
 And there you have it! This was two days of tinkering. I'm sure there are copying and pasting errors above that I will catch over time. If you find one, let me know!! Special thanks to the sketches people posted at the following links, which guided me in the right direction:
 http://www.technoblogy.com/show?LE0
