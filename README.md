@@ -34,22 +34,23 @@ There is only one counter in this mode: OCR0A. You are unfortunately stuck with 
 
 Here is a chart of frequencies (in Hz) spanning your options, assuming an 8MHz clock speed:
 
-|OCR1A | 	Prescaler: 1 | 	8 | 	64 | 	256 | 	1024 | 
-|0 | 	4000000 | 	500000 | 	62500 | 	15625 | 	3906 | 
-|1 | 	2000000 | 	250000 | 	31250 | 	7813 | 	1953 | 
-|3 | 	1000000 | 	125000 | 	15625 | 	3906 | 	977 | 
-|10 | 	363636 | 	45455 | 	5682 | 	1420 | 	355 | 
-|20 | 	190476 | 	23810 | 	2976 | 	744 | 	186 | 
-|40 | 	97561 | 	12195 | 	1524 | 	381 | 	95 | 
-|60 | 	65574 | 	8197 | 	1025 | 	256 | 	64 | 
-|80 | 	49383 | 	6173 | 	772 | 	193 | 	48 | 
-|100 | 	39604 | 	4950 | 	619 | 	155 | 	39 | 
-|120 | 	33058 | 	4132 | 	517 | 	129 | 	32 | 
-|140 | 	28369 | 	3546 | 	443 | 	111 | 	28 | 
-|160 | 	24845 | 	3106 | 	388 | 	97 | 	24 | 
-|180 | 	22099 | 	2762 | 	345 | 	86 | 	22 | 
-|200 | 	19900 | 	2488 | 	311 | 	78 | 	19 | 
-|255 | 	15625 | 	1953 | 	244 | 	61 | 	15 | 
+
+| OCR1A | 	Prescaler: 1 | 	8 | 	64 | 	256 | 	1024 | 
+| 0 | 	4000000 | 	500000 | 	62500 | 	15625 | 	3906 | 
+| 1 | 	2000000 | 	250000 | 	31250 | 	7813 | 	1953 | 
+| 3 | 	1000000 | 	125000 | 	15625 | 	3906 | 	977 | 
+| 10 | 	363636 | 	45455 | 	5682 | 	1420 | 	355 | 
+| 20 | 	190476 | 	23810 | 	2976 | 	744 | 	186 | 
+| 40 | 	97561 | 	12195 | 	1524 | 	381 | 	95 | 
+| 60 | 	65574 | 	8197 | 	1025 | 	256 | 	64 | 
+| 80 | 	49383 | 	6173 | 	772 | 	193 | 	48 | 
+| 100 | 	39604 | 	4950 | 	619 | 	155 | 	39 | 
+| 120 | 	33058 | 	4132 | 	517 | 	129 | 	32 | 
+| 140 | 	28369 | 	3546 | 	443 | 	111 | 	28 | 
+| 160 | 	24845 | 	3106 | 	388 | 	97 | 	24 | 
+| 180 | 	22099 | 	2762 | 	345 | 	86 | 	22 | 
+| 200 | 	19900 | 	2488 | 	311 | 	78 | 	19 | 
+| 255 | 	15625 | 	1953 | 	244 | 	61 | 	15 | 
 
 
 The formatting here looks terrible. I'm sorry! But if you copy this into Excel and use the space or tab as a delimiter, you will get a somewhat useful chart.
@@ -72,6 +73,7 @@ You are in luck! Using OCR0A, you can control the frequency using the formula: f
   OCR0B = 10; //duty cycle=OCR0B/OCR0A. OCR0B can't be greater than OCR0A. (OCR0B=0.5*OCR0A for 50% duty cycle)
 ```
 This gives rise to the following frequency table (in Hz) assuming an 8MHz clock speed:
+
 
 | OCR0A | 	Prescaler: 1 | 	8 | 	64 | 	256 | 	1024 | 
 | 1 | 	4000000 | 	500000 | 	62500 | 	15625 | 	3906 | 
@@ -108,6 +110,8 @@ Well, you can do this, but your options are a bit more limited. The frequency is
   OCR0B = 200; // counter limit: 255 (duty cycle PB1 =OCR0B/255, 50% duty cycle=127)
 ```
 Here are the frequencies you can attain (in Hz) using an 8 MHz clock speed:
+
+
 | Prescaler: | 	1 | 	8 | 	64 | 	256 | 	1024 | 
 | Frequency (Hz): | 	31250 | 	3906 | 	488 | 	122 | 	31 | 
 
@@ -143,6 +147,7 @@ OCR1A = 66; // duty cycle=OCR1A/OCR1C. OCR1A can't be greater than OCR1C. (OCR1A
 ```
 You can see it's much longer, but that's only because of all those groovy prescaler options! OCR1B is used to set the duty cycle, using the formula: duty cycle=OCR1A/OCR1C.
 This gives rise to the widest table yet, assuming an 8MHz clock speed:
+
 
 | OCR1C | 	Prescaler: 1 | 	2 | 	4 | 	16 | 	32 | 	64 | 	128 | 	256 | 	512 | 	1024 | 	2048 | 	4096 | 	8192 | 	16384 | 
 | 1 | 	4000000 | 	2000000 | 	1000000 | 	250000 | 	125000 | 	62500 | 	31250 | 	15625 | 	7813 | 	3906 | 	1953 | 	977 | 	488 | 	244 | 
