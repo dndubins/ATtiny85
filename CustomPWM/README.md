@@ -15,7 +15,7 @@ Timer 0 (controls Pins PB0 and PB1)
 
 Before you do this, know that messing with Timer 0 will screw with your delay() and millis() functions, which you can account for, but it's another headache.
 
-The code for Pin PB0 only, usint Timer 0
+The code for Pin PB0 only, using Timer 0:
 ```
   //Custom PWM on Pin PB0 only, using Timer 0: (Page80 on ATtiny85 full datasheet)
   //duty cycle fixed at 50% in this mode.
