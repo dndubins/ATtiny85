@@ -77,6 +77,7 @@ This gives rise to the following frequency table (in Hz) assuming an 8MHz clock 
 
 
 | OCR0A | 	Prescaler: 1 | 	8 | 	64 | 	256 | 	1024 | 
+| --- | --- | --- | --- | --- | --- |
 | 1 | 	4000000 | 	500000 | 	62500 | 	15625 | 	3906 | 
 | 5 | 	1333333 | 	166667 | 	20833 | 	5208 | 	1302 | 
 | 10 | 	727273 | 	90909 | 	11364 | 	2841 | 	710 | 
