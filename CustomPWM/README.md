@@ -54,8 +54,6 @@ Here is a chart of frequencies (in Hz) spanning your options, assuming an 8MHz c
 | 255 | 15625 | 1953 | 244 | 61 | 15 |
 
 
-The formatting here looks terrible. I'm sorry! But if you copy this into Excel and use the space or tab as a delimiter, you will get a somewhat useful chart.
-
 ### "I want to output a specific frequency on Pin PB1 only, using Timer 0."
 
 You are in luck! Using OCR0A, you can control the frequency using the formula: frequency=fclk/((OCR0A+1)*N). You can control the duty cycle of the signal using OCR0B, using the formula: duty cycle=OCR0B/OCR0A. You can also set the prescalar values as above.
