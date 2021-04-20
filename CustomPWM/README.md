@@ -317,7 +317,7 @@ OCR1C = 255; // Set betw 1-255 (prescaler=1, OCR1C=132 -->  60 kHz)
 OCR1B = 66;  // For PB3, duty cycle=(255-OCR1B)/OCR1C. OCR1B can't be greater than OCR1C. (OCR1A=0.5*OCR1C for 50% duty cycle)
 ```
 
-And there you have it! This was two days of tinkering. I'm sure there are copying and pasting errors above that I will catch over time. If you find one, let me know!! Special thanks to the sketches people posted at the following links, which guided me in the right direction:
+And there you have it! This was two days of tinkering. I'm sure there are copying and pasting errors above that I will catch over time. If you find one, let me know!! Special thanks to the people who posted sketches at the following links, which guided me in the right direction:
 http://www.technoblogy.com/show?LE0
 https://sites.google.com/site/wayneholder/controlling-time
 https://leap.tardate.com/playground/avrhardwarepwm/attiny/
