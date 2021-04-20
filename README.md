@@ -35,7 +35,7 @@ There is only one counter in this mode: OCR0A. You are unfortunately stuck with 
 Here is a chart of frequencies (in Hz) spanning your options, assuming an 8MHz clock speed:
 
 
-| OCR1A | Prescaler: 1 | 8 | 64 | 256 | 1024 |
+| OCR0A | Prescaler: 1 | 8 | 64 | 256 | 1024 |
 | --- | --- | --- | --- | --- | --- |
 | 0 | 4000000 | 500000 | 62500 | 15625 | 3906 |
 | 1 | 2000000 | 250000 | 31250 | 7813 | 1953 |
@@ -93,7 +93,6 @@ This gives rise to the following frequency table (in Hz) assuming an 8MHz clock 
 | 200 | 	39801 | 	4975 | 	622 | 	155 | 	39 | 
 | 255 | 	31250 | 	3906 | 	488 | 	122 | 	31 | 
 
-
 "I want a custom PWM signal on Pins PB0 and PB1 at the same time, using Timer 0."
 
 Well, you can do this, but your options are a bit more limited. The frequency is set using the prescalar value only, calculated using the formula: frequency=fclk/(N*256). OCR0A and OCR0B are used to control the duty cycles of PB0 and PB1, respectively, using the formula: duty cycle=OCR0X/255. Here is the code:
@@ -113,8 +112,8 @@ Well, you can do this, but your options are a bit more limited. The frequency is
 ```
 Here are the frequencies you can attain (in Hz) using an 8 MHz clock speed:
 
-
 | Prescaler: | 	1 | 	8 | 	64 | 	256 | 	1024 | 
+| --- | --- | --- | --- | --- | --- |
 | Frequency (Hz): | 	31250 | 	3906 | 	488 | 	122 | 	31 | 
 
 
@@ -152,6 +151,7 @@ This gives rise to the widest table yet, assuming an 8MHz clock speed:
 
 
 | OCR1C | 	Prescaler: 1 | 	2 | 	4 | 	16 | 	32 | 	64 | 	128 | 	256 | 	512 | 	1024 | 	2048 | 	4096 | 	8192 | 	16384 | 
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | 
 | 1 | 	4000000 | 	2000000 | 	1000000 | 	250000 | 	125000 | 	62500 | 	31250 | 	15625 | 	7813 | 	3906 | 	1953 | 	977 | 	488 | 	244 | 
 | 2 | 	2666667 | 	1333333 | 	666667 | 	166667 | 	83333 | 	41667 | 	20833 | 	10417 | 	5208 | 	2604 | 	1302 | 	651 | 	326 | 	163 | 
 | 5 | 	1333333 | 	666667 | 	333333 | 	83333 | 	41667 | 	20833 | 	10417 | 	5208 | 	2604 | 	1302 | 	651 | 	326 | 	163 | 	81 | 
