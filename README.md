@@ -287,7 +287,7 @@ OCR1C = 255; // Set betw 1-255 (prescaler=1, OCR1C=132 -->  60 kHz)
 OCR1B = 66;  // duty cycle=(255-OCR1B)/OCR1C. OCR1B can't be greater than OCR1C. (OCR1A=0.5*OCR1C for 50% duty cycle)
 ```
 
-### "I want a custom PWM signal on PB3 and PB4 at the same time."
+### "I want a custom PWM signal on PB3 and PB4 at the same time, using Timer 1."
 
 When you get pins PB3 and PB4 beating at the same time, they will be bound by the same frequency, and will have inverted duty cycles. All you need to do is set both pins to OUTPUT mode, or copy the following code:
 
