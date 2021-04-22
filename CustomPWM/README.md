@@ -1,3 +1,5 @@
+# Fast PWM on the ATtiny85
+
 Unfortunately, since the Arduino Playground shut their doors as a Wiki and became a website, I have nowhere particularly great to post this code. So, I'm posting it here!
 
 The ATtiny85 is an awesome little MCU that I fell in like with. One of the things that plague me is how to generate my own PWM frequencies, because you need to do this sometimes.
