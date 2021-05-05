@@ -18,8 +18,7 @@
  * 
  */
  
-#define HIGHBATT 3200  // 3200 mV for "full" battery
-#define LOWBATT 2000  // 2000 mV for "empty" battery
+#define LOWBATT 2100  // 2100 mV for low battery level
 
 // Serial monitor if needed:
 #include <SoftwareSerial.h>
@@ -42,7 +41,7 @@ void setup(){
 void loop(){
   long v=readVcc();
   mySerial.println(v);
-  if(v<2900){
+  if(v<LOWBATT){
     mySerial.println("Low battery.");
   }
   delay(1000);
