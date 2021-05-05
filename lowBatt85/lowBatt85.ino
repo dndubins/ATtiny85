@@ -49,7 +49,7 @@ void loop(){
 
 long readVcc(){                               // back-calculates voltage (in mV) applied to Vcc of ATtiny84
   //sbi(ADCSRA,ADEN);                           // enable ADC (comment out if already on)
-  delay(50);                                  // wait for ADC to warm up 
+  //delay(50);                                  // wait for ADC to warm up 
   byte ADMUX_P = ADMUX;                       // store present values of these two registers
   byte ADCSRA_P = ADCSRA;  
   ADMUX = _BV(MUX3)|_BV(MUX2);                // set Vbg to positive input of analog comparator (bandgap reference voltage=1.1V)
