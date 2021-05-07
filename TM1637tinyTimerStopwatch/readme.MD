@@ -1,1 +1,1 @@
-This sketch programs the ATtiny85 as a lab timer and stopwatch. There are just enough pins for one momentary switch, a piezo buzzer, and two communication pins to the TM1637 LCD module.
+This little sketch uses the TM1637 clock module as a lab timer. Set the time in increments of 1 minute using a momentary switch, and the sketch will beep a piezo when time is up. In between timing, the ATtiny85 goes to sleep and shuts off the TM1637 module, conserving battery life. Turn on the device while holding the momentary switch down for a stopwatch.
