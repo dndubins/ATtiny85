@@ -1,4 +1,4 @@
-ATtiny85sleeps.ino is yet another example sketch on sleep modes for the ATtiny85. These are all over the place! Still, it took quite a lot of fiddling to get my code just right.
+ATtiny85sleeps.ino is yet another example sketch to activate interrupt and watchdog sleep modes for the ATtiny85. These are all over the place! Still, it took quite a lot of fiddling to get my code just right.
 
 Normally with a microprocessor plugged in to a laptop with a USB cable, you typically might not care about conserving power. However, the ATtiny chips are so small that they are fantastic for battery-powered projects. Since an MCU spends most of its time waiting anyway, it makes sense to put it to sleep rather than to have it wasting precious battery life in a delay() statement. In deep sleep mode, the ATtiny85 uses only about 85 microamps. This means that your battery-powered project really doesn't even need a power switch - you can put it to sleep instead.
 
