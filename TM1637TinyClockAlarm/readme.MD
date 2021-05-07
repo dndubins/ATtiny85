@@ -1,1 +1,1 @@
-This sketch uses the same clock module, programming it as a clock. With one momentary switch, you can set the hour, minute, seconds, then month, date, then an alarm. It's a lot of clicks! 
+This sketch uses the TM1637 clock module, programming it as a clock. With one momentary switch, you can set the hour, minute, seconds, then month, date, then an alarm. It's a lot of clicks! The TM1637 module is quite amazingly energy efficient. It runs on about 2.2 - 5 mA depending on the brightness you select, which makes it on par with lighting up a single garden-variety 3mm LED.
