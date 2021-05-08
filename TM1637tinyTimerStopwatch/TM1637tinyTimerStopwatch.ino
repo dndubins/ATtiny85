@@ -116,7 +116,7 @@ unsigned long tEnd=0UL;     // for timer routine, end time in msec
 unsigned long toffsetSW=0UL; // to hold offset time for stopwatch
 
 void setup(){
-  OSCCAL=156 ; // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
+  //OSCCAL=156 ; // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
   pinMode(sw1,INPUT_PULLUP); // set sw1 to input mode
   display.clear();           // clear TM1637 display
   display.setBrightness(brightness);  // 0:MOST DIM, 7: BRIGHTEST
@@ -145,7 +145,7 @@ void loop(){
       }else{
         tDur+=60;               // add 1 min
       }
-      showTimeTMR(tDur*1000UL); // show start time remaining
+      showTimeTMR(tDur*1000UL,true); // show start time remaining (forced)
       delay(200);               // have a small real delay. This prevents double presses.
       safeWait(sw1,800);          // button-interruptable wait function
       tEnd=millis()+(tDur*1000UL); // calculate new end time
@@ -154,7 +154,7 @@ void loop(){
     }
     p=0;                        // reset the button push
     if(millis()<tEnd){          // after waiting the allotted time
-      showTimeTMR(tEnd-millis());  // show time remaining
+      showTimeTMR(tEnd-millis(),false);  // show time remaining
     }else if(!beeped){          // 20 second timer
       beeped=true;              // yes! we beeped!
       for(int i=0;i<10;i++){
@@ -362,7 +362,7 @@ byte buttonRead(byte pin){
 }
 
 // Timer Functions
-void showTimeTMR(unsigned long msec){                      // time remaining in msec
+void showTimeTMR(unsigned long msec,bool force){                 // time remaining in msec. force variable forces a display.
   // this function converts milliseconds to h, m, s
   // For a function that takes h,m,s as input arguments, see PB860.pbworks.com
   static unsigned long hlast;
@@ -372,7 +372,7 @@ void showTimeTMR(unsigned long msec){                      // time remaining in 
   unsigned long m=((msec-(h*3600000UL))/60000UL);                // calculate minutes left (rounds down)
   unsigned long s=((msec-(h*3600000UL)-(m*60000UL)))/1000UL;     // calculate seconds left (rounds down)
   byte dotsMask=(0x80>>1);
-  if(h!=hlast || m!=mlast || s!=slast){                 // only change the display if the time has changed
+  if(h!=hlast || m!=mlast || s!=slast || force){        // only change the display if the time has changed or if force is true
     if(h>0){ // if hours left, show hrs and min
       display.showNumberDecEx(h,dotsMask,false,2,0);    // true: show leading zero, 0: flush with end
       display.showNumberDec(m,true,2,2);                // false: don't show leading zero, 2: start 2 spaces over
