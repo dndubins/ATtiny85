@@ -127,9 +127,10 @@ void setup(){
  
 void loop(){
   byte p=0;                     // to store value returned by the readButton() function
-  if(mode==0){                  // mode=0 is timer mode
+  if(mode==0||mode==127){       // mode=0 is timer mode
     p=buttonRead(sw1);          // take a button reading
-    if(p==1){
+    if(p==1||mode==127){
+      mode=0;                   // set mode back to 0
       TMVCCon();                // turn on Vcc for the TM1637 display
       beeped=false;             // rearm the buzzer
       if(tDur>=6*60*60){        // if tDur>=6h
@@ -171,6 +172,7 @@ void loop(){
       timer_reset();
       showPush();
       sleep_interrupt(sw1);                 // Call the sleep routine, wake when sw1 is pushed down
+      mode=127;                             // always trigger a display using this number
     }
   }
 
