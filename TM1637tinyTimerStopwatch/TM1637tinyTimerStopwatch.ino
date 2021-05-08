@@ -70,8 +70,8 @@ Note 3: In deep sleep mode millis() stops functioning, so this program keeps tra
 #define DIO 4
 #define TMVCC 2               // use PB2 for Vcc of TM1637 (physical pin 7)
 
-byte mode=0;                  // mode=0: timer, mode=1: stopwatch
-byte brightness=3;            // brightness setting for TM1637 (0-7) (to save batteries, use a lower number) Use 2 for rechargeable, 3 for alkaline
+byte mode=0;                // mode=0: timer, mode=1: stopwatch
+byte brightness=3;          // brightness setting for TM1637 (0-7) (to save batteries, use a lower number) Use 2 for rechargeable, 3 for alkaline
 
 TM1637Display display(CLK, DIO);
 
@@ -116,7 +116,7 @@ unsigned long tEnd=0UL;     // for timer routine, end time in msec
 unsigned long toffsetSW=0UL; // to hold offset time for stopwatch
 
 void setup(){
-  //OSCCAL=156 ; // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
+  OSCCAL=156 ; // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
   pinMode(sw1,INPUT_PULLUP); // set sw1 to input mode
   display.clear();           // clear TM1637 display
   display.setBrightness(brightness);  // 0:MOST DIM, 7: BRIGHTEST
@@ -220,7 +220,6 @@ void sleep_interrupt(byte i){             // interrupt sleep routine - this one 
   if(i==2)cbi(PCMSK,PCINT2);              // turn off interrupt pin
   if(i==3)cbi(PCMSK,PCINT3);              // turn off interrupt pin
   if(i==4)cbi(PCMSK,PCINT4);              // turn off interrupt pin
-  delay(50);                              // wakey wakey!
 }
 
 void awake_interrupt(byte i){             // interrupt sleep routine
@@ -461,6 +460,7 @@ void stopWatch_reset(){
 void TMVCCon(){
   pinMode(TMVCC,OUTPUT);                      // set TMVCC pin to output mode      
   digitalWrite(TMVCC,HIGH);                   // turn on TM1637 LED display
+  delay(50);                                  // wait for chip to turn on
   display.clear();
 }
 
