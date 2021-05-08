@@ -116,7 +116,7 @@ unsigned long tEnd=0UL;     // for timer routine, end time in msec
 unsigned long toffsetSW=0UL; // to hold offset time for stopwatch
 
 void setup(){
-  OSCCAL=156 ; // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
+  //OSCCAL=156 ; // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
   pinMode(sw1,INPUT_PULLUP); // set sw1 to input mode
   display.clear();           // clear TM1637 display
   display.setBrightness(brightness);  // 0:MOST DIM, 7: BRIGHTEST
