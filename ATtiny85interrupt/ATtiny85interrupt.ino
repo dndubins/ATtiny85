@@ -2,10 +2,8 @@
 ATtiny85interrupt.ino Sketch
 Author: D. Dubins
 Date: 11-May-21
-Examples:
-
 Description: Interrupt routines (awake) for ATtiny85. ISRs is written to only respond to FALLING signals.
-Interrupt is used to change the state of an LED.
+Interrupt attached to momentary switch is used to change the state of an LED.
 
 If you are using a USBtinyISP:
 USBTinyISP to ATtiny85:
@@ -89,11 +87,11 @@ void attach_interrupt(byte i){            // attach a pin change interrupt for p
 void detach_interrupt(byte i){            // detach a pin change interrupt for pin i
   pinMode(i,INPUT_PULLUP);                // set sw1 to INPUT_PULLUP mode
   cbi(GIMSK,PCIE);                        // disable pin change interrupts
-  if(i==0)cbi(PCMSK,PCINT0);              // use PB0 as interrupt pin
-  if(i==1)cbi(PCMSK,PCINT1);              // use PB1 as interrupt pin
-  if(i==2)cbi(PCMSK,PCINT2);              // use PB2 as interrupt pin
-  if(i==3)cbi(PCMSK,PCINT3);              // use PB3 as interrupt pin
-  if(i==4)cbi(PCMSK,PCINT4);              // use PB4 as interrupt pin
+  if(i==0)cbi(PCMSK,PCINT0);              // clear PB0 as interrupt pin
+  if(i==1)cbi(PCMSK,PCINT1);              // clear PB1 as interrupt pin
+  if(i==2)cbi(PCMSK,PCINT2);              // clear PB2 as interrupt pin
+  if(i==3)cbi(PCMSK,PCINT3);              // clear PB3 as interrupt pin
+  if(i==4)cbi(PCMSK,PCINT4);              // clear PB4 as interrupt pin
 }
 
 ISR(PCINT0_vect){     // This ISR will run when interrupt is triggered
