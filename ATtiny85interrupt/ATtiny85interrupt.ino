@@ -40,11 +40,6 @@ after you detect that the button has been pushed, using if(pushed).
 
 */
 
-#include <avr/interrupt.h>    // interrupt library
-#include <avr/sleep.h>        // sleep library
-#include <avr/power.h>        // power library
-#include <avr/wdt.h>          // watchdog timer library
-
 //define the classic bit functions:
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 #define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
@@ -53,7 +48,7 @@ after you detect that the button has been pushed, using if(pushed).
 #define loop_until_bit_is_set(sfr, bit) do { } while (bit_is_clear(sfr, bit))
 #define loop_until_bit_is_clear(sfr, bit) do { } while (bit_is_set(sfr, bit))
 
-#define sw1 0               // use PB0 for set timer switch (physical pin 5)
+#define sw1 0               // use PB0 for momentary switch switch (physical pin 5)
 #define ledPin 2            // use PB2 for LED (physical pin 7)
 
 volatile bool pushed=false; // to hold (will be written to inside ISR)
