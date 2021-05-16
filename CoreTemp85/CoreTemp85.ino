@@ -6,18 +6,17 @@
  * (Martin Harizanov) 
  *  
  * Measures and reports the core temperature.
- * This is compared to the LMT85.
  * 
  * Connections to ATtiny85
  * -----------------------
  * Batt +3.3V to ATtiny85 Pin 8 (Vcc)
- * TM1637 Vcc - ATtiny85 Pin 7 (=Digital Pin 2)
  * Piezo(+) - ATtiny85 Pin 6 (=Digital Pin 1)
  * GND - SW1 - ATtiny85 Pin 5 (=Digital Pin 0)
  * Batt GND - ATtiny85 Pin 4 (=GND)
- * TM1637 D0 - ATtiny85 Pin 3 (=Digital Pin 4)
- * TM1637 CLK - ATtiny85 Pin 2 (=Digital Pin 3)
+ * RX - ATtiny85 Pin 2 (=Digital Pin 3)
+ * TX - ATtiny85 Pin 3 (=Digital Pin 4)
  * NC - ATtiny85 Pin 1 (RST)
+ * 
  * 
  * 
  * The following are the ATtiny85 pins by function:
@@ -31,12 +30,6 @@
  * Pin 7: PB2 / Analog Input 1 (A1) / SCK / Digital Pin 2 / PCINT2
  * Pin 8: Vcc+
  *
- * TM1637 Custom Character Map:
- *     -A-
- *   F|   |B
- *     -G-
- *   E|   |C
- *     -D-
  */
 
 //define the classic bit functions:
@@ -101,5 +94,5 @@ float readCoreTemp(int n){                    // Calculates and reports the chip
   // These coefficients can be replaced by performing a 2-point calibration, and fitting a straight line
   // to solve for kVal and Tos. These are used to convert the ADC reading to degrees Celsius (or another temperature unit).
   
-  return avg;                  // return temperature in degC
+  return avg;                                 // return temperature in degC
 }
