@@ -121,7 +121,7 @@ unsigned long tEnd = 0UL;       // for timer routine, end time in msec
 unsigned long toffsetSW = 0UL;  // to hold offset time for stopwatch
 
 void setup() {
-  OSCCAL = 133 ; // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
+  //OSCCAL = 133 ;              // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
   pinMode(sw1, INPUT_PULLUP);   // set sw1 to input mode
   display.clear();              // clear TM1637 display
   display.setBrightness(brightness);  // 0:MOST DIM, 7: BRIGHTEST
@@ -476,7 +476,7 @@ void TMVCCoff() {
 float readCoreTemp(int n) {                   // Calculates and reports the chip temperature of ATtiny84
   // Tempearture Calibration Data
   float kVal = 0.8929;                        // k-value fixed-slope coefficient (default: 1.0). Adjust for manual 2-point calibration.
-  float Tos = -244.5 + 12.0;                   // temperature offset (default: 0.0). Adjust for manual calibration. Second number is the fudge factor.
+  float Tos = -244.5 + 0.0;                   // temperature offset (default: 0.0). Adjust for manual calibration. Second number is the fudge factor.
 
   //sbi(ADCSRA,ADEN);                         // enable ADC (comment out if already on)
   delay(50);                                  // wait for ADC to warm up
