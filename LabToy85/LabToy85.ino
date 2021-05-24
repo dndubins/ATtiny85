@@ -138,10 +138,14 @@ void setup() {
 }
 
 void loop() {
-  byte p = 0;                         // to store value returned by the readButton() function
+  byte p = buttonRead(sw1);           // take a button reading
+  
   if (mode == 0 || mode == 127) {     // mode=0 is timer mode
-    p = buttonRead(sw1);              // take a button reading
-    if (p == 1 || mode == 127) {
+    if (p == 2){ 
+      timer_reset();                  // reset the timer for a long push
+      showPush();
+      sleep_interrupt(sw1);           // Call the sleep routine, wake when sw1 is pushed down
+    }else if (p == 1 || mode == 127) {
       mode = 0;                       // set mode back to 0
       TMVCCon();                      // turn on Vcc for the TM1637 display
       beeped = false;                 // rearm the buzzer
@@ -154,50 +158,44 @@ void loop() {
       } else {
         tDur += 60;                   // add 1 min
       }
-      showTimeTMR(tDur * 1000UL, true); // show start time remaining (forced)
-      delay(DEBOUNCE);                // have a small real delay. This prevents double presses.
-      safeWait(sw1, 1000 - DEBOUNCE); // button-interruptable wait function
+      showTimeTMR(tDur * 1000UL, true);  // show start time remaining (forced)
+      delay(DEBOUNCE);                   // have a small real delay. This prevents double presses.
+      safeWait(sw1, 1000 - DEBOUNCE);    // button-interruptable wait function
       tEnd = millis() + (tDur * 1000UL); // calculate new end time
-    } else if (p == 2) {
-      timer_reset();
-    }
-    buttonReset(sw1, p);              // wait until button unpushed
-    if (millis() < tEnd) {            // after waiting the allotted time
-      showTimeTMR(tEnd - millis(), false); // show time remaining
-    } else if (!beeped) {             // 20 second timer
-      beeped = true;                  // yes! we beeped!
-      for (int i = 0; i < 10; i++) {
-        if (i % 2 == 0) {             // if i is even
-          display.setSegments(SEG_DONE);  // show "done" message
-        } else {
-          display.setSegments(SEG_DASH);  // show dashes
+    }else if(p == 0){
+      if (millis() < tEnd) {             // after waiting the allotted time
+        showTimeTMR(tEnd - millis(), false); // show time remaining
+      } else if (!beeped) {              // 20 second timer
+        beeped = true;                   // yes! we beeped!
+        for (int i = 0; i < 10; i++) {
+          if (i % 2 == 0) {              // if i is even
+            display.setSegments(SEG_DONE);  // show "done" message
+          } else {
+            display.setSegments(SEG_DASH);  // show dashes
+          }
+          if (beepBuzz(buzzPin, 3)) {       // flash and beep 3x
+            timer_reset();                  // reset the timer
+            break;                          // leave early (user silenced alarm)
+          }
         }
-        if (beepBuzz(buzzPin, 3)) {       // flash and beep 3x
-          tDur = 0;                       // set duration to 0 (force clock reset)
-          tEnd = 0;                       // set end time to 0
-          delay(200);                     // wait a bit
-          break;                          // leave early (user silenced alarm)
-        }
+      } else {                              // this catches after the beep
+        buttonReset(sw1, p);                // wait for user to let go of button
+        timer_reset();
+        mode = 127;                         // always trigger a display using this number
+        showPush();
+        sleep_interrupt(sw1);               // Call the sleep routine, wake when sw1 is pushed down
       }
-    } else {                              // this catches after the beep
-      while (!digitalRead(sw1)); // wait until button not pushed
-      timer_reset();
-      mode = 127;                         // always trigger a display using this number
-      showPush();
-      sleep_interrupt(sw1);               // Call the sleep routine, wake when sw1 is pushed down
     }
   }
 
   if (mode == 1) {                        // mode=1 is stopwatch mode
     showTimeSW(millis() - toffsetSW);     // show time elapsed
-    p = buttonRead(sw1);
     if (p == 1) {
       stopWatch_pause();                  // pause stopwatch
     } else if (p == 2) {
       stopWatch_reset();
       delay(100);                         // delay on reset. This prevents going right into another timing cycle.
     }
-    buttonReset(sw1, p);                  // wait until button unpushed
   }
 
   if (mode == 2) {                        // mode=2 is temperature mode
@@ -208,6 +206,7 @@ void loop() {
     sleep_interrupt(sw1);                 // go to sleep here (waits in sleep mode, with 0.8 uA current draw)
     delay(DEBOUNCE);                      // deounce the button
   }
+  
 }
 
 void sleep_interrupt(byte i) {            // interrupt sleep routine - this one restores millis() and delay() after.
@@ -356,12 +355,13 @@ byte buttonRead(byte pin) {
     while (!digitalRead(pin) && (millis() - timer1) < 600) {}; // 600 msec is timeout
     delay(DEBOUNCE);                                        // debounce if button pushed
   }
-  if (millis() - timer1 > 500)ret = 2;                      // long push is > 500 msec
+  if ((millis() - timer1) > 500)ret = 2;                      // long push is > 500 msec
   return ret;
 }
 
 void buttonReset(byte pin, byte &p) {
-  while (!digitalRead(pin)) {};                             // wait until user lets go of button
+  unsigned long timer1 = millis();
+  while (!digitalRead(pin) && (millis() - timer1) < 200);   // wait until user lets go of button with 500 msec is timeout
   delay(DEBOUNCE);                                          // debounce
   p = 0;
 }
@@ -435,10 +435,10 @@ void showTimeSW(unsigned long msec) {                       // show time (input 
 
 void stopWatch_pause() {
   unsigned long tnow = millis() - toffsetSW;  // calculate ending point
-  while (!digitalRead(sw1));                  // wait for user to let go of buttons
-  delay(DEBOUNCE);
+  byte push=0;
+  buttonReset(sw1, push);                     // wait for user to let go of button
   while (digitalRead(sw1));                   // wait for user to press a button again (HIGH=UNPUSHED)
-  byte push = buttonRead(sw1);                // if user presses the sw1 button to resume
+  push = buttonRead(sw1);                     // if user presses the sw1 button to resume
   if (push == 2) {                            // if it's a long push
     stopWatch_reset();                        // reset the stopwatch
   } else {
@@ -448,20 +448,16 @@ void stopWatch_pause() {
 }
 
 void stopWatch_reset() {
-  while (!digitalRead(sw1));                  // wait for user to let go of button
-  delay(DEBOUNCE);                            // debounce. Pin should be in HIGH state now.
+  byte push=0;
+  buttonReset(sw1, push);                     // wait for user to let go of button
   TMVCCon();                                  // turn on Vcc for the TM1637 display
   display.clear();                            // clear the TM1637 display
   display.showNumberDec(0, true, 2, 2);       // tell user clock is reset
   delay(DISPTIME);
   TMVCCoff();                                 // turn on Vcc for the TM1637 display
   sleep_interrupt(sw1);
-  delay(DEBOUNCE);                            // debounce
-  byte push = buttonRead(sw1);
-  if (push == 1 || push == 2) {
-    TMVCCon();                                // turn on Vcc for the TM1637 display
-    toffsetSW = millis();                     // new starting point
-  }
+  TMVCCon();                                  // turn on Vcc for the TM1637 display
+  toffsetSW = millis();                       // new starting point
   buttonReset(sw1, push);                     // wait until button unpushed
 }
 
@@ -481,7 +477,7 @@ void TMVCCoff() {
 float readCoreTemp(int n) {                   // Calculates and reports the chip temperature of ATtiny84
   // Tempearture Calibration Data
   float kVal = 0.8929;                        // k-value fixed-slope coefficient (default: 1.0). Adjust for manual 2-point calibration.
-  float Tos = -244.5 + 0.0;                   // temperature offset (default: 0.0). Adjust for manual calibration. Second number is the fudge factor.
+  float Tos = -244.5 + 12.0;                   // temperature offset (default: 0.0). Adjust for manual calibration. Second number is the fudge factor.
 
   //sbi(ADCSRA,ADEN);                         // enable ADC (comment out if already on)
   delay(50);                                  // wait for ADC to warm up
