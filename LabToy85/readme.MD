@@ -2,9 +2,13 @@
 
 This project was the precursor to my LabToy84. It was my attempt at making a minimalist timer/stopwatch for collecting data points in my pharmaceutics labs. Many labs (e.g. USP dissolution) require the timed collection of samples. Every year, small battery-powered timers are somewhat of a consumable, both in terms of the batteries, and the timers themselves. I thought it would be fun to make our own. I like this version of the lab toy, because it is simple and requires so few parts. Sleep mode helps the battery last.
 
-There is only one button on this device.
+<img src="https://github.com/dndubins/ATtiny85/blob/main/LabToy85/pics/image0.jpeg">
 
-What I really wanted was a small, energy efficient timer/stopwatch that was easy to program and use. The modes are:
+<img src="https://github.com/dndubins/ATtiny85/blob/main/LabToy85/pics/image2.jpeg">
+
+There is only one momentary switch on this device.
+
+What I wanted was a small, energy efficient timer/stopwatch that was easy to program and use. The modes are:
 
 - a timer mode (push to add time)
 - a stopwatch mode
