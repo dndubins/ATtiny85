@@ -1,5 +1,5 @@
 /*
-  TM1637tinyTimer.ino Sketch
+  LabToy85.ino Sketch
   Author: D. Dubins
   Date: 18-Apr-21
   Description: This program uses an ATtiny85-20PU powered by a CR2032 battery to time x minutes set by pushing a button
