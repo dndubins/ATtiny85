@@ -1,7 +1,7 @@
 /*
   LabToy85.ino Sketch
   Author: D. Dubins
-  Date: 18-Apr-21
+  Date: 24-May-21
   Description: This program uses an ATtiny85-20PU powered by a CR2032 battery to time x minutes set by pushing a button
   (pushing the button adds more time)
 
@@ -138,13 +138,11 @@ void setup() {
 
 void loop() {
   byte p = buttonRead(sw1);           // take a button reading
-  
-  if (mode == 0 || mode == 127) {     // mode=0 is timer mode
+  bool resetTimer=false;              // if true, reset the timer
+  if (mode == 0) {                    // mode=0 is timer mode
     if (p == 2){ 
-      timer_reset();                  // reset the timer for a long push
-      showPush();
-      sleep_interrupt(sw1);           // Call the sleep routine, wake when sw1 is pushed down
-    }else if (p == 1 || mode == 127) {
+      resetTimer=true;
+    }else if (p == 1) {
       mode = 0;                       // set mode back to 0
       TMVCCon();                      // turn on Vcc for the TM1637 display
       beeped = false;                 // rearm the buzzer
@@ -173,17 +171,19 @@ void loop() {
             display.setSegments(SEG_DASH);  // show dashes
           }
           if (beepBuzz(buzzPin, 3)) {       // flash and beep 3x
-            timer_reset();                  // reset the timer
+            resetTimer=true;                // flag the timer to reset
             break;                          // leave early (user silenced alarm)
           }
         }
-      } else {                              // this catches after the beep
-        buttonReset(sw1, p);                // wait for user to let go of button
-        timer_reset();
-        mode = 127;                         // always trigger a display using this number
-        showPush();
-        sleep_interrupt(sw1);               // Call the sleep routine, wake when sw1 is pushed down
+      } else {                              // this is what the sketch does after time runs out, and the timer beeped.
+        resetTimer=true;
       }
+    }
+    if(resetTimer){
+      buttonReset(sw1, p);                // wait for user to let go of button
+      timer_reset();
+      showPush();
+      sleep_interrupt(sw1);               // Call the sleep routine, wake when sw1 is pushed down
     }
   }
 
@@ -283,8 +283,8 @@ void safeWait(byte pin, unsigned long dly) { // delay that is interruptable by b
 bool anyKeyWait(unsigned long dly) { // delay that is interruptable by either button (program dependent routine)
   bool ret = 0;
   unsigned long timer1 = millis();
-  while (digitalRead(sw1) && (millis() - timer1) < dly) {}  // wait but exit on button push
-  if (millis() - timer1 < dly) {
+  while (digitalRead(sw1) && (millis() - timer1) < dly) {}  // wait with exit on button push (early bailout)
+  if ((millis() - timer1) < dly) {
     beeped = true;                                          // silence alarm here
     ret = 1;                                                // if user pressed button to interrupt delay, return 1
   } else {
@@ -393,7 +393,7 @@ void showTimeTMR(unsigned long msec, bool force) {          // time remaining in
 }
 
 void timer_reset() {                                        // reset on the fly without the PUSH screen
-  tDur = 0;                                                 // reset timer on mode change (comment out if you'd like to change this)
+  tDur = 0;
   tEnd = millis();
   beeped = true;
 }
