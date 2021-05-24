@@ -31,3 +31,4 @@ What I really wanted was a small, energy efficient timer/stopwatch that was easy
 For the the bootloader, I selected the 8 MHz internal oscillator.
 
 I then calibrated the clock for each chip individually, using https://github.com/dndubins/ATtiny85/tree/main/tinyClockCal.
+This isn't necessary for timing short intervals (e.g. 5-10 minutes), but for longer intervals, calibration of the internal oscillator is recommended.
