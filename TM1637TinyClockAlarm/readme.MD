@@ -1,1 +1,3 @@
 This sketch uses the TM1637 clock module, programming it as a clock. With one momentary switch, you can set the hour, minute, seconds, then month, date, then an alarm. It's a lot of clicks! The TM1637 module is quite amazingly energy efficient. It runs on about 2.2 - 5 mA depending on the brightness you select, which makes it on par with lighting up a single garden-variety 3mm LED.
+
+A warning about using the ATtiny85 as a clock. The internal oscillator has a really shoddy accuracy. Even after calibrating OSCCAL, the time will still be off by minutes a day. An external crystal can be set up, but then there are no longer enough pins for this project.
