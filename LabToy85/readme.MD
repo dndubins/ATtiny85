@@ -10,3 +10,19 @@ What I really wanted was a small, energy efficient timer/stopwatch that was easy
 - a stopwatch mode
 - a temperature mode, by calibrating the onboard core temperature sensor on the ATtiny85
 
+### Circuit Diagram:
+
+<img src="https://github.com/dndubins/ATtiny85/blob/main/LabToy85/pics/circuitdiag.png">
+
+### PCB Label - Component Description
+- U1: ATtiny85V-10PU
+- C1: 100 uF capacitor (electrolytic)
+- SP: Piezo active buzzer 3V - Mallory Sonalert PB-12N23P-03Q
+- S1: momentary switch (generic 4 post) - Panasonic EVQ-PBC04M
+- D1: 1N4001 Diode
+- BT1: MPD BS-7 coincell holder (CR2032)
+- SW1: SPDT Top Slide 6A 250VAC 28VDC 0.4VA PC Pins Thru-Hole Bulk
+- 1 x 0.36" TM1637 7-Segment 4-digit White Digital Tube LED Display Module for Arduino (Clock Version)
+- 4 x PCB Support Flat Spacer Plastic Rivet Nylon Natural Ø4mm
+- 1 x CR2032 battery (optional)
+
