@@ -52,7 +52,6 @@
   Note 3: In deep sleep mode millis() stops functioning, so this program keeps track of time with the variable tOn.
 */
 
-//#include <avr/interrupt.h>    // interrupt library
 #include <avr/sleep.h>          // sleep library
 #include <avr/power.h>          // power library
 
