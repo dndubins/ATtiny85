@@ -1,4 +1,4 @@
-Here are the Gerber files I generated for my print.
+Here are the Gerber files I generated for my print. There are some extra holes placed on the board for a TO-92 package, and a resistor with a place for an LED. I put these on the board thinking about other things I could do with this little guy, but probably won't.
 
 I created this PCB using CircuitMaker v1.3.0. 
 
