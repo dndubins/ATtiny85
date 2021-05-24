@@ -26,3 +26,8 @@ What I really wanted was a small, energy efficient timer/stopwatch that was easy
 - 4 x PCB Support Flat Spacer Plastic Rivet Nylon Natural Ø4mm
 - 1 x CR2032 battery (optional)
 
+### Calibrating the Internal Oscillator
+
+For the the bootloader, I selected the 8 MHz internal oscillator.
+
+I then calibrated the clock for each chip individually, using https://github.com/dndubins/ATtiny85/tree/main/tinyClockCal.
