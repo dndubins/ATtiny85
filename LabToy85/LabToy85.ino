@@ -121,7 +121,7 @@ unsigned long tEnd = 0UL;       // for timer routine, end time in msec
 unsigned long toffsetSW = 0UL;  // to hold offset time for stopwatch
 
 void setup() {
-  //OSCCAL = 133 ;              // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
+  //OSCCAL = 133 ; // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
   pinMode(sw1, INPUT_PULLUP);   // set sw1 to input mode
   display.clear();              // clear TM1637 display
   display.setBrightness(brightness);  // 0:MOST DIM, 7: BRIGHTEST
@@ -139,6 +139,7 @@ void setup() {
 void loop() {
   byte p = buttonRead(sw1);           // take a button reading
   bool resetTimer=false;              // if true, reset the timer
+
   if (mode == 0) {                    // mode=0 is timer mode
     if (p == 2){ 
       resetTimer=true;
@@ -188,12 +189,14 @@ void loop() {
   }
 
   if (mode == 1) {                        // mode=1 is stopwatch mode
-    showTimeSW(millis() - toffsetSW);     // show time elapsed
-    if (p == 1) {
+    if (p == 0){
+      showTimeSW(millis() - toffsetSW);   // show time elapsed
+    }else if (p == 1) {
       stopWatch_pause();                  // pause stopwatch
+      buttonReset(sw1, p);                     // wait until button unpushed
     } else if (p == 2) {
       stopWatch_reset();
-      delay(100);                         // delay on reset. This prevents going right into another timing cycle.
+      buttonReset(sw1, p);                     // wait until button unpushed
     }
   }
 
@@ -205,7 +208,7 @@ void loop() {
     sleep_interrupt(sw1);                 // go to sleep here (waits in sleep mode, with 0.8 uA current draw)
     delay(DEBOUNCE);                      // deounce the button
   }
-  
+
 }
 
 void sleep_interrupt(byte i) {            // interrupt sleep routine - this one restores millis() and delay() after.
@@ -354,13 +357,13 @@ byte buttonRead(byte pin) {
     while (!digitalRead(pin) && (millis() - timer1) < 600) {}; // 600 msec is timeout
     delay(DEBOUNCE);                                        // debounce if button pushed
   }
-  if ((millis() - timer1) > 500)ret = 2;                      // long push is > 500 msec
+  if ((millis() - timer1) > 500)ret = 2;                    // long push is > 500 msec
   return ret;
 }
 
 void buttonReset(byte pin, byte &p) {
   unsigned long timer1 = millis();
-  while (!digitalRead(pin) && (millis() - timer1) < 200);   // wait until user lets go of button with 500 msec is timeout
+  while (!digitalRead(pin) && (millis() - timer1) < 250);   // wait until user lets go of button with 250 msec is timeout
   delay(DEBOUNCE);                                          // debounce
   p = 0;
 }
@@ -434,16 +437,15 @@ void showTimeSW(unsigned long msec) {                       // show time (input 
 
 void stopWatch_pause() {
   unsigned long tnow = millis() - toffsetSW;  // calculate ending point
-  byte push=0;
-  buttonReset(sw1, push);                     // wait for user to let go of button
-  while (digitalRead(sw1));                   // wait for user to press a button again (HIGH=UNPUSHED)
-  push = buttonRead(sw1);                     // if user presses the sw1 button to resume
+  while (!digitalRead(sw1)) {} // wait for user to let go of buttons
+  delay(DEBOUNCE);
+  while (digitalRead(sw1)); // wait for user to press a button again (HIGH=UNPUSHED)
+  byte push = buttonRead(sw1);                // if user presses the sw1 button to resume
   if (push == 2) {                            // if it's a long push
     stopWatch_reset();                        // reset the stopwatch
   } else {
     toffsetSW = millis() - tnow;              // otherwise resume where you left off
   }
-  buttonReset(sw1, push);                     // wait until button unpushed
 }
 
 void stopWatch_reset() {
@@ -457,7 +459,6 @@ void stopWatch_reset() {
   sleep_interrupt(sw1);
   TMVCCon();                                  // turn on Vcc for the TM1637 display
   toffsetSW = millis();                       // new starting point
-  buttonReset(sw1, push);                     // wait until button unpushed
 }
 
 void TMVCCon() {
