@@ -2,7 +2,7 @@
 ATtiny85interrupt.ino Sketch
 Author: D. Dubins
 Date: 11-May-21
-Description: Interrupt routines (awake) for ATtiny85. ISRs is written to only respond to FALLING signals.
+Description: Pin-change interrupt routines (awake) for ATtiny85. This ISR is written to only respond to FALLING signals (change ISR as required).
 Interrupt attached to momentary switch is used to change the state of an LED.
 
 If you are using a USBtinyISP:
