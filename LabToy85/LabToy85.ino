@@ -52,6 +52,9 @@
   Note 3: In deep sleep mode millis() stops functioning, so this program keeps track of time with the variable tOn.
 */
 
+#define OSC_N 146              // Calibrated value for OSCCAL
+#define TCAL 8.41              // Calibrated value for core temperature
+
 #include <avr/sleep.h>          // sleep library
 #include <avr/power.h>          // power library
 
@@ -107,7 +110,7 @@ const byte SEG_DEGC[] = {
 //Piezo Buzzer Parameters:
 #define ACTIVEBUZZ          // if active buzzer, uncomment. If passive buzzer, comment out.
 #define BEEPTIME 100        // duration of beep in milliseconds
-#define BEEPFREQ 2800       // frequency of beep
+#define BEEPFREQ 2800       // frequency of beep (change as required)
 #define buzzPin 1           // use PB1 for piezo buzzer (physical pin 6)
 #define sw1 0               // use PB0 for set timer switch (physical pin 5)
 
@@ -121,7 +124,7 @@ unsigned long tEnd = 0UL;       // for timer routine, end time in msec
 unsigned long toffsetSW = 0UL;  // to hold offset time for stopwatch
 
 void setup() {
-  //OSCCAL = 133 ; // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
+  OSCCAL = OSC_N ; // internal 8MHz clock calibrated to 3.3V at room temperature. Comment out if you didn't calibrate.
   pinMode(sw1, INPUT_PULLUP);   // set sw1 to input mode
   display.clear();              // clear TM1637 display
   display.setBrightness(brightness);  // 0:MOST DIM, 7: BRIGHTEST
@@ -176,7 +179,7 @@ void loop() {
             break;                          // leave early (user silenced alarm)
           }
         }
-      } else {                              // this is what the sketch does after time runs out, and the timer beeped.
+      } else {                              // what the sketch does after time runs out, and the timer beeped
         resetTimer=true;
       }
     }
@@ -193,10 +196,10 @@ void loop() {
       showTimeSW(millis() - toffsetSW);   // show time elapsed
     }else if (p == 1) {
       stopWatch_pause();                  // pause stopwatch
-      buttonReset(sw1, p);                     // wait until button unpushed
+      buttonReset(sw1, p);                // wait until button unpushed
     } else if (p == 2) {
       stopWatch_reset();
-      buttonReset(sw1, p);                     // wait until button unpushed
+      buttonReset(sw1, p);                // wait until button unpushed
     }
   }
 
@@ -293,6 +296,7 @@ bool anyKeyWait(unsigned long dly) { // delay that is interruptable by either bu
   } else {
     ret = 0;                                                // if the delay ended without a button push, return 0
   }
+  digitalWrite(buzzPin,LOW);                                // prevents buzzer from being stuck on
   while (!digitalRead(sw1));                                // wait until button not pushed
   delay(DEBOUNCE);                                          // debounce
   return ret;
@@ -310,7 +314,10 @@ bool beepBuzz(byte pin, int n) {
         return 1;                                           // leave routine here if user pressed button
       }
 #else
-      atTinyTone(pin, BEEPFREQ, BEEPTIME);
+      if(atTinyTone(pin, BEEPFREQ, BEEPTIME)){
+        pinMode(pin, INPUT);
+        return 1;                                           // leave routine here if user pressed button        
+      }
 #endif
       digitalWrite(pin, LOW);
       if (n > 1) {
@@ -329,19 +336,23 @@ bool beepBuzz(byte pin, int n) {
   return 0; // exit normally
 }
 
-void atTinyTone(byte pin, unsigned long freq, int dur) {
+bool atTinyTone(byte pin, unsigned long freq, int dur) {
   //tone routine for ATtiny85 (blocking)
   //input pin number, frequency (Hz), and duration in mSec
   unsigned long d = 500000UL / freq;                        // calculate delay in microseconds
   unsigned long timer1 = millis();
-  pinMode(pin, OUTPUT);
   do {
     digitalWrite(pin, HIGH);
     delayMicroseconds(d);
     digitalWrite(pin, LOW);
     delayMicroseconds(d);
+    if(!digitalRead(sw1)){
+      pinMode(pin, INPUT);
+      delay(DEBOUNCE);
+      return 1;
+    }
   } while ((millis() - timer1) < dur);
-  pinMode(pin, INPUT);
+  return 0;
 }
 
 byte buttonRead(byte pin) {
@@ -477,7 +488,7 @@ void TMVCCoff() {
 float readCoreTemp(int n) {                   // Calculates and reports the chip temperature of ATtiny84
   // Tempearture Calibration Data
   float kVal = 0.8929;                        // k-value fixed-slope coefficient (default: 1.0). Adjust for manual 2-point calibration.
-  float Tos = -244.5 + 0.0;                   // temperature offset (default: 0.0). Adjust for manual calibration. Second number is the fudge factor.
+  float Tos = -244.5 + TCAL;                  // temperature offset (default: 0.0). Adjust for manual calibration. Second number is the fudge factor.
 
   //sbi(ADCSRA,ADEN);                         // enable ADC (comment out if already on)
   delay(50);                                  // wait for ADC to warm up
