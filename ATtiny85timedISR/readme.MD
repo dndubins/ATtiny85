@@ -1,9 +1,9 @@
 This sketch sets up Timer1 to run an ISR based on the frequency set up in the routine.
 The nice bit about using Timer1 is that it is a bit more flexible than Timer0 in terms of setting the frequency, and it does not interrupt the millis() and delay() functions (that are controlled by Timer0).
 
-This chart will help you select the value for OCR1C, and is based on the formula: <br>
-  frequency=fclk/((OCR1C+1)*N)<br>
-assuming a clock frequency of 8 MHz.<p>
+This chart will help you select the value for OCR1C, and is based on the formula: <p>
+  <b>frequency=fclk/((OCR1C+1)*N)</b><p>
+The fclk (clock frequency) used in this table was 8 MHz.<p>
 
 | OCR1C | 	Prescaler: 1 | 	2 | 	4 | 	16 | 	32 | 	64 | 	128 | 	256 | 	512 | 	1024 | 	2048 | 	4096 | 	8192 | 	16384 | 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | 
