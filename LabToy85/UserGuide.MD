@@ -21,7 +21,7 @@
 ## Stopwatch Mode
   - "00" will be displayed on the LED screen.
   - To start the stopwatch, short press the SET button.
-  - To stop/continue the stopwatch, short press the SET button.
+  - To pause/continue the stopwatch, short press the SET button.
   - To reset the stopwatch, long press the SET button.
 
 ## Temperature Mode
