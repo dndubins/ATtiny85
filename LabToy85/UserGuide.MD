@@ -25,4 +25,4 @@
   - To reset the stopwatch, long press the SET button.
 
 ## Temperature Mode
-  - Pushing the SET button will display the temperature.
+  - Push the SET button to display the temperature.
