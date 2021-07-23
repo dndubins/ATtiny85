@@ -4,7 +4,8 @@
   Date: 24-May-21
   Description: This program uses an ATtiny85-20PU powered by a CR2032 battery to time x minutes set by pushing a button
   (pushing the button adds more time)
-  Required Library: TM1637 Version 1.2.0 by Avishay Orpaz
+  This sketch uses the TM1637 library by Avishay Orpaz version 1.2.0
+  (available through the Library Manager)
 
   If you are using a USBtinyISP:
   USBTinyISP to ATtiny85:
