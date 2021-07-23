@@ -4,6 +4,7 @@
   Date: 24-May-21
   Description: This program uses an ATtiny85-20PU powered by a CR2032 battery to time x minutes set by pushing a button
   (pushing the button adds more time)
+  Required Library: TM1637 Version 1.2.0 by Avishay Orpaz
 
   If you are using a USBtinyISP:
   USBTinyISP to ATtiny85:
@@ -52,8 +53,8 @@
   Note 3: In deep sleep mode millis() stops functioning, so this program keeps track of time with the variable tOn.
 */
 
-#define OSC_N 146              // Calibrated value for OSCCAL
-#define TCAL 8.41              // Calibrated value for core temperature
+#define OSC_N 84              // Calibrated value for OSCCAL
+#define TCAL -1.23             // Calibrated value for core temperature
 
 #include <avr/sleep.h>          // sleep library
 #include <avr/power.h>          // power library
@@ -90,13 +91,6 @@ const uint8_t SEG_PUSH[] = {
   SEG_F | SEG_E | SEG_G | SEG_B | SEG_C            // H
 };
 
-const uint8_t SEG_DASH[] = {
-  SEG_G ,          // -
-  SEG_G ,          // -
-  SEG_G ,          // -
-  SEG_G            // -
-};
-
 const byte SEG_DEGC[] = {
   0x00,                                            // space
   0x00,                                            // space
@@ -108,9 +102,9 @@ const byte SEG_DEGC[] = {
 #define DEBOUNCE 20         // time to debounce button
 
 //Piezo Buzzer Parameters:
-#define ACTIVEBUZZ          // if active buzzer, uncomment. If passive buzzer, comment out.
+//#define ACTIVEBUZZ        // if active buzzer, uncomment. If passive buzzer, comment out.
 #define BEEPTIME 100        // duration of beep in milliseconds
-#define BEEPFREQ 2800       // frequency of beep (change as required)
+#define BEEPFREQ 2086       // frequency of beep (change as required)
 #define buzzPin 1           // use PB1 for piezo buzzer (physical pin 6)
 #define sw1 0               // use PB0 for set timer switch (physical pin 5)
 
@@ -164,15 +158,15 @@ void loop() {
       safeWait(sw1, 1000 - DEBOUNCE);    // button-interruptable wait function
       tEnd = millis() + (tDur * 1000UL); // calculate new end time
     }else if(p == 0){
-      if (millis() < tEnd) {             // after waiting the allotted time
+      if (millis() < tEnd - 1000) {       // after waiting the allotted time (don't include last second).
         showTimeTMR(tEnd - millis(), false); // show time remaining
-      } else if (!beeped) {              // 20 second timer
-        beeped = true;                   // yes! we beeped!
+      } else if (!beeped) {              // check if beeped
+        beeped = true;                   // yes! we beeped!        
         for (int i = 0; i < 10; i++) {
           if (i % 2 == 0) {              // if i is even
-            display.setSegments(SEG_DONE);  // show "done" message
+            showTimeTMR(0,false);           // show zero    
           } else {
-            display.setSegments(SEG_DASH);  // show dashes
+            display.setSegments(SEG_DONE);  // show "done" message     
           }
           if (beepBuzz(buzzPin, 3)) {       // flash and beep 3x
             resetTimer=true;                // flag the timer to reset
