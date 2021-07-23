@@ -54,8 +54,8 @@
   Note 3: In deep sleep mode millis() stops functioning, so this program keeps track of time with the variable tOn.
 */
 
-#define OSC_N 84              // Calibrated value for OSCCAL
-#define TCAL -1.23             // Calibrated value for core temperature
+#define OSC_N 133               // Calibrated value for OSCCAL
+#define TCAL 7.77               // Calibrated value for core temperature
 
 #include <avr/sleep.h>          // sleep library
 #include <avr/power.h>          // power library
@@ -131,6 +131,9 @@ void setup() {
     }
     if (push == 2)mode = 2;           // long push: mode=2 (temperature)
     buttonReset(sw1, push);           // wait until button unpushed
+  }else{
+    showPush();
+    sleep_interrupt(sw1);             // Call the sleep routine, wake when sw1 is pushed down
   }
 }
 
