@@ -132,7 +132,7 @@ void setup() {
     if (push == 2)mode = 2;           // long push: mode=2 (temperature)
     buttonReset(sw1, push);           // wait until button unpushed
   }else{
-    showPush();
+    showPush();                       // no push: mode=0 (timer)
     sleep_interrupt(sw1);             // Call the sleep routine, wake when sw1 is pushed down
   }
 }
