@@ -54,8 +54,8 @@
   Note 3: In deep sleep mode millis() stops functioning, so this program keeps track of time with the variable tOn.
 */
 
-#define OSC_N 133               // Calibrated value for OSCCAL
-#define TCAL 7.77               // Calibrated value for core temperature
+#define OSC_N 78                // Calibrated value for OSCCAL (comment out if not calibrating)
+#define TCAL -2.02              // Calibrated value for core temperature (0.0 if not calibrating)
 
 #include <avr/sleep.h>          // sleep library
 #include <avr/power.h>          // power library
@@ -105,7 +105,7 @@ const byte SEG_DEGC[] = {
 //Piezo Buzzer Parameters:
 //#define ACTIVEBUZZ        // if active buzzer, uncomment. If passive buzzer, comment out.
 #define BEEPTIME 100        // duration of beep in milliseconds
-#define BEEPFREQ 2086       // frequency of beep (change as required)
+#define BEEPFREQ 2183       // frequency of beep (change as required)
 #define buzzPin 1           // use PB1 for piezo buzzer (physical pin 6)
 #define sw1 0               // use PB0 for set timer switch (physical pin 5)
 
@@ -132,7 +132,7 @@ void setup() {
     if (push == 2)mode = 2;           // long push: mode=2 (temperature)
     buttonReset(sw1, push);           // wait until button unpushed
   }else{
-    showPush();                       // no push: mode=0 (timer)
+    showPush();                       // mode=0 (timer)
     sleep_interrupt(sw1);             // Call the sleep routine, wake when sw1 is pushed down
   }
 }
