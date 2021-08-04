@@ -13,10 +13,10 @@ I created this PCB using CircuitMaker v2.0.2.
 I printed the PCBs using http://jlcpcb.com.
 
 ### Device Front View:
-<img src="https://github.com/dndubins/ATtiny85/blob/main/LabToy85/pics/passive_front.png">
+<img src="https://github.com/dndubins/ATtiny85/blob/main/LabToy85/pics/passive_front.jpg">
 
 ### Device Rear View:
-<img src="https://github.com/dndubins/ATtiny85/blob/main/LabToy85/pics/passive_back.png">
+<img src="https://github.com/dndubins/ATtiny85/blob/main/LabToy85/pics/passive_back.jpg">
 
 ### Device Bottom View:
-<img src="https://github.com/dndubins/ATtiny85/blob/main/LabToy85/pics/passive_bottom.png">
+<img src="https://github.com/dndubins/ATtiny85/blob/main/LabToy85/pics/passive_bottom.jpg">
