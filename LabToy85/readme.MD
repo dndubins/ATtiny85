@@ -30,7 +30,7 @@ What I wanted was a small, energy efficient timer/stopwatch that was easy to pro
 - 4 x PCB Support Flat Spacer Plastic Rivet Nylon Natural Ø4mm
 - 1 x CR2032 battery (optional)
 
-###For the passive piezo version, add the following compoents:
+#### For the passive piezo version, add the following compoents:
 - Passive piezo buzzer (instead of the active version)
 - microUSB jack (Würth Elektronik 629105150521 18, Horizontal SMT Type B Version 2.0 MicroUSB Connector Socket; 30 V ac; 3A WR-COM or equivalent)
 - 2 x 1K resistors (0.25W)
