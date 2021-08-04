@@ -1,11 +1,3 @@
-Here are the Gerber files I generated for my print. There are some extra holes placed on the board for a TO-92 package, and a resistor with a place for an LED. I put these on the board thinking about other things I could do with this little guy, but probably won't. I could also put a microUSB port on it as another option for power, on the underside. If I ever print these again, I will add that as an option.
+There are two versions of this timer I am posting here. The first version was a very simple, bare bones timer with an active 3-5V buzzer.
 
-I created this PCB using CircuitMaker v1.3.0. 
-
-### Top View:
-<img src="https://github.com/dndubins/ATtiny85/blob/main/LabToy85/pics/PCB_top.png">
-
-### Bottom View:
-<img src="https://github.com/dndubins/ATtiny85/blob/main/LabToy85/pics/PCB_bot.png">
-
-I printed the PCBs using http://jlcpcb.com.
+The second is a passive piezo buzzer (a bit cheaper) powered by a 2N2222 transistor, and two resistors. This version also has a microUSB jack for power.
