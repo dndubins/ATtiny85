@@ -26,3 +26,5 @@
 
 ## Temperature Mode
   - Push the SET button to display the temperature.
+
+Shortened link to this page: https://bit.ly/2XavzyY
