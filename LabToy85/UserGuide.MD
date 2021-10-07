@@ -1,7 +1,7 @@
 # User Guide for the LabToy85
   
 - There is only one momentary switch on this device: a SET button (called sw1 in the program).
-- The program distinguishes between a short push (<0.5 sec) and a long push (>0.5 sec) on the button.
+- The program distinguishes between a short push (<=0.5 sec) and a long push (>0.5 sec) on the button.
 
 ## Power:
 
