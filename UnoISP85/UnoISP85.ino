@@ -28,7 +28,7 @@ Pin 6: PB1 / Digital Pin 1 / PWM supported / MISO / PCINT1
 Pin 7: PB2 / Analog Input 1 (A1) / SCK / Digital Pin 2 / PCINT2
 Pin 8: Vcc+
 
-Wire an LED to physical pin 2 (PB3) of ATtiny85:
+Wire an LED to physical pin 2 (digital pin 3) of ATtiny85:
 ATtiny85 Physical Pin 2 -- LED -- 1K resistor -- GND
 
 To upload a sketch:
@@ -50,7 +50,7 @@ Tools --> Burn Bootloader
 If burning is successful, you are ready to upload this simple sketch to the ATtiny85 (the usual way), using the Upload button.
 */
 
-#define LEDpin PB3           // use PB3 to light up LED (physical pin 2). You can use the proper names for the digital pins (PB3 here instead of 3).
+#define LEDpin 3             // use digital pin 3 to light up LED (= physical pin 2 on the ATtiny85).
 
 void setup(){
   pinMode(LEDpin,OUTPUT);    // set LEDpin to OUTPUT mode
