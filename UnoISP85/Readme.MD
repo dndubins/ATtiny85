@@ -75,16 +75,16 @@ void loop(){
 ```
 If your sketch upload is successful, the ATtiny85 should now be flashing the LED. The following Arduino commands are supported:
 ```
-•	pinMode()
-•	digitalWrite()
-•	digitalRead()
-•	analogRead()
-•	analogWrite()
-•	shiftOut()
-•	pulseIn()
-•	millis()
-•	micros()
-•	delay()
-•	delayMicroseconds()
-•	SoftwareSerial 
+•pinMode()
+•digitalWrite()
+•digitalRead()
+•analogRead()
+•analogWrite()
+•shiftOut()
+•pulseIn()
+•millis()
+•micros()
+•delay()
+•delayMicroseconds()
+•SoftwareSerial 
 ```
