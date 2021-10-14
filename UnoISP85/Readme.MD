@@ -19,8 +19,8 @@ We begin our story by setting up the Arduino IDE with the Board drivers required
 On a fresh install, the Arduino IDE does not have support for the ATtiny MCUs installed.
 To set up the Arduino IDE to support ATtiny MCUs: (This only needs to be done once.)
 
-•	File -> Preferences
-•	Under "Additional Boards Manager URLs" enter the following web address (all on one line):
+*	File -> Preferences
+*	Under "Additional Boards Manager URLs" enter the following web address (all on one line):
 
 https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/package_damellis_attiny_index.json
 
