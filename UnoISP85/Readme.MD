@@ -26,7 +26,7 @@ https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/packa
 
 ## Part 2: Connect your Arduino Uno to your computer, and Upload the sketch “ArduinoISP.ino”:
 
-•	File  Examples -> ArduinoISP  ArduinoISP
+•	File -> Examples -> ArduinoISP -> ArduinoISP
 •	Upload this sketch to the Uno, as you would any other sketch (selecting the correct port, etc.)
 •	Your Uno is now a powerful chip programmer! (And you just saved $20, and a month of waiting).
 
