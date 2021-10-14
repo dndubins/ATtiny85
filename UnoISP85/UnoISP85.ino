@@ -31,15 +31,23 @@ Pin 8: Vcc+
 Wire an LED to physical pin 2 (digital pin 3) of ATtiny85:
 ATtiny85 Physical Pin 2 -- LED -- 1K resistor -- GND
 
+To set up the Arduino IDE to support ATtiny MCUs: (only need to do this once)
+-------------------------------------------------
+File --> Preferences
+Under "Additional Boards Manager URLs" enter the following web address:
+https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/package_damellis_attiny_index.json
+
+Click: Tools --> Board:"Arduino/Genuino Uno" --> Boards Manager
+-Scroll down to attiny by David A. Mellis
+-Select it, then click the "Install" button
+-ATtiny should now appear on the Tools-->Board dropdown menu
+
 To upload a sketch:
 -------------------
-1) If you haven't already, add support for the ATtiny85 to the Arduino URL Board Manager by following the steps here:
-https://www.instructables.com/How-to-Program-an-Attiny85-From-an-Arduino-Uno/
-
-2) Prepare the Uno as a programmer by uploading the example sketch ArduinoISP.ino to the Uno:
+Prepare the Uno as a programmer by uploading the example sketch ArduinoISP.ino to the Uno:
 File --> Examples --> ArduinoISP
 
-3) If you haven't burned a bootloader to the ATtiny85 (likely)
+If you haven't burned a bootloader to the ATtiny85 (likely)
 Tools --> Select Board --> ATtiny Microcontrollers --> ATtiny25/45/85
 Tools --> Processor --> ATtiny85
 Tools --> Clock --> Internal 8 MHz
