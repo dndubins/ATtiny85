@@ -7,7 +7,7 @@ The Arduino Uno can be programmed to work as an ISP to program other MCUs, such 
 
 ![ATtiny85 Pinout](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic1.png?raw=true)
 
-**Figure 1.** ATtiny85 Pinout, from the 234-Page Atmel datasheet here: 
+**Figure 1.** ATtiny25/45/85 Pinout, from the 234-Page Atmel datasheet here: 
 https://ww1.microchip.com/downloads/en/devicedoc/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf
 
 The ATtiny85 has 8K of memory, and when you put it to sleep to save battery life, it runs on mere microamps.
@@ -24,8 +24,17 @@ To set up the Arduino IDE to support ATtiny MCUs: (This only needs to be done on
 
 https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/package_damellis_attiny_index.json
 
-•	Click: Tools  Board:"Arduino/Genuino Uno"  Boards Manager
-•	Scroll down to attiny by David A. Mellis
+![Arduino IDE Preferences](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic2.png?raw=true)
+
+**Figure 2.** Preferences menu in the Arduino IDE.
+
+•	Click: Tools -> Board:"Arduino/Genuino Uno" -> Boards Manager
+•	Scroll down to attiny by David A. Mellis:
+
+![Boards Manager](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic3.png?raw=true)
+
+**Figure 3.** Boards Manager list in the Arduino IDE. Find "attiny" by David A. Mellis.
+
 •	Select it, then click the "Install" button, then click “Close”.
 •	“ATtiny Microcontrollers” should now appear on the Tools -> Board dropdown menu.
 
@@ -46,11 +55,19 @@ GND -- physical Pin 4 (GND)
 ```
 Optional: 10uF capacitor between +5V and RESET pin on Uno (prevents it from resetting)
 
+![Uno to ATtiny85](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic4.png?raw=true)
+
+**Figure 4.** Wiring the Arduino Uno as a programmer to the ATtiny85.
+
 ## Part 4: Give your ATtiny85 something to do. 
 
 In this exercise, we will wire an LED + 1K resistor up to Pin 2 of the ATtiny85 (which confusingly, is Digital Pin 3 on the ATtiny85, see the pinout diagram above):
 
 ATtiny85 Physical Pin 2 -- LED -- 1K resistor -- GND
+
+![Wiring an LED to ATtiny85 Digital Pin 3](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic5.png?raw=true)
+
+**Figure 5.** Wiring an LED to Digital Pin 3 of the ATtiny85.
 
 ## Part 5: Set up the Arduino IDE to communicate with the ATtiny85: 
 
@@ -60,6 +77,10 @@ ATtiny85 Physical Pin 2 -- LED -- 1K resistor -- GND
 •	Tools -> Port -> select the port for the Uno
 •	Tools -> Programmer -> Arduino as ISP
 •	Tools -> Burn Bootloader
+
+![Burning the Bootloader](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic6.png?raw=true)
+
+**Figure 6.** Setting the correct board options, and burning the Bootloader.
 
 If burning is successful, you are ready to upload a sketch to the ATtiny85.
 
