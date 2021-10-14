@@ -28,21 +28,21 @@ https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/packa
 
 **Figure 2.** Preferences menu in the Arduino IDE.
 
-•	Click: Tools -> Board:"Arduino/Genuino Uno" -> Boards Manager
-•	Scroll down to attiny by David A. Mellis:
+* Click: Tools -> Board:"Arduino/Genuino Uno" -> Boards Manager
+* Scroll down to attiny by David A. Mellis:
 
 ![Boards Manager](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic3.png?raw=true)
 
 **Figure 3.** Boards Manager list in the Arduino IDE. Find "attiny" by David A. Mellis.
 
-•	Select it, then click the "Install" button, then click “Close”.
-•	“ATtiny Microcontrollers” should now appear on the Tools -> Board dropdown menu.
+*	Select it, then click the "Install" button, then click “Close”.
+*	“ATtiny Microcontrollers” should now appear on the Tools -> Board dropdown menu.
 
 ## Part 2: Connect your Arduino Uno to your computer, and Upload the sketch “ArduinoISP.ino”:
 
-•	File -> Examples -> ArduinoISP -> ArduinoISP
-•	Upload this sketch to the Uno, as you would any other sketch (selecting the correct port, etc.)
-•	Your Uno is now a powerful chip programmer! (And you just saved $20, and a month of waiting).
+*	File -> Examples -> ArduinoISP -> ArduinoISP
+*	Upload this sketch to the Uno, as you would any other sketch (selecting the correct port, etc.)
+*	Your Uno is now a powerful chip programmer! (And you just saved $20, and a month of waiting).
 
 ## Part 3: Connect your Arduino Uno to the ATtiny85, using the following pins:
 ```
@@ -71,12 +71,12 @@ ATtiny85 Physical Pin 2 -- LED -- 1K resistor -- GND
 
 ## Part 5: Set up the Arduino IDE to communicate with the ATtiny85: 
 
-•	Tools -> Select Board -> ATtiny Microcontrollers  ATtiny25/45/85
-•	Tools -> Processor -> ATtiny85
-•	Tools -> Clock -> Internal 8 MHz
-•	Tools -> Port -> select the port for the Uno
-•	Tools -> Programmer -> Arduino as ISP
-•	Tools -> Burn Bootloader
+*	Tools -> Select Board -> ATtiny Microcontrollers  ATtiny25/45/85
+*	Tools -> Processor -> ATtiny85
+*	Tools -> Clock -> Internal 8 MHz
+*	Tools -> Port -> select the port for the Uno
+*	Tools -> Programmer -> Arduino as ISP
+*	Tools -> Burn Bootloader
 
 ![Burning the Bootloader](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic6.png?raw=true)
 
@@ -100,17 +100,15 @@ void loop(){
 }
 ```
 If your sketch upload is successful, the ATtiny85 should now be flashing the LED. The following Arduino commands are supported:
-```
-•pinMode()
-•digitalWrite()
-•digitalRead()
-•analogRead()
-•analogWrite()
-•shiftOut()
-•pulseIn()
-•millis()
-•micros()
-•delay()
-•delayMicroseconds()
-•SoftwareSerial 
-```
+* pinMode()
+* digitalWrite()
+* digitalRead()
+* analogRead()
+* analogWrite()
+* shiftOut()
+* pulseIn()
+* millis()
+* micros()
+* delay()
+* delayMicroseconds()
+* SoftwareSerial 
