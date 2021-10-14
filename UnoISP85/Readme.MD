@@ -3,7 +3,11 @@ This sketch was inspired by the tutorial: https://www.instructables.com/How-to-P
 
 
 # Using the Arduino Uno to Program Other Microcontrollers (ATtiny85)
-The Arduino Uno can be programmed to work as an ISP to program other MCUs, such as the adorable minimalistic 8-pin ATtiny85. The ATtiny85 has a broad voltage operating range (1.8-5.5V), can be easily battery-powered, and it has pins that can be used in digital and analog read modes, just like the Uno.
+The Arduino Uno can be programmed to work as an ISP to program other MCUs, such as the adorable minimalistic 8-pin ATtiny85. The ATtiny85 has a broad voltage operating range (1.8-5.5V), can be easily battery-powered, and it has pins that can be used in digital and analog read modes, just like the Uno:
+
+![ATtiny85 Pinout](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic1.png?raw=true)
+Figure 1. ATtiny85 Pinout, from the 234-Page Atmel datasheet here: 
+https://ww1.microchip.com/downloads/en/devicedoc/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf
 
 The ATtiny85 has 8K of memory, and when you put it to sleep to save battery life, it runs on mere microamps.
 If you have a small project that only requires a few pins, the ATtiny85 can likely handle it! You can purchase a chip programmer for a nominal price (e.g. the USBtinyISP described in the course textbook). However, you can also program your Arduino Uno to do the job quite easy, so that’s one less thing to buy! Also, once you figure out this workflow, it’s also easy to adapt it to other MCUs (like the ATtiny84, which has 14 pins).
