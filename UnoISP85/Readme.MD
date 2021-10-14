@@ -13,6 +13,7 @@ We begin our story by setting up the Arduino IDE with the Board drivers required
 ## Part 1: Set up the Arduino IDE to support ATtiny MCU Architecture.
 On a fresh install, the Arduino IDE does not have support for the ATtiny MCUs installed.
 To set up the Arduino IDE to support ATtiny MCUs: (This only needs to be done once.)
+
 •	File -> Preferences
 •	Under "Additional Boards Manager URLs" enter the following web address (all on one line):
 
@@ -24,19 +25,20 @@ https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/packa
 •	“ATtiny Microcontrollers” should now appear on the Tools -> Board dropdown menu.
 
 ## Part 2: Connect your Arduino Uno to your computer, and Upload the sketch “ArduinoISP.ino”:
-•	File  Examples  ArduinoISP  ArduinoISP
+
+•	File  Examples -> ArduinoISP  ArduinoISP
 •	Upload this sketch to the Uno, as you would any other sketch (selecting the correct port, etc.)
 •	Your Uno is now a powerful chip programmer! (And you just saved $20, and a month of waiting).
 
 ## Part 3: Connect your Arduino Uno to the ATtiny85, using the following pins:
-'''
+```
 +5V -- physical Pin 8 (Vcc)
 Pin 13 -- physical Pin 7 (SCK)
 Pin 12 -- physical Pin 6 (MISO)
 Pin 11 -- physical Pin 5 (MOSI)
 Pin 10 -- physical Pin 1 (RST)
 GND -- physical Pin 4 (GND)
-'''
+```
 Optional: 10uF capacitor between +5V and RESET pin on Uno (prevents it from resetting)
 
 ## Part 4: Give your ATtiny85 something to do. 
@@ -46,6 +48,7 @@ In this exercise, we will wire an LED + 1K resistor up to Pin 2 of the ATtiny85 
 ATtiny85 Physical Pin 2 -- LED -- 1K resistor -- GND
 
 ## Part 5: Set up the Arduino IDE to communicate with the ATtiny85: 
+
 •	Tools -> Select Board -> ATtiny Microcontrollers  ATtiny25/45/85
 •	Tools -> Processor -> ATtiny85
 •	Tools -> Clock -> Internal 8 MHz
@@ -56,7 +59,7 @@ ATtiny85 Physical Pin 2 -- LED -- 1K resistor -- GND
 If burning is successful, you are ready to upload a sketch to the ATtiny85.
 
 ## Part 6: Write and Upload your ATtiny85 Sketch!
-'''
+```
 #define LEDpin 3  // use digital pin 3 to light up LED (= physical pin 2 on ATtiny85).
 
 void setup(){
@@ -69,8 +72,7 @@ void loop(){
   digitalWrite(LEDpin, LOW);
   delay(250);
 }
-'''
-
+```
 If your sketch upload is successful, the ATtiny85 should now be flashing the LED. The following Arduino commands are supported:
 
 pinMode()
