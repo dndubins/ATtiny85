@@ -124,7 +124,7 @@ There's no CH340 or FTDI communications chip on the ATtiny85, so you won't be ab
 // connect PB4 (physical pin 3) to Arduino Uno Pin 1
 
 #define LEDpin 0  // use digital pin 0 to light up LED (= physical pin 5 on ATtiny85).
-#define readPin 1 // to take an analog reading
+#define readPin 1 // use digital pin 1 to take an analog reading (= physical pin 6 on ATtiny85).
 
 // These commands set up SoftwareSerial communications:
 #include <SoftwareSerial.h>     // load software serial library
@@ -154,4 +154,4 @@ Upload this sketch using your Uno as a programmer.
 Now you will need to clear your Arduino Uno of the programmer sketch. Select "Arduino Uno" under Tools -> Board, Upload a blank sketch to your Uno, and then open the serial monitor.
 Now then connect pins 2 and 3 of ATtiny85 to pins 0 and 1 of the Uno, respectively, and open up the serial monitor. You should now see numbers scrolling. Your ATtiny85 is talking to your computer through the Uno's serial monitor!
 
-Note that you will need to disconnect pins 0 and 1 on the Uno and upload ArduinoISP.ino again if you'd like to upload a new sketch to the ATtiny85.
+Note that you will need to disconnect pins 0 and 1 on the Uno and upload ArduinoISP.ino again if you'd like to upload a new sketch to the ATtiny85. Also remember to change the "Board" to the proper device (Arduino Uno or ATtiny85) when uploading your sketches.
