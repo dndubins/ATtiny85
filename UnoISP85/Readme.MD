@@ -61,17 +61,17 @@ Optional: 10uF capacitor between +5V and RESET pin on Uno (prevents it from rese
 
 ## Part 4: Give your ATtiny85 something to do. 
 
-In this exercise, we will wire an LED + 1K resistor up to Pin 2 of the ATtiny85 (which confusingly, is Digital Pin 3 on the ATtiny85, see the pinout diagram above):
+In this exercise, we will wire an LED + 1K resistor up to Pin 5 of the ATtiny85 (which confusingly, is Digital Pin 0 on the ATtiny85, see the pinout diagram above):
 
-ATtiny85 Physical Pin 2 -- LED -- 1K resistor -- GND
+ATtiny85 Physical Pin 5 -- LED -- 1K resistor -- GND
 
-![Wiring an LED to ATtiny85 Digital Pin 3](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic5.png?raw=true)
+![Wiring an LED to ATtiny85 Digital Pin 0](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic5.png?raw=true)
 
-**Figure 5.** Wiring an LED to Digital Pin 3 of the ATtiny85.
+**Figure 5.** Wiring an LED to Digital Pin 0 of the ATtiny85.
 
 ## Part 5: Set up the Arduino IDE to communicate with the ATtiny85: 
 
-*	Tools -> Select Board -> ATtiny Microcontrollers  ATtiny25/45/85
+*	Tools -> Select Board -> ATtiny Microcontrollers -> ATtiny25/45/85
 *	Tools -> Processor -> ATtiny85
 *	Tools -> Clock -> Internal 8 MHz
 *	Tools -> Port -> select the port for the Uno
@@ -86,7 +86,7 @@ If burning is successful, you are ready to upload a sketch to the ATtiny85.
 
 ## Part 6: Write and Upload your ATtiny85 Sketch!
 ```
-#define LEDpin 3  // use digital pin 3 to light up LED (= physical pin 2 on ATtiny85).
+#define LEDpin 0  // use digital pin 0 to light up LED (= physical pin 5 on ATtiny85).
 
 void setup(){
   pinMode(LEDpin,OUTPUT);    // set LEDpin to OUTPUT mode
@@ -112,3 +112,46 @@ If your sketch upload is successful, the ATtiny85 should now be flashing the LED
 * delay()
 * delayMicroseconds()
 * SoftwareSerial 
+
+# SoftwareSerial: Serial Communications with the ATtiny85
+
+There's no CH340 or FTDI communications chip on the ATtiny85, so you won't be able to directly plug it in to a USB port and send/receive serial commands without some help. However, we can piggy-back on the Uno's serial monitor to get the job done! Let's write a simple sketch that takes an analog reading from analog pin 1 (which is physically, pin 6 on the chip). Then let's report the value to the serial monitor, and light the LED up that we connected above if the value is greater than 512 (half the analog range).
+
+```
+// SoftwareSerial example with the ATtiny85 through the Arduino Uno
+// ATtiny85 - Uno:
+// connect PB3 (physical pin 2) to Arduino Uno Pin 0
+// connect PB4 (physical pin 3) to Arduino Uno Pin 1
+
+#define LEDpin 0  // use digital pin 0 to light up LED (= physical pin 5 on ATtiny85).
+#define readPin 1 // to take an analog reading
+
+// These commands set up SoftwareSerial communications:
+#include <SoftwareSerial.h>     // load software serial library
+#define rxPin 3   // to receive serial data
+#define txPin 4   // to send serial data
+SoftwareSerial mySerial(rxPin, txPin);
+
+void setup(){
+  mySerial.begin(9600);      // set serial communications speed to 9600 bps
+  pinMode(LEDpin,OUTPUT);    // set LEDpin to OUTPUT mode
+}
+ 
+void loop(){
+  int reading=analogRead(readPin);  // take an analog reading
+  if(reading>512){
+    digitalWrite(LEDpin,HIGH); // light up LED
+  }else{
+    digitalWrite(LEDpin, LOW); // turn off LED
+  }
+  //now print the number to the serial monitor:
+  mySerial.println(reading);
+  delay(100);
+}
+```
+
+Upload this sketch using your Uno as a programmer.
+Now you will need to clear your Arduino Uno of the programmer sketch. Select "Arduino Uno" under Tools -> Board, Upload a blank sketch to your Uno, and then open the serial monitor.
+Now then connect pins 2 and 3 of ATtiny85 to pins 0 and 1 of the Uno, respectively, and open up the serial monitor. You should now see numbers scrolling. Your ATtiny85 is talking to your computer through the Uno's serial monitor!
+
+Note that you will need to disconnect pins 0 and 1 on the Uno and upload ArduinoISP.ino again if you'd like to upload a new sketch to the ATtiny85.
