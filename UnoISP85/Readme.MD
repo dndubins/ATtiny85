@@ -16,7 +16,7 @@ Today we are going to learn how to use your Arduino Uno to program an ATtiny85 M
 We begin our story by setting up the Arduino IDE with the Board drivers required to talk to the ATtiny85.
 
 ## Part 1: Set up the Arduino IDE to support ATtiny MCU Architecture.
-On a fresh install, the Arduino IDE does not have support for the ATtiny MCUs installed.
+On a fresh install, the Arduino IDE does not have support for the ATtiny series of MCUs installed.
 To set up the Arduino IDE to support ATtiny MCUs: (This only needs to be done once.)
 
 *	File -> Preferences
