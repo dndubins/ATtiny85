@@ -155,12 +155,15 @@ void loop(){
 * Now that the Uno is cleared, connect pins 2 and 3 of ATtiny85 to pins 0 and 1 of the Uno, respectively.
 * Open up the serial monitor. 
  
-You should now see numbers scrolling. Your ATtiny85 is talking to your computer through the Uno's serial monitor!
+You should now see numbers scrolling. Your ATtiny85 is talking to your computer through the Uno's serial monitor! Connect digital pin 1 (physical pin 6) to +5V or GND to turn on and off the LED, and see the reading on the Serial monitor.
 
 ![ATtiny85 SoftwareSerial](https://github.com/dndubins/ATtiny85/blob/main/UnoISP85/pics/Pic7.png?raw=true)
 
 **Figure 7.** Connecting the ATtiny85 to the Uno's Serial Monitor.
 
+Connect digital pin 1 (physical pin 6) to +5V or GND to turn on and off the LED, and see the reading on the Serial monitor.
+
 Note that you will need to disconnect pins 0 and 1 on the Uno and upload ArduinoISP.ino again if you'd like to upload a new sketch to the ATtiny85 (or the Uno). Also remember to change the "Board" to the proper device (Arduino Uno or ATtiny85) when uploading your sketches.
 
 Alternately, you can connect *another* Arduino Uno (with a blank sketch) to your computer and use that as your Serial Monitor connection, so that you don't need to clear the first one and re-upload the the ArduinoISP.ino sketch to update your program.
+
