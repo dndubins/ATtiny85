@@ -43,6 +43,7 @@ https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/packa
 *	File -> Examples -> ArduinoISP -> ArduinoISP
 *	Upload this sketch to the Uno, as you would any other sketch (selecting the correct port, etc.)
 *	Your Uno is now a powerful chip programmer! (And you just saved $20, and a month of waiting).
+*	Or you can download this sketch from here: https://github.com/rsbohn/ArduinoISP
 
 ## Part 3: Connect your Arduino Uno to the ATtiny85, using the following pins:
 ```
