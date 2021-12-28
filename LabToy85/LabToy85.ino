@@ -100,7 +100,7 @@ const byte SEG_DEGC[] = {
 };
 
 #define DISPTIME 800        // time to flash user information e.g. time, date
-#define DEBOUNCE 20         // time to debounce button
+#define DEBOUNCE 60         // time to debounce button
 
 //Piezo Buzzer Parameters:
 //#define ACTIVEBUZZ        // if active buzzer, uncomment. If passive buzzer, comment out.
