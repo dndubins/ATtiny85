@@ -162,7 +162,7 @@ You should now see numbers scrolling. Your ATtiny85 is talking to your computer 
 
 **Figure 7.** Connecting the ATtiny85 to the Uno's Serial Monitor.
 
-Connect digital pin 1 (physical pin 6) to +5V or GND to turn on and off the LED, and see the reading on the Serial monitor.
+Unplug pin 13 on the Uno from pin 7 on the ATtiny85, then connect analog pin A1 (physical pin 7) to +5V or GND to turn on and off the LED, and see the resultant reading on the Serial monitor.
 
 Note that you will need to disconnect pins 0 and 1 on the Uno and upload ArduinoISP.ino again if you'd like to upload a new sketch to the ATtiny85 (or the Uno). Also remember to change the "Board" to the proper device (Arduino Uno or ATtiny85) when uploading your sketches.
 
