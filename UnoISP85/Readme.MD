@@ -116,7 +116,7 @@ If your sketch upload is successful, the ATtiny85 should now be flashing the LED
 
 # SoftwareSerial: Serial Communications with the ATtiny85
 
-There's no CH340 or FTDI communications chip on the ATtiny85, so you won't be able to directly plug it in to a USB port and send/receive serial commands without some help. However, we can piggy-back on the Uno's serial monitor to get the job done! Let's write a simple sketch that takes an analog reading from analog pin 1 (which is physically, pin 6 on the chip). Then let's report the value to the serial monitor, and light the LED up that we connected above if the value is greater than 512 (half the analog range).
+There's no CH340 or FTDI communications chip on the ATtiny85, so you won't be able to directly plug it in to a USB port and send/receive serial commands without some help. However, we can piggy-back on the Uno's serial monitor to get the job done! Let's write a simple sketch that takes an analog reading from analog pin 1 (which is physically, pin 7 on the chip). Then let's report the value to the serial monitor, and light the LED up that we connected above if the value is greater than 512 (half the analog range).
 
 ```
 // SoftwareSerial example with the ATtiny85 through the Arduino Uno
@@ -125,7 +125,7 @@ There's no CH340 or FTDI communications chip on the ATtiny85, so you won't be ab
 // connect PB4 (physical pin 3) to Arduino Uno Pin 1
 
 #define LEDpin 0  // use digital pin 0 to light up LED (= physical pin 5 on ATtiny85).
-#define readPin 1 // use digital pin 1 to take an analog reading (= physical pin 6 on ATtiny85).
+#define READpin A1 // use digital pin 1 to take an analog reading (= physical pin 7 on ATtiny85).
 
 // These commands set up SoftwareSerial communications:
 #include <SoftwareSerial.h>     // load software serial library
@@ -136,10 +136,11 @@ SoftwareSerial mySerial(rxPin, txPin);
 void setup(){
   mySerial.begin(9600);      // set serial communications speed to 9600 bps
   pinMode(LEDpin,OUTPUT);    // set LEDpin to OUTPUT mode
+  pinMode(READpin,INPUT);    // set READpin to INPUT mode
 }
  
 void loop(){
-  int reading=analogRead(readPin);  // take an analog reading
+  int reading=analogRead(READpin);  // take an analog reading
   if(reading>512){
     digitalWrite(LEDpin,HIGH); // light up LED
   }else{
