@@ -62,7 +62,6 @@ void setup(){
   pinMode(ledPin,OUTPUT);   // set ledPin to OUTPUT mode
   sleep_interrupt(sw1);     // sleep until button sw1 is pressed down.
 }
-
  
 void loop(){
   digitalWrite(ledPin,HIGH);
@@ -101,7 +100,6 @@ void sleep_interrupt(byte i){             // interrupt sleep routine - this one 
   if(i==3)cbi(PCMSK,PCINT3);              // turn off interrupt pin
   if(i==4)cbi(PCMSK,PCINT4);              // turn off interrupt pin
 }
-
 
 void sleep_timed(byte i){  
   //adapted from: https://forum.arduino.cc/index.php?topic=558075.0
@@ -172,8 +170,12 @@ void resetWDT(byte j){
 ISR(WDT_vect){
   wdt_disable();      // disable watchdog timer
                       // optionally, keep track of number of cycles here if you would like to wait
-}                     // multiples of cycles to do something (stick a counter here).
+                      // multiples of cycles to do something (stick a counter here).
+}                     // Any global variables changed inside here should be declared as volatile.
 
 ISR(PCINT0_vect){     // This always needs to be "PCINT0_vect" regardless of what PCINT you select above
                       // Put whatever code you would like to appear here after the button is pushed.
-}                     // ISR called on interrupt sleep
+                      // This ISR called on waking from interrupt sleep.
+}                     // Any global variables changed inside here should be declared as volatile.
+
+
