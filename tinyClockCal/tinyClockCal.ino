@@ -1,7 +1,6 @@
 /* To calibrate internal oscillator for ATtiny85
  * Author: D. Dubins
  * Date: 18-Apr-21
- * TM1637 -- ATtiny85
  * 
  * Notes: The ATtiny85 datasheet (long version) indicates that the accuracy of the target frequency for the MCU
  * is a horrible +/- 10% at a given voltage and temperature (Table 21-2: Vcc=3V, Temp=25degC, target freq=8MHz).
