@@ -269,4 +269,4 @@ ISR(TIMER0_COMPA_vect){
   }
 }
 ```
-Note that even though Timer0 is being used, the SoftwareSerial connection still worked. Yay!
+Note that for both sketches, even though timers were being used, the SoftwareSerial connection still worked, and reported data. Yay!
