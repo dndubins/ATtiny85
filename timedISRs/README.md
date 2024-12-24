@@ -191,7 +191,7 @@ at a frequency of about once per second (1 Hz). Note that the pre-scaler 1024 is
 do anything is about 30 Hz. So how can we accomplish this? We need to track the number of rollovers the ISR does, and then act inside the ISR accordingly.
 We can just keep track of the total time elapsed with a global volatile unsigned long integer. Here's a stab at this idea:
 
-'''
+```
 /*  ATtiny85timedISR.ino - Timing an ISR using Timer 1 (without sleep)
 Timer routine inspired from:
 https://embeddedthoughts.com/2016/06/06/attiny85-introduction-to-pin-change-and-timer-interrupts/
@@ -268,6 +268,5 @@ ISR(TIMER0_COMPA_vect){
     cycles=0; // reset the number of cycles
   }
 }
-'''
-
+```
 Note that even though Timer0 is being used, the SoftwareSerial connection still worked. Yay!
