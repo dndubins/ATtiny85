@@ -11,7 +11,7 @@ Here is the code to get Timer 1 into CTC mode:
   // CTC Match Routine using Timer 1
   // Formula: frequency=fclk/((OCR1C+1)*N)
   cli();                      // clear interrupts
-  GTCCR = _BV(PSR1);          // reset the prescaler
+  GTCCR = _BV(PSR1);          // reset the Timer1 prescaler
   TIMSK |= _BV(OCIE1A);       // interrupt on Compare Match A  
   TCCR1 |= _BV(CTC1);         // clear timer/counter on compare match
   //TCCR1 |= _BV(CS10);       // prescaler=1
@@ -115,8 +115,8 @@ void setTimer1(){
   // CTC Match Routine using Timer 1
   // Formula: frequency=fclk/((OCR1C+1)*N)
   cli();                      // clear interrupts
-  GTCCR = _BV(PSR1);          // reset the prescaler for Timer1
-  TIMSK |= _BV(OCIE1A);       // enable interrupt on Compare Match A for Timer1  
+  GTCCR = _BV(PSR1);          // reset the Timer1 prescaler
+  TIMSK |= _BV(OCIE1A);       // interrupt on Compare Match A  
   TCCR1 |= _BV(CTC1);         // clear timer/counter on compare match
   //TCCR1 |= _BV(CS10);       // prescaler=1
   //TCCR1 |= _BV(CS11);       // prescaler=2
@@ -159,10 +159,10 @@ Your choices for a prescaler value for Timer 0 are 1, 8, 64, 256, and 1024.
   TCCR0A |= _BV(WGM01);       // Set CTC mode (WGM01 = 1, WGM00 = 0)
   //TCCR0B = _BV(WGM02) | _BV(CS00);  // prescaler=1
   //TCCR0B = _BV(WGM02)  | _BV(CS01);  // prescaler=8
-  //TCCR0B = _BV(WGM02) | _BV(CS01) | _BV(CS00);  // nprscaler=64
+  TCCR0B = _BV(WGM02) | _BV(CS01) | _BV(CS00);  // prescaler=64
   //TCCR0B = _BV(WGM02) | _BV(CS02);  // prescaler=256
-  TCCR0B = _BV(WGM02) | _BV(CS02) | _BV(CS00);  // prescaler=1024
-  OCR0A = 251; // Set betw 1-255 (prescaler=1024, OCR1C=251 -->  31 Hz)
+  //TCCR0B = _BV(WGM02) | _BV(CS02) | _BV(CS00);  // prescaler=1024
+  OCR0A = 124; // Set betw 1-255 (prescaler=64, OCR1C=124 -->  1 kHz)
   sei();       // enable interrupts
 ```
 
