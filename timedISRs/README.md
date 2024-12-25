@@ -255,7 +255,7 @@ void setTimer0(){
 }
   
 ISR(TIMER0_COMPA_vect){
-  //This ISR will run 31 times per second. We keep track of the number of times it ran
+  //This ISR will run 1000 times per second. We keep track of the number of times it ran
   //to report a reading.
   //Make ISRs as simple and as short as possible. Any global arrays changed should be declared
   //as volatile.
