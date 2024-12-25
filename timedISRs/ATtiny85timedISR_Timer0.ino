@@ -47,7 +47,7 @@ void loop(){
 }
 
 void setTimer0(){
-  // CTC Match Routine using Timer 0
+  // CTC Match Routine using Timer 0 (ATtiny85)
   // Formula: frequency=fclk/((OCR0A+1)*N)
   cli();                      // clear interrupts
   GTCCR = _BV(PSR0);          // reset the prescaler for Timer0
