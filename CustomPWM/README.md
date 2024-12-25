@@ -126,7 +126,7 @@ When I first saw that Timer1 was a 255-bit timer, I was disappointed. BUT THEN I
 To set the frequency in this mode, the following equation is used: frequency=fclk/((OCR1C+1)*N). OCR1A is used to set the duty cycle. This equation will hold for all of the following examples. This makes life slightly less confusing! Here is the code for PB0 only, using Timer 1:
 
 ```
- // Custom PWM on Pin PB1 only, using Timer 1: 
+ // Custom PWM on Pin PB1 only, using Timer 1: (ATtiny85)
  //Formula: frequency=fclk/((OCR1C+1)*N)
  pinMode(1, OUTPUT); // output is PB1 (physical pin 6)
 TCCR1 = _BV(PWM1A) | _BV(COM1A0);
@@ -176,7 +176,7 @@ This chart will also apply to the following examples. (Nice!)
 So, PB0 has a complementary output to PB1, so really the above code will do the job if you set pin PB1 to OUTPUT mode instead, and then keep in mind the duty cycle is inverted. Or, you can just copy this code:
 
 ```
-// Custom PWM on Pin PB0 only using Timer 1
+// Custom PWM on Pin PB0 only using Timer 1 (ATtiny85)
 // Note: PB0 has a complementary output to PB1 with Timer 1.
  //Formula: frequency=fclk/((OCR1C+1)*N)
  pinMode(0, OUTPUT); // output is PB0 (physical pin 5)
@@ -204,7 +204,7 @@ OCR1A = 66;  // duty cycle=(255-OCR1A)/OCR1C. OCR1A can't be greater than OCR1C.
 Similarly, you just need to set BOTH pins to output mode. The down side is that one will be inverted with respect to the other. If you need two square waves, that's no problem! But if you need their duty cycles to be independent, this mode is not for you. Here's the code:
 
 ```
-//Custom PWM on Pin PB0 and PB1 (together) using Timer 1.
+//Custom PWM on Pin PB0 and PB1 (together) using Timer 1. (ATtiny85)
 //Note: PB0 has a complementary output to PB1 with Timer 1.
 //Formula: frequency=fclk/((OCR1C+1)*N)
  pinMode(0, OUTPUT); // output is PB0 (physical pin 5)
@@ -235,7 +235,7 @@ OCR1A = 33;
 OCR1C is still used to set the frequency, as per the mammoth chart above. This time, OCR1B is used to set the duty cycle, and different registers are used. The GTCCR register and TCCR1 sets PWM mode in this case:
 
 ```
-// Custom PWM on Pin PB4 only, using Timer 1
+// Custom PWM on Pin PB4 only, using Timer 1 (ATtiny85)
  //Formula: frequency=fclk/((OCR1C+1)*N)
  pinMode(4, OUTPUT); // output is PB4 (physical pin 3)
 GTCCR = _BV(PWM1B) | _BV(COM1B0);  // enable fastPWM on OC1B, set COM1B0 to 3 specifies inverted PWM waveform
@@ -263,7 +263,7 @@ OCR1B = 127;  // duty cycle=OCR1B/OCR1C. OCR1B can't be greater than OCR1C. (OCR
 PB3 is complementary to PB4, so you need only set PB3 to OUTPUT mode in the code above to get it going, and keep in mind the duty cycle is inverted. Or you can just copy the following sketch:
 
 ```
-//Custom PWM on Pin PB3 only, using Timer 1.
+//Custom PWM on Pin PB3 only, using Timer 1. (ATtiny85)
 //Note: PB3 has a complementary output to PB4 (inverted).
  //Formula: frequency=fclk/((OCR1C+1)*N)
  pinMode(3, OUTPUT); // output is PB3 (physical pin 2)
@@ -292,7 +292,7 @@ OCR1B = 66;  // duty cycle=(255-OCR1B)/OCR1C. OCR1B can't be greater than OCR1C.
 When you get pins PB3 and PB4 beating at the same time, they will be bound by the same frequency, and will have inverted duty cycles. All you need to do is set both pins to OUTPUT mode, or copy the following code:
 
 ```
-//Custom PWM on Pins PB3 and PB4 together, using Timer 1.
+//Custom PWM on Pins PB3 and PB4 together, using Timer 1. (ATtiny85)
 //Note: PB3 has a complementary output to PB4 (inverted).
 //Formula: frequency=fclk/((OCR1C+1)*N)
  pinMode(3, OUTPUT); // output is PB3 (physical pin 2)
