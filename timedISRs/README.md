@@ -51,15 +51,14 @@ Other than the prescaler, OCR1C is the only number we need to set here. It behav
 | 200 | 	39801 | 	19900 | 	9950 | 	2488 | 	1244 | 	622 | 	311 | 	155 | 	78 | 	39 | 	19 | 	10 | 	5 | 	2 | 
 | 255 | 	31250 | 	15625 | 	7813 | 	1953 | 	977 | 	488 | 	244 | 	122 | 	61 | 	31 | 	15 | 	8 | 	4 | 	2 | 
 
-You can disable Timer1 temporarily at any time in your code using the following command:
-TIMSK1 &= ~(1 << OCIE1A);  //disable CTC mode
-and then re-enable it using this command:
-TIMSK1 |= (1 << OCIE1A);   //re-enable CTC mode
-This could be important if other routines in your code need to use Timer1. Also, if you'd like to access (or change) the value of the counter inside the ISR, 
-TCNT1 (Timer/Counter 1 register) is the register to use. So for instance, your sketch can reset this just by using:
-TCNT1=0;
-or it can use it to measure time inside the ISR since the ISR reset, by doing something like,
-"if(TCNT1==10,digitalWrite(0,HIGH);"
+You can disable Timer1 temporarily at any time in your code using the following command:<p>
+TIMSK1 &= ~(1 << OCIE1A);  //disable CTC mode<p>
+and then re-enable it using this command:<p>
+TIMSK1 |= (1 << OCIE1A);   //re-enable CTC mode<p>
+This could be important if other routines in your code need to use Timer1. Also, if you'd like to access (or change) the value of the counter inside the ISR, TCNT1 (Timer/Counter 1 register) is the register to use. So for instance, your sketch can reset this just by using:<p>
+TCNT1=0;<p>
+or it can use it to measure time inside the ISR since the ISR reset, by doing something like:<p>
+if(TCNT1==10)digitalWrite(pin,HIGH);<p>
 
 Speaking of ISRs, now we can talk about how the entire sketch might look if you are using Timer1 to time an event.
 Let's write a sketch that prints the time in millis() to the Serial Monitor at a frequency of twice per second (2 Hz, as set in the code above).
@@ -165,7 +164,6 @@ Your choices for a prescaler value for Timer 0 are 1, 8, 64, 256, and 1024.
   OCR0A = 124; // Set betw 1-255 (prescaler=64, OCR1C=124 -->  1 kHz)
   sei();       // enable interrupts
 ```
-
 Here is a chart of frequencies (in Hz) spanning your options, assuming an 8MHz clock speed:
  | OCR0A | 	1 | 	8 | 	64 | 	256 | 	1024 | 
 | --- |	--- |	--- |	--- |	--- |	--- |
@@ -269,4 +267,14 @@ ISR(TIMER0_COMPA_vect){
   }
 }
 ```
+Similarly, you can disable Timer0 temporarily at any time in your code using the following command:<p>
+TIMSK &= ~(1 << OCIE0A);  //disable CTC mode<p>
+and then re-enable it using this command:<p>
+TIMSK |= (1 << OCIE0A);   //re-enable CTC mode<p>
+
+This could be important if other routines in your code need to use Timer1. Also, if you'd like to access (or change) the value of the counter inside the ISR, TCNT0 (Timer/Counter 0 register) is the register to use. So for instance, your sketch can reset this just by using:<p>
+TCNT0=0;<p>
+or it can use it to measure time inside the ISR since the ISR reset, by doing something like:<p>
+if(TCNT0==10)digitalWrite(pin,HIGH);<p>
+
 Note that for both sketches, even though timers were being used, the SoftwareSerial connection still worked, and reported data. Yay!
