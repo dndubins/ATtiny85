@@ -283,7 +283,6 @@ Special thanks to the ATtiny85 datasheet (complete version): https://ww1.microch
 
 The Tale of the "No Need for a Zero" Naming Convention
 ------------------------------------------------------
-The Tale of the "No Need for a Zero" Naming Convention
 Once upon a time in the mystical land of microcontrollers, the engineers at Atmel were working late into the night, sipping their coffee and discussing the eternal question: "How should we name the registers for Timer 0?"<p>
 
 One particularly wise engineer, let's call him Bob the Binary, thought to himself, "Well, we have two timers here, but Timer 0 is the first, the original. Why complicate things? The first one doesn’t need a ‘0’ after ‘TMSK’. It's a leader, a pioneer, the trendsetter! If we add a ‘0’, we might accidentally suggest it’s just some placeholder, like the first kid in line who has to wear a '1' tag to get attention. No, no—we don't need that!"<p>
