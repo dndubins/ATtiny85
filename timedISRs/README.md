@@ -31,7 +31,7 @@ Here is the code to get Timer 1 into CTC mode:
   OCR1C = 243; // Set betw 1-255 (prescaler=16384, OCR1C=243 -->  2 Hz)
   sei();       // enable interrupts
 ```
-There is only one Timer/Counter Interrupt Mask Register, and it handles both Timer 0 and Timer 1. It is called "TIMSK"<p> 
+There is only one Timer/Counter Interrupt Mask Register, and it handles both Timer 0 and Timer 1. It is called "TIMSK". This was slightly confusing to me because the ATtiny84 had TIMSK1 controlling Timer1, and TIMSK0 controlling Timer2. But, so be it! This is just a shoutout to the complexity and flexibility of timer settings on the ATtiny84. So flashy, the timers needed their own interrupt mask registers.<p> 
 Other than the prescaler, OCR1C is the only number we need to set here. It behaves according to the following frequency chart, assuming an 8MHz clock speed: (all table values are expressed in Hz)
 
 | OCR1C | 	Prescaler: 1 | 	2 | 	4 | 	16 | 	32 | 	64 | 	128 | 	256 | 	512 | 	1024 | 	2048 | 	4096 | 	8192 | 	16384 | 
