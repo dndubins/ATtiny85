@@ -145,9 +145,9 @@ from being changed in unexpected ways.
 
 Timer 0 (also 8 bit)
 --------------------
-Timer 0 is set to CTC mode in a similar way. Here is the code to get Timer 0 into CTC mode:
+Timer 0 is set to CTC mode in a similar way.
 Using OCR0A (range 0-255), you can control the frequency of Timer 0 using the formula: frequency=fclk/((OCR0A+1)*N). 
-Your choices for a prescaler value for Timer 0 are 1, 8, 64, 256, and 1024.
+Your choices for a prescaler value for Timer 0 are 1, 8, 64, 256, and 1024. Here is the code to get Timer 0 into CTC mode:
 
 ```
   // CTC Match Routine using Timer 0
