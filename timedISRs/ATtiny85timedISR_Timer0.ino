@@ -1,4 +1,4 @@
-/*  ATtiny85timedISR.ino - Timing an ISR using Timer 1 (without sleep)
+/*  ATtiny85timedISR_Timer0.ino - Timing an ISR using Timer 0 (without sleep)
 Timer routine inspired from:
 https://embeddedthoughts.com/2016/06/06/attiny85-introduction-to-pin-change-and-timer-interrupts/
 Author: D. Dubins
@@ -18,8 +18,8 @@ Pin 8: Vcc+
 
 Serial Hookup (if needed):
 --------------------------
-ATTINY85 digital pin 3 -> Arduino Uno pin 0 RX (blue wire)
-ATTINY85 digital pin 4 -> Arduino Uno pin 1 TX (white wire)
+ATTINY85 digital pin 3 -> Arduino Uno pin 0 RX
+ATTINY85 digital pin 4 -> Arduino Uno pin 1 TX
 */
 
 #include <SoftwareSerial.h> // if needed
@@ -63,7 +63,7 @@ void setTimer0(){
 }
   
 ISR(TIMER0_COMPA_vect){
-  //This ISR will run 31 times per second. We keep track of the number of times it ran
+  //This ISR will run 1000 times per second. We can keep track of the number of times it ran
   //to report a reading.
   //Make ISRs as simple and as short as possible. Any global arrays changed should be declared
   //as volatile.

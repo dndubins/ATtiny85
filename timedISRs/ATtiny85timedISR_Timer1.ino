@@ -1,4 +1,4 @@
-/*  ATtiny85timedISR.ino - Timing an ISR using Timer 1 (without sleep)
+/*  ATtiny85timedISR_Timer1.ino - Timing an ISR using Timer 1 (without sleep)
 Timer routine adapted from:
 https://embeddedthoughts.com/2016/06/06/attiny85-introduction-to-pin-change-and-timer-interrupts/
 Author: D. Dubins
