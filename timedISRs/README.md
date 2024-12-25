@@ -31,7 +31,7 @@ Here is the code to get Timer 1 into CTC mode:
   OCR1C = 243; // Set betw 1-255 (prescaler=16384, OCR1C=243 -->  2 Hz)
   sei();       // enable interrupts
 ```
-It looks almost like an error that the Timer/Counter Interrupt Mask Register for Timer 0 is called "TIMSK" and not "TIMSK0", like it is for the ATtiny84. It's not an error though, this is the actual name of the register. Check it in the datasheet if you don't believe me. Why did they leave off the zero? When I couldn't find the answer, I asked chatGPT to come up with a creative story for why the zero was dropped. Scroll down to the very bottom of this page to find the answer.<p> 
+It looks almost like an error that the Timer/Counter Interrupt Mask Register for Timer 0 is called "TIMSK" and not "TIMSK0", like it is for the ATtiny84. It's not an error though, this is the actual name of the register. Check it in the datasheet if you don't believe me. Why did they leave off the zero? When I couldn't find the answer, I asked chatGPT to come up with a creative story for why the zero was dropped. Scroll down to the very bottom of this page to read the fascinating ficticious fable. See what I did there?<p> 
 Other than the prescaler, OCR1C is the only number we need to set here. It behaves according to the following frequency chart, assuming an 8MHz clock speed: (all table values are expressed in Hz)
 
 | OCR1C | 	Prescaler: 1 | 	2 | 	4 | 	16 | 	32 | 	64 | 	128 | 	256 | 	512 | 	1024 | 	2048 | 	4096 | 	8192 | 	16384 | 
@@ -276,7 +276,6 @@ This could be important if other routines in your code need to use Timer0. Also,
 TCNT0=0;<p>
 or it can use it to measure time inside the ISR since the ISR reset, by doing something like:<p>
 if(TCNT0==10)digitalWrite(pin,HIGH);<p>
-
 
 Note that for both sketches, even though timers were being used, the SoftwareSerial connection still worked, and reported data. Yay!
 
