@@ -294,4 +294,4 @@ The team chuckled, nodding in approval. They looked at Timer 1—the second time
 
 And so, the TMSK register for Timer 0 remained elegant, noble, and zero-free, while Timer 1 carried its number with pride, and both lived happily ever after—each playing their part in the microcontroller kingdom, but never forgetting who was first.<p>
 
- - Story inspired by ChatGPT, the AI language model developed by OpenAI.
+_Story inspired by ChatGPT, the AI language model developed by OpenAI._
