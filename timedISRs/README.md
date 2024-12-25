@@ -185,12 +185,11 @@ Here is a chart of frequencies (in Hz) spanning your options, assuming an 8MHz c
  | 255 | 	31250 | 	3906.3 | 	488.3 | 	122.1 | 	30.5 | 
 
 Putting this all together, we can write a sketch to ask the ATtiny85 to take an analogRead() from pin A0,
-at a frequency of about once per second (1 Hz). Note that the pre-scaler 1024 is much lower than Timer1's prescaler of 16384. The slowest we can
-do anything is about 30 Hz. So how can we accomplish this? We need to track the number of rollovers the ISR does, and then act inside the ISR accordingly.
-We can just keep track of the total time elapsed with a global volatile unsigned long integer. Here's a stab at this idea:
+at a frequency of about once per second (1 Hz). Note that the largest pre-scaler of 1024 is much smaller than Timer1's prescaler of 16,384. The slowest frequency we can do anything at is about 30 Hz. So how can we accomplish waiting for 1 second? We need to track the number of rollovers the ISR does, and then act inside the ISR accordingly. To make life easier, I made the frequency of Timer0 1KHz so the ISR would run once a millisecond, and it makes the math easier.
+We can now just keep track of the total time elapsed with a global volatile integer called cycles below, and the number of cycles will be equal to the number of milliseconds. Smart, right? Here's a stab at this idea:
 
 ```
-/*  ATtiny85timedISR_Timer0.ino - Timing an ISR using Timer 1 (without sleep)
+/*  ATtiny85timedISR_Timer0.ino - Timing an ISR using Timer 0 (without sleep)
 Timer routine inspired from:
 https://embeddedthoughts.com/2016/06/06/attiny85-introduction-to-pin-change-and-timer-interrupts/
 Author: D. Dubins
@@ -272,7 +271,7 @@ TIMSK &= ~(1 << OCIE0A);  //disable CTC mode<p>
 and then re-enable it using this command:<p>
 TIMSK |= (1 << OCIE0A);   //re-enable CTC mode<p>
 
-This could be important if other routines in your code need to use Timer1. Also, if you'd like to access (or change) the value of the counter inside the ISR, TCNT0 (Timer/Counter 0 register) is the register to use. So for instance, your sketch can reset this just by using:<p>
+This could be important if other routines in your code need to use Timer0. Also, if you'd like to access (or change) the value of the counter inside the ISR, TCNT0 (Timer/Counter 0 register) is the register to use. So for instance, your sketch can reset this just by using:<p>
 TCNT0=0;<p>
 or it can use it to measure time inside the ISR since the ISR reset, by doing something like:<p>
 if(TCNT0==10)digitalWrite(pin,HIGH);<p>
