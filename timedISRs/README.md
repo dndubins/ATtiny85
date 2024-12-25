@@ -8,7 +8,7 @@ Timer 1 (8 bit)
 ---------------
 Here is the code to get Timer 1 into CTC mode:
 ```
-  // CTC Match Routine using Timer 1
+  // CTC Match Routine using Timer 1 (ATtiny85)
   // Formula: frequency=fclk/((OCR1C+1)*N)
   cli();                      // clear interrupts
   GTCCR = _BV(PSR1);          // reset the Timer1 prescaler
@@ -111,7 +111,7 @@ void loop(){
 }
 
 void setTimer1(){
-  // CTC Match Routine using Timer 1
+  // CTC Match Routine using Timer 1 (ATtiny85)
   // Formula: frequency=fclk/((OCR1C+1)*N)
   cli();                      // clear interrupts
   GTCCR = _BV(PSR1);          // reset the Timer1 prescaler
@@ -150,7 +150,7 @@ Using OCR0A (range 0-255), you can control the frequency of Timer 0 using the fo
 Your choices for a prescaler value for Timer 0 are 1, 8, 64, 256, and 1024. Here is the code to get Timer 0 into CTC mode:
 
 ```
-  // CTC Match Routine using Timer 0
+  // CTC Match Routine using Timer 0 (ATtiny85)
   // Formula: frequency=fclk/((OCR0A+1)*N)
   cli();                      // clear interrupts
   GTCCR = _BV(PSR0);          // reset the prescaler for Timer0
@@ -238,7 +238,7 @@ void loop(){
 }
 
 void setTimer0(){
-  // CTC Match Routine using Timer 0
+  // CTC Match Routine using Timer 0 (ATtiny85)
   // Formula: frequency=fclk/((OCR0A+1)*N)
   cli();                      // clear interrupts
   GTCCR = _BV(PSR0);          // reset the prescaler for Timer0
