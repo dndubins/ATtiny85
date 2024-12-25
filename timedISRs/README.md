@@ -31,6 +31,7 @@ Here is the code to get Timer 1 into CTC mode:
   OCR1C = 243; // Set betw 1-255 (prescaler=16384, OCR1C=243 -->  2 Hz)
   sei();       // enable interrupts
 ```
+It looks almost like an error that the Timer/Counter Interrupt Mask Register for Timer 0 is called "TIMSK" and not "TIMSK0", like it is for the ATtiny84. It's not an error though, this is the actual name of the register. Check it in the datasheet if you don't believe me. Why did they leave off the zero? When I couldn't find the answer, I asked chatGPT to come up with a creative story for why the zero was dropped. Scroll down to the very bottom of this page to find the answer.<p> 
 Other than the prescaler, OCR1C is the only number we need to set here. It behaves according to the following frequency chart, assuming an 8MHz clock speed: (all table values are expressed in Hz)
 
 | OCR1C | 	Prescaler: 1 | 	2 | 	4 | 	16 | 	32 | 	64 | 	128 | 	256 | 	512 | 	1024 | 	2048 | 	4096 | 	8192 | 	16384 | 
@@ -276,6 +277,22 @@ TCNT0=0;<p>
 or it can use it to measure time inside the ISR since the ISR reset, by doing something like:<p>
 if(TCNT0==10)digitalWrite(pin,HIGH);<p>
 
+
 Note that for both sketches, even though timers were being used, the SoftwareSerial connection still worked, and reported data. Yay!
 
-Special thanks to the ATtiny85 datasheet (complete version): https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet.pdf
+Special thanks to the ATtiny85 datasheet (complete version): https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet.pdf<p>
+
+The Tale of the "No Need for a Zero" Naming Convention
+------------------------------------------------------
+The Tale of the "No Need for a Zero" Naming Convention
+Once upon a time in the mystical land of microcontrollers, the engineers at Atmel were working late into the night, sipping their coffee and discussing the eternal question: "How should we name the registers for Timer 0?"<p>
+
+One particularly wise engineer, let's call him Bob the Binary, thought to himself, "Well, we have two timers here, but Timer 0 is the first, the original. Why complicate things? The first one doesn’t need a ‘0’ after ‘TMSK’. It's a leader, a pioneer, the trendsetter! If we add a ‘0’, we might accidentally suggest it’s just some placeholder, like the first kid in line who has to wear a '1' tag to get attention. No, no—we don't need that!"<p>
+
+Bob looked around at his colleagues, who were clearly in agreement. "Think about it," he said, "We don’t call the first king of a dynasty King 'Zero'. It’s just 'King'. And if we called it 'TMSK0', it would be like we’re saying 'Oh, don’t worry, Timer 0, you’ll get a number after your name eventually.' But Timer 0 already knows it’s the best, the original. No need for a '0'—just 'TMSK'—clean and confident."<p>
+
+The team chuckled, nodding in approval. They looked at Timer 1—the second timer in line—and agreed that it could use the little extra number to help it feel special, so TMSK1 was born, forever marked with a '1' to show it had a little more work to do to live up to Timer 0's legacy.<p>
+
+And so, the TMSK register for Timer 0 remained elegant, noble, and zero-free, while Timer 1 carried its number with pride, and both lived happily ever after—each playing their part in the microcontroller kingdom, but never forgetting who was first.<p>
+
+ - Story inspired by ChatGPT, the AI language model developed by OpenAI.
