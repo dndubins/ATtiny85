@@ -324,4 +324,4 @@ http://www.technoblogy.com/show?LE0
 https://sites.google.com/site/wayneholder/controlling-time
 https://leap.tardate.com/playground/avrhardwarepwm/attiny/
 
-And also to the attiny85 datasheet. Long, but useful!
+And also to the attiny85 datasheet: https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/DataSheets/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet.pdf
