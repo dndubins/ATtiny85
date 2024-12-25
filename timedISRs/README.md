@@ -66,7 +66,7 @@ Let's write a sketch that prints the time in millis() to the Serial Monitor at a
 Here's what the sketch could look like:
 
 ```
-/*  ATtiny85timedISR.ino - Timing an ISR using Timer 1 (without sleep)
+/*  ATtiny85timedISR_Timer1.ino - Timing an ISR using Timer 1 (without sleep)
 Timer routine adapted from:
 https://embeddedthoughts.com/2016/06/06/attiny85-introduction-to-pin-change-and-timer-interrupts/
 Author: D. Dubins
@@ -167,7 +167,7 @@ Your choices for a prescaler value for Timer 0 are 1, 8, 64, 256, and 1024.
 ```
 
 Here is a chart of frequencies (in Hz) spanning your options, assuming an 8MHz clock speed:
- | ICR1 | 	1 | 	8 | 	64 | 	256 | 	1024 | 
+ | OCR0A | 	1 | 	8 | 	64 | 	256 | 	1024 | 
 | --- |	--- |	--- |	--- |	--- |	--- |
  | 1 | 	4000000 | 	500000 | 	62500 | 	15625 | 	3906.3 | 
  | 5 | 	1333333.3 | 	166666.7 | 	20833.3 | 	5208.3 | 	1302.1 | 
@@ -192,7 +192,7 @@ do anything is about 30 Hz. So how can we accomplish this? We need to track the 
 We can just keep track of the total time elapsed with a global volatile unsigned long integer. Here's a stab at this idea:
 
 ```
-/*  ATtiny85timedISR.ino - Timing an ISR using Timer 1 (without sleep)
+/*  ATtiny85timedISR_Timer0.ino - Timing an ISR using Timer 1 (without sleep)
 Timer routine inspired from:
 https://embeddedthoughts.com/2016/06/06/attiny85-introduction-to-pin-change-and-timer-interrupts/
 Author: D. Dubins
