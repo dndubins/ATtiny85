@@ -9,6 +9,32 @@ https://playground.arduino.cc/Code/FastPWM/
 
 My goal for this exercise was to generate the same one-stop set of instructions for the ATtiny85. Here goes!!!
 
+<h2>A Word of Warning Before We Begin: Changing Register Bits</h2>
+Before we start this section, here is a very important short reminder about changing register values. We will need to do this for fastPWM. Usually when you are monkeying around with prescaler values, you change them around. It's easy to forget this fact: when we change a single prescaler (or any) bit inside a register, the other bits stay as they are. It's very important either to clear the register before you start setting prescalers, or clear the bits that need to be low. Otherwise, you will be wondering why for example when you changed from a prescaler of 64 in Timer 1 for example, to a prescaler of 8, nothing changed. It's because when you set the prescaler of 64, you asked for this:<p>
+TCCR0B |= _BV(WGM02) | _BV(CS01) | _BV(CS00);  // prescaler=64. THIS SETS WGM02, CS01 and CS00 HIGH.<p>
+But then, when you changed the code to this: <p>
+TCCR0B = _BV(WGM02)  | _BV(CS01);  // prescaler=8. THIS SETS WGM02 and CS01 HIGH.
+
+Guess what? CS00 is still HIGH! This will mess you up if you forget this cardinal rule of registers. So how can you make sure the appropriate bits are cleared? You can reset bits in a register this way:<p>
+
+```
+// 1) Set the whole register to zero.
+  TCCR0B=0; // This is dangerous. Is there any other important stuff in there? Check the datasheet to make sure this is ok.
+// 2) Clear the bits one-by-one, before you set the pre-scalers:
+   TCCR0B &=~(_BV(CS00));     // clear bit CS00 before setting prescalers
+   TCCR0B &=~(_BV(CS01));     // clear bit CS01 before setting prescalers
+   TCCR0B &=~(_BV(CS02));     // clear bit CS02 before setting prescalers
+// or alternately, all in one line:
+   TCCR0B &= ~(_BV(CS00) | _BV(CS01) | _BV(CS02)); // clear bits CS00, CS01, and CS02 before we start changing them.
+// 3) You could be explicit in the *same line* of the bits that need to be set high and low:
+   TCCR0B |= (_BV(WGM02) | _BV(CS01)) & ~(_BV(CS00) | _BV(CS02));  // prescaler=8. THIS SETS WGM02, CS01 HIGH, and CS00, CS02 LOW, explicitly.
+   // If you have multiple bits to set HIGH and LOW, you can bundle them (for example) like this:
+// 4) Do a hard reset on the mcu, or turn off/on the power. This should reset all registers to default values. 
+//   Then when you set the prescalers //for the first time, there won't be stray 1's lurking in the registers. However, if you need to
+//   change prescalers during the program, this //won't help you if you forget to set the appropriate bits low.
+``` 
+This is true for TCCR0B, or any register you are changing values of using the |= operator.<p>
+
 The ATtiny85 has two timers which are both only 255 bits in length (Timer 0 and Timer 1). You can use either of them to control PB0 and PB1. Timer 1 can also be set to generate PWM signals on PB3 and PB4. There are may guides and code snippets on how to do this, but I wanted to amalgamate all of this good info in one place. Similar to my Arduino Playground article, I will organize this by what you would like to do.
 
 Timer 0 (controls Pins PB0 and PB1)
