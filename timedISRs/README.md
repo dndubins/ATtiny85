@@ -333,7 +333,7 @@ void setTimer0() {
   cli();                 // clear interrupts
   GTCCR = _BV(PSR0);     // reset the prescaler for Timer0
   TIMSK |= _BV(OCIE0A);  // enable interrupt on Compare Match A for Timer0
-  TCCR0A &=~ _BV(WGM00); // CTC Mode (Table 11-5, ATtiny85 datasheet)
+  TCCR0A &=~_BV(WGM00); // CTC Mode (Table 11-5, ATtiny85 datasheet)
   TCCR0A |= _BV(WGM01);  // WGM0[2:0] = 2 = b010. This means WGM02=0, WGM01=1, WGM00=0.
   TCCR0A &=~_BV(WGM00);
   //First, clear the prescaler bits (housekeeping, avoids trouble when changing prescalers)
