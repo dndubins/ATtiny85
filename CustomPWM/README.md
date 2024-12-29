@@ -26,7 +26,7 @@ Guess what? CS00 is still HIGH! This will mess you up if you forget this cardina
    TCCR0B &=~(_BV(CS02));     // clear bit CS02 before setting prescalers
 // or alternately, all in one line:
    TCCR0B &= ~(_BV(CS00) | _BV(CS01) | _BV(CS02)); // clear bits CS00, CS01, and CS02 before we start changing them.
-// 3) You could be explicit in the *same line* of the bits that need to be set high and low:
+// 3) You could be explicit in the *same line* about the bits that need to be set high and low:
    TCCR0B |= (_BV(WGM02) | _BV(CS01)) & ~(_BV(CS00) | _BV(CS02));  // prescaler=8. THIS SETS WGM02, CS01 HIGH, and CS00, CS02 LOW, explicitly.
    // If you have multiple bits to set HIGH and LOW, you can bundle them (for example) like this:
 // 4) Do a hard reset on the mcu, or turn off/on the power. This should reset all registers to default values. 
