@@ -1,9 +1,10 @@
 /*  ATtiny85timedISR_Timer0.ino - Timing an ISR using Timer 0 (without sleep)
-Timer routine inspired from:
-https://embeddedthoughts.com/2016/06/06/attiny85-introduction-to-pin-change-and-timer-interrupts/
 Author: D. Dubins
 Date: 24-Dec-24
-Description: This program will run the ISR at the time delay specified.
+Last Updated: 29-Dec-24
+Description: This program will run the ISR at the time delay specified by the integer variable 
+"reportingTime" in milliseconds.
+Clock speed: 8MHz
 
 The following are the ATtiny85 pins by function:
 ------------------------------------------------
@@ -47,19 +48,25 @@ void loop() {
 }
 
 void setTimer0() {
-   // CTC Match Routine using Timer 0 (ATtiny85)
-   // Formula: frequency=fclk/((OCR0A+1)*N)
-    cli();  // clear interrupts
-    GTCCR = _BV(PSR0); // reset the prescaler for Timer0
-    TIMSK |= _BV(OCIE0A);  // enable interrupt on Compare Match A for Timer0
-    TCCR0A = 0;  // Normal mode (no PWM)
-    //TCCR0B |= _BV(WGM02) | _BV(CS00);  // prescaler=1
-    //TCCR0B |= _BV(WGM02) | _BV(CS01);  // prescaler=8
-    TCCR0B |= _BV(WGM02) | _BV(CS01) | _BV(CS00);  // prescaler=64
-    //TCCR0B |= _BV(WGM02) | _BV(CS02);  // prescaler=256
-    //TCCR0B |= _BV(WGM02) | _BV(CS02) | _BV(CS00);  // prescaler=1024
-    OCR0A = 124;  // Set betw 1-255 (prescaler=64, OCR0A=124 -->  1kHz)
-    sei();  // enable interrupts
+  // CTC Match Routine using Timer 0 (ATtiny85)
+  // Formula: frequency=fclk/((OCR0A+1)*N)
+  cli();                 // clear interrupts
+  GTCCR = _BV(PSR0);     // reset the prescaler for Timer0
+  TIMSK |= _BV(OCIE0A);  // enable interrupt on Compare Match A for Timer0
+  TCCR0A &=~ _BV(WGM00); // CTC Mode (Table 11-5, ATtiny85 datasheet)
+  TCCR0A |= _BV(WGM01);  // WGM0[2:0] = 2 = b010. This means WGM02=0, WGM01=1, WGM00=0.
+  //First, clear the prescaler bits (housekeeping, avoids trouble when changing prescalers)
+  TCCR0B &=~_BV(CS00);  // clear prescaler CS00
+  TCCR0B &=~_BV(CS01);  // clear prescaler CS01
+  TCCR0B &=~_BV(CS02);  // clear prescaler CS02
+  //Now, set the prescalers to what you would like.
+  //TCCR0B |= _BV(CS00);  // prescaler=1
+  //TCCR0B |= _BV(CS01);  // prescaler=8
+  TCCR0B |= _BV(CS01) | _BV(CS00);  // prescaler=64
+  //TCCR0B |= _BV(CS02);  // prescaler=256
+  //TCCR0B |= _BV(CS02) | _BV(CS00);  // prescaler=1024
+  OCR0A = 124;  // Set betw 1-255 (fclk=8MHz, prescaler=64, OCR0A=124 --> 1kHz)
+  sei();        // enable interrupts
 }
 
 ISR(TIMER0_COMPA_vect) {

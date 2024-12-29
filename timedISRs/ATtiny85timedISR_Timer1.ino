@@ -1,9 +1,9 @@
 /*  ATtiny85timedISR_Timer1.ino - Timing an ISR using Timer 1 (without sleep)
-Timer routine adapted from:
-https://embeddedthoughts.com/2016/06/06/attiny85-introduction-to-pin-change-and-timer-interrupts/
 Author: D. Dubins
 Date: 06-Jun-21
+Last Updated: 29-Dec-24
 Description: This program will run the ISR at the frequency set in the timer setup routine.
+Clock speed: 8MHz
 
 The following are the ATtiny85 pins by function:
 ------------------------------------------------
@@ -50,6 +50,12 @@ void setTimer1(){
   GTCCR = _BV(PSR1);          // reset the Timer1 prescaler
   TIMSK |= _BV(OCIE1A);       // interrupt on Compare Match A  
   TCCR1 |= _BV(CTC1);         // clear timer/counter on compare match
+  //First, clear the prescaler bits (housekeeping, avoids trouble when changing prescalers)
+  TCCR0B &=~_BV(CS10);  // clear prescaler CS10
+  TCCR0B &=~_BV(CS11);  // clear prescaler CS11
+  TCCR0B &=~_BV(CS12);  // clear prescaler CS12
+  TCCR0B &=~_BV(CS13);  // clear prescaler CS12
+  //Now, set the prescalers to what you would like.
   //TCCR1 |= _BV(CS10);       // prescaler=1
   //TCCR1 |= _BV(CS11);       // prescaler=2
   //TCCR1 |= _BV(CS11) |  _BV(CS10); // prescaler=4
@@ -64,7 +70,7 @@ void setTimer1(){
   //TCCR1 |= _BV(CS13) |  _BV(CS12) |  _BV(CS10); // prescaler=4096
   //TCCR1 |= _BV(CS13) |  _BV(CS12) |  _BV(CS11); // prescaler=8192
   TCCR1 |= _BV(CS13) |  _BV(CS12) |  _BV(CS11) |  _BV(CS10); // prescaler=16384
-  OCR1C = 243; // Set betw 1-255 (prescaler=16384, OCR1C=243 -->  2 Hz)
+  OCR1C = 243; // Set betw 1-255 (fclk=8MHz, prescaler=16384, OCR1C=243 -->  2 Hz)
   sei();       // enable interrupts
 }
   
