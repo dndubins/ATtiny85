@@ -3,11 +3,13 @@
 Unfortunately, since the Arduino Playground shut their doors as a Wiki and became a website, I have nowhere particularly great to post this code. So, I'm posting it here!
 
 The ATtiny85 is an awesome little MCU that I fell in like with. One of the things that plague me is how to generate my own PWM frequencies, because you need to do this sometimes.
-In this case, I needed to generate a reference frequency so that I could calibrate the internal 8MHz clock, because it was quite frankly horrible in terms of accuracy. I wanted a good enough accuracy so that over the course of the day, perhaps I lost a minute or two at most. This led me down a rabbit hole after realizing that the registers to control the ATtiny85 timers were not the same as the ATmega328p. Why should they be?!? A while ago, I posted a guide to FastPWM for the ATmega328p here:
+In this case, I needed to generate a reference frequency so that I could calibrate the internal 8MHz clock, because it was quite frankly horrible in terms of accuracy. I wanted a good enough accuracy so that over the course of the day, perhaps I lost a minute or two at most. This led me down a rabbit hole after realizing that the registers to control the ATtiny85 timers were not the same as the ATmega328p. Why should they be?!? A while ago, I posted a guide to FastPWM for the ATmega328p here:<p>
 
-https://playground.arduino.cc/Code/FastPWM/
+https://playground.arduino.cc/Code/FastPWM/<p>
+And also for the ATtiny84:<p>
+https://github.com/dndubins/ATtiny84/tree/main/CustomPWM<p>
 
-My goal for this exercise was to generate the same one-stop set of instructions for the ATtiny85. Here goes!!!
+My goal for this exercise was to generate the same one-stop set of instructions for the ATtiny85. Here goes!!!<p>
 
 <h2>A Word of Warning Before We Begin: Changing Register Bits</h2>
 Before we start this section, here is a very important short reminder about changing register values. We will need to do this for fastPWM. Usually when you are monkeying around with prescaler values, you change them around. It's easy to forget this fact: when we change a single prescaler (or any) bit inside a register, the other bits stay as they are. It's very important either to clear the register before you start setting prescalers, or clear the bits that need to be low. Otherwise, you will be wondering why for example when you changed from a prescaler of 64 in Timer 1 for example, to a prescaler of 8, nothing changed. It's because when you set the prescaler of 64, you asked for this:<p>
