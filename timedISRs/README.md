@@ -15,9 +15,10 @@ Here is the code to get Timer 1 into CTC mode:
   TIMSK |= _BV(OCIE1A);       // interrupt on Compare Match A  
   TCCR1 |= _BV(CTC1);         // clear timer/counter on compare match
   //First, clear the prescaler bits (housekeeping, avoids trouble when changing prescalers)
-  TCCR0B &=~_BV(CS10);  // clear prescaler CS00
-  TCCR0B &=~_BV(CS11);  // clear prescaler CS01
-  TCCR0B &=~_BV(CS12);  // clear prescaler CS02
+  TCCR0B &=~_BV(CS10);  // clear prescaler CS10
+  TCCR0B &=~_BV(CS11);  // clear prescaler CS11
+  TCCR0B &=~_BV(CS12);  // clear prescaler CS12
+  TCCR0B &=~_BV(CS13);  // clear prescaler CS12
   //Now, set the prescalers to what you would like.
   //TCCR1 |= _BV(CS10);       // prescaler=1
   //TCCR1 |= _BV(CS11);       // prescaler=2
@@ -76,6 +77,7 @@ Here's what the sketch could look like:
 /*  ATtiny85timedISR_Timer1.ino - Timing an ISR using Timer 1 (without sleep)
 Author: D. Dubins
 Date: 06-Jun-21
+Last Updated: 29-Dec-24
 Description: This program will run the ISR at the frequency set in the timer setup routine.
 Clock speed: 8MHz
 
@@ -125,9 +127,10 @@ void setTimer1(){
   TIMSK |= _BV(OCIE1A);       // interrupt on Compare Match A  
   TCCR1 |= _BV(CTC1);         // clear timer/counter on compare match
   //First, clear the prescaler bits (housekeeping, avoids trouble when changing prescalers)
-  TCCR0B &=~_BV(CS10);  // clear prescaler CS00
-  TCCR0B &=~_BV(CS11);  // clear prescaler CS01
-  TCCR0B &=~_BV(CS12);  // clear prescaler CS02
+  TCCR0B &=~_BV(CS10);  // clear prescaler CS10
+  TCCR0B &=~_BV(CS11);  // clear prescaler CS11
+  TCCR0B &=~_BV(CS12);  // clear prescaler CS12
+  TCCR0B &=~_BV(CS13);  // clear prescaler CS12
   //Now, set the prescalers to what you would like.
   //TCCR1 |= _BV(CS10);       // prescaler=1
   //TCCR1 |= _BV(CS11);       // prescaler=2
@@ -210,6 +213,7 @@ We can now just keep track of the total time elapsed with a global volatile inte
 /*  ATtiny85timedISR_Timer0.ino - Timing an ISR using Timer 0 (without sleep)
 Author: D. Dubins
 Date: 24-Dec-24
+Last Updated: 29-Dec-24
 Description: This program will run the ISR at the time delay specified.
 Clock speed: 8MHz
 
