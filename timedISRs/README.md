@@ -15,10 +15,10 @@ Here is the code to get Timer 1 into CTC mode:
   TIMSK |= _BV(OCIE1A);       // interrupt on Compare Match A  
   TCCR1 |= _BV(CTC1);         // clear timer/counter on compare match
   //First, clear the prescaler bits (housekeeping, avoids trouble when changing prescalers)
-  TCCR0B &=~_BV(CS10);  // clear prescaler CS10
-  TCCR0B &=~_BV(CS11);  // clear prescaler CS11
-  TCCR0B &=~_BV(CS12);  // clear prescaler CS12
-  TCCR0B &=~_BV(CS13);  // clear prescaler CS12
+  TCCR1 &=~_BV(CS10);  // clear prescaler CS10
+  TCCR1 &=~_BV(CS11);  // clear prescaler CS11
+  TCCR1 &=~_BV(CS12);  // clear prescaler CS12
+  TCCR1 &=~_BV(CS13);  // clear prescaler CS12
   //Now, set the prescalers to what you would like.
   //TCCR1 |= _BV(CS10);       // prescaler=1
   //TCCR1 |= _BV(CS11);       // prescaler=2
