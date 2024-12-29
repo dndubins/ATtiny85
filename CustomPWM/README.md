@@ -52,7 +52,7 @@ The code for Pin PB0 only, using Timer 0:
   TCCR0A = _BV(COM0A0) | _BV(COM0B0) | _BV(WGM01) | _BV(WGM00); // set OC0A on compare match
   TCCR0B = _BV(WGM02) | _BV(CS00);  // no prescaling
   //TCCR0B = _BV(WGM02)  | _BV(CS01);  // prescaler=8
-  //TCCR0B = _BV(WGM02) | _BV(CS01) | _BV(CS00);  // nprscaler=64
+  //TCCR0B = _BV(WGM02) | _BV(CS01) | _BV(CS00);  // prescaler=64
   //TCCR0B = _BV(WGM02) | _BV(CS02);  // prescaler=256
   //TCCR0B = _BV(WGM02) | _BV(CS02) | _BV(CS00);  // prescaler=1024
   OCR0A = 0; // counter limit: 255, duty cycle fixed at 50% in this mode. OCR0A=0 with no prescaler gives freq=4MHz.
@@ -93,7 +93,7 @@ You are in luck! Using OCR0A, you can control the frequency using the formula: f
   TCCR0A = _BV(COM0A1) | _BV(COM0B1) | _BV(WGM01) | _BV(WGM00); // set OC0A on compare match
   TCCR0B = _BV(WGM02) | _BV(CS00);  // no prescaling
   //TCCR0B = _BV(WGM02)  | _BV(CS01);  // prescaler=8
-  //TCCR0B = _BV(WGM02) | _BV(CS01) | _BV(CS00);  // nprscaler=64
+  //TCCR0B = _BV(WGM02) | _BV(CS01) | _BV(CS00);  // prescaler=64
   //TCCR0B = _BV(WGM02) | _BV(CS02);  // prescaler=256
   //TCCR0B = _BV(WGM02) | _BV(CS02) | _BV(CS00);  // prescaler=1024
   OCR0A = 0; // counter limit: 255
@@ -130,7 +130,7 @@ Well, you can do this, but your options are a bit more limited. The frequency is
   TCCR0A = _BV(COM0A1) | _BV(COM0A0) | _BV(COM0B1) |_BV(COM0B0) |_BV(WGM01) |_BV(WGM00); // PWM (Mode 3)
   TCCR0B = _BV(CS00);  // no prescaling
   //TCCR0B = _BV(CS01);  // prescaler=8
-  //TCCR0B = _BV(CS01) | _BV(CS00);  // nprscaler=64
+  //TCCR0B = _BV(CS01) | _BV(CS00);  // prescaler=64
   //TCCR0B = _BV(CS02);  // prescaler=256
   //TCCR0B = _BV(CS02) | _BV(CS00);  // prescaler=1024
   OCR0A = 50; // counter limit: 255 (duty cycle PB0 =OCR0A/255, 50% duty cycle=127)
