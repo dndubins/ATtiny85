@@ -13,12 +13,8 @@ Here is the code to get Timer 1 into CTC mode:
   cli();                      // clear interrupts
   GTCCR = _BV(PSR1);          // reset the Timer1 prescaler
   TIMSK |= _BV(OCIE1A);       // interrupt on Compare Match A  
-  TCCR1 |= _BV(CTC1);         // clear timer/counter on compare match
-  //First, clear the prescaler bits (housekeeping, avoids trouble when changing prescalers)
-  TCCR1 &=~_BV(CS10);  // clear prescaler CS10
-  TCCR1 &=~_BV(CS11);  // clear prescaler CS11
-  TCCR1 &=~_BV(CS12);  // clear prescaler CS12
-  TCCR1 &=~_BV(CS13);  // clear prescaler CS12
+  TCCR1 = 0;                  // clear out any previous bits in TCCR1
+  TCCR1 |= _BV(CTC1);         // set CTC1 bit to clear timer/counter on compare match (CTC mode)
   //Now, set the prescalers to what you would like.
   //TCCR1 |= _BV(CS10);       // prescaler=1
   //TCCR1 |= _BV(CS11);       // prescaler=2
@@ -125,12 +121,8 @@ void setTimer1(){
   cli();                      // clear interrupts
   GTCCR = _BV(PSR1);          // reset the Timer1 prescaler
   TIMSK |= _BV(OCIE1A);       // interrupt on Compare Match A  
-  TCCR1 |= _BV(CTC1);         // clear timer/counter on compare match
-  //First, clear the prescaler bits (housekeeping, avoids trouble when changing prescalers)
-  TCCR0B &=~_BV(CS10);  // clear prescaler CS10
-  TCCR0B &=~_BV(CS11);  // clear prescaler CS11
-  TCCR0B &=~_BV(CS12);  // clear prescaler CS12
-  TCCR0B &=~_BV(CS13);  // clear prescaler CS12
+  TCCR1 = 0;                  // clear out any previous bits in TCCR1
+  TCCR1 |= _BV(CTC1);         // set CTC1 bit to clear timer/counter on compare match (CTC mode)
   //Now, set the prescalers to what you would like.
   //TCCR1 |= _BV(CS10);       // prescaler=1
   //TCCR1 |= _BV(CS11);       // prescaler=2
