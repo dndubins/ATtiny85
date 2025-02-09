@@ -6,13 +6,7 @@
    Adapted from: https://pwbotics.wordpress.com/2021/05/05/programming-attiny85-and-i2c-communication-using-attiny85/
 */
 
-#include <Wire.h>
-const byte NUM_BYTES = 4;
-byte data[NUM_BYTES] = { 0 };
-byte bytesReceived = 0;
-unsigned long timeNow = millis();
-
-
+#include <Wire.h>         // start Wire.h as master (no address needed)
 #define I2C_ADDR1 0x08    // I2C address of the ATtiny85 slave (0x08)
 char arr[30]; // Buffer to hold the received data
 int i = 0;    // Index for filling the buffer
