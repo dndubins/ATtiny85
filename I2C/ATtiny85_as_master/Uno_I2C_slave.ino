@@ -23,7 +23,8 @@ void setup() {
   Serial.println("Slave ready.");
 }
 
-void loop() {  // Nothing needs to be here. The calls are all interrupt driven.
+void loop() { // Nothing really needs to be here. The calls are all interrupt driven.
+  delay(50);  // small delay
 }
 
 // Event handler for receiving data from the master
