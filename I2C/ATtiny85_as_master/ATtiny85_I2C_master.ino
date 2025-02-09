@@ -3,7 +3,7 @@
    Author: David Dubins
    Date: 08-Feb-25
    Written to work with TinyWireM.h (BroHogan 1/12/11)
-   Library available at: https://playground.arduino.cc/uploads/Code/TinyWireS/index.zip
+   Library available at: https://playground.arduino.cc/uploads/Code/TinyWireM/index.zip
    Adapted from: https://pwbotics.wordpress.com/2021/05/05/programming-attiny85-and-i2c-communication-using-attiny85/
 
   The following are the ATtiny85 pins by function:
