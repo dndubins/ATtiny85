@@ -3,9 +3,9 @@
 I found two really great libraries and example sketches from BroHogan at: https://pwbotics.wordpress.com/2021/05/05/programming-attiny85-and-i2c-communication-using-attiny85/
 Here are some adaptations of these sketches.
 
-Links to the libraries are referred to in the sketches.
+Links to the libraries are referred to in the sketches.<br>
 Here is the library for setting the ATtiny85 as a slave I2C device:<br>
-https://playground.arduino.cc/uploads/Code/TinyWireS/index.zip
+https://playground.arduino.cc/uploads/Code/TinyWireS/index.zip<br>
 Here is the library for setting the ATtiny85 as a master I2C device:<br>
 https://playground.arduino.cc/uploads/Code/TinyWireM/index.zip
 
