@@ -44,6 +44,7 @@ void setup() {
 
 void loop() { // The slave will continuously wait for requests or data from the master.
   TinyWireS_stop_check();  // needs to be in the loop
+  delay(50);               // small delay
 }
 
 // Function to handle data received from the master
