@@ -13,7 +13,7 @@ byte bytesReceived = 0;
 unsigned long timeNow = millis();
 
 
-#define I2C_ADDR 0x08    // I2C address of the ATtiny85 slave (0x08)
+#define I2C_ADDR1 0x08    // I2C address of the ATtiny85 slave (0x08)
 char arr[30]; // Buffer to hold the received data
 int i = 0;    // Index for filling the buffer
 
@@ -24,7 +24,7 @@ void setup() {
 }
 
 void loop() {
-  Wire.requestFrom(I2C_ADDR,64);  // Request up to 64 bytes (adjust as needed)
+  Wire.requestFrom(I2C_ADDR1,64);  // Request up to 64 bytes (adjust as needed)
   i=0;
   while(Wire.available()) {    
     char c = Wire.read();  // Read the next byte from the slave
@@ -61,7 +61,7 @@ void loop() {
 }
 
 void sendResponse(byte n) {
-  Wire.beginTransmission(I2C_ADDR);  // Start I2C transmission to slave
+  Wire.beginTransmission(I2C_ADDR1);  // Start I2C transmission to slave
   Wire.write(n);  // Send the number of flashes
   Wire.endTransmission();  // End the transmission
   Serial.print("Sent to slave: ");
