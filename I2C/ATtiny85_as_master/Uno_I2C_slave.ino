@@ -9,8 +9,11 @@
 
 #include <Wire.h>
 #define I2C_ADDRESS 0x08    // I2C address of master (0x08)
-float fnum=0.00;            // to hold float number transferred
-int inum=0;                 // to hold integer number transferred
+
+char arr[30]; // increase to hold size of transmitted data
+int i=0;
+int inum=0;   // to hold integer value read from I2C
+float fnum=0.0; // to hold float number read from I2C
 
 void setup() {
   Wire.begin(I2C_ADDRESS);
@@ -28,31 +31,19 @@ void loop() {
 void receiveevent(){
   while(Wire.available()>0){
     char c=Wire.read();
-    (c=='\0')?Serial.print("\n"):Serial.print(c); //receive bytes in series. Print a new line if terminal character received.
-  }
-}
-
-void receivefloat(){
-  char arr[12];
-  int i=0;
-  while(Wire.available()>0){
-    char c=Wire.read();
     arr[i]=c;
-    i++;
+    if(c=='\0'){
+      i=0;
+      // Uncomment to print received char array:
+      Serial.println(arr);
+      // Uncomment for reading integer:
+      //inum=atoi(arr);  // convert the array here as needed
+      //Serial.println(inum); // print the converted value
+      // Uncomment for reading float number:
+      //fnum=atof(arr);  // convert the array here as needed
+      //Serial.println(fnum); // print the converted value
+    }else{
+      i++;
+    }
   }
-  fnum=atof(arr);
-  Serial.println(fnum);
-}
-
-void receiveInt(){
-  char arr[12];
-  int num=0;
-  int i=0;
-  while(Wire.available()>0){
-    char c=Wire.read();
-    arr[i]=c;
-    i++;
-  }
-  inum=atoi(arr);
-  Serial.println(inum);
 }
