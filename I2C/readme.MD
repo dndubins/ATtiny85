@@ -9,7 +9,9 @@ https://playground.arduino.cc/uploads/Code/TinyWireS/index.zip<br>
 Here is the library for setting the ATtiny85 as a master I2C device:<br>
 https://playground.arduino.cc/uploads/Code/TinyWireM/index.zip
 
-I have written example sketches for connecting an Arduino Uno (or Mega, or other Wire.h compatible device) with the ATtiny85, to send information from the ATtiny85 to the Uno.
+I have written example sketches for connecting an Arduino Uno (or Mega, or other Wire.h compatible device) with the ATtiny85, to send information from the ATtiny85 to the Uno.<p>
+
+My goal for this project really was to get ATtiny85 to be a slave device, and report a value perhaps from a sensor. The information flows one way, from the Attiny85 device to the Uno.<p>
 
 This explanation is from Perplexity.ai, regarding master and slave roles:
 
