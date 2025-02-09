@@ -8,7 +8,7 @@
 */
 
 #include <Wire.h>
-#define I2C_ADDRESS 0x08    // I2C address of master (0x08)
+#define I2C_ADDR 0x08    // I2C address of master (0x08)'
 
 char arr[30]; // increase to hold size of transmitted data
 int i=0;
@@ -16,24 +16,24 @@ int inum=0;   // to hold integer value read from I2C
 float fnum=0.0; // to hold float number read from I2C
 
 void setup() {
-  Wire.begin(I2C_ADDRESS);
-  Serial.begin(9600); // Start the serial monitor
-  Serial.println("ready to receive data.");
+  Wire.begin(I2C_ADDR);          // Start as an I2C slave
+  Wire.onReceive(receiveEvent);  // Register the event handler for data reception
+  Wire.onRequest(requestEvent);  // Register the event handler for data requests
+  Serial.begin(9600);            // Start the serial monitor
+  Serial.println("Slave ready.");
 }
 
-void loop() {
-  Wire.onReceive(receiveevent);
-  //Wire.onReceive(receiveInt);
-  //Wire.onReceive(receivefloat);
-  delay(500); // it's not nice to be a nag.
+void loop() {  // Nothing needs to be here. The calls are all interrupt driven.
 }
 
-void receiveevent(){
+// Event handler for receiving data from the master
+void receiveEvent(){
   while(Wire.available()>0){
     char c=Wire.read();
     arr[i]=c;
     if(c=='\0'){
       i=0;
+      Serial.print("Received from master: ");
       // Uncomment to print received char array:
       Serial.println(arr);
       // Uncomment for reading integer:
@@ -46,4 +46,13 @@ void receiveevent(){
       i++;
     }
   }
+}
+
+
+void requestEvent() {    // this sends the number of flashes to the ATtiny85
+// This could be re-written to send an error code or other useful info to the master.
+  byte response = 3;     // Send 3 back to the master
+  Wire.write(response);  // Send the response byte
+  Serial.print("Sent to master: ");
+  Serial.println(response, DEC);  // Print the sent byte as a number
 }
