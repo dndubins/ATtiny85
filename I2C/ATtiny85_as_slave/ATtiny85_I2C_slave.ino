@@ -1,9 +1,8 @@
 /* ATtiny85_I2C_slave.ino
-   ATtiny85 as an I2C Slave
+   ATtiny85 as an I2C Master
    Author: David Dubins
    Date: 08-Feb-25
-   Modified version of Tiny85_I2C_Slave_Ex.ino from TinyWireS.h (BroHogan 1/12/11)
-   Library available at: https://playground.arduino.cc/uploads/Code/TinyWireS/index.zip
+   Written to work with TinyWireS.h available here: https://github.com/rambo/TinyWire
    Adapted from: https://pwbotics.wordpress.com/2021/05/05/programming-attiny85-and-i2c-communication-using-attiny85/
 
   The following are the ATtiny85 pins by function:
@@ -27,33 +26,47 @@
   Pin 8 - 5V
  */
 
-#include "TinyWireS.h"                  // I2C Slave Library by BroHogan 
-char message[] = "Test message to send.";
 
-#define I2C_SLAVE_ADDR  0x08            // I2C slave address (0x08)
+#include <TinyWireS.h>
+
+#define I2C_ADDR 0x08  // ATtiny85 I2C Address
 byte LEDpin=3;                          // physical pin 2 is PB3
-byte Vpin=A2;                           // take a reading on physical pin 2
+byte Vpin=A2;                           // take a reading on physical pin 3
+byte myInt=0;                            // to store integer read from master
 
-void setup(){
-  pinMode(LEDpin,OUTPUT);               // just for visual feedback
-  flashLED(2);                          // two flashes on powerup
-  TinyWireS.begin(I2C_SLAVE_ADDR);      // init I2C Slave mode
+void setup() {
+  pinMode(LEDpin,OUTPUT);       // set LEDpin to OUTPUT mode
+  TinyWireS.begin(I2C_ADDR);
+  TinyWireS.onReceive(receiveEvent);
+  TinyWireS.onRequest(requestEvent);
+  flashLED(3);
 }
 
-void loop() {
-  delay(1000);
-  flashLED(1); // show you sent something
+void loop() { // The slave will continuously wait for requests or data from the master.
+  TinyWireS_stop_check();  // needs to be in the loop
+}
+
+// Function to handle data received from the master
+void receiveEvent() {
+  while (TinyWireS.available()) {
+    myInt = TinyWireS.receive();  // Receive the byte from the master
+  }
+  flashLED(2);
+}
+
+// Function to send data to the master when requested
+void requestEvent() {
+  // Uncomment to send a reading:
   int reading=analogRead(Vpin);
   sendInt(reading);
-  //sendString("This is a string.");
   //sendArr("This is a test"); // send random text
-  //sendArr(message); // send the array stored in message
   //sendChar('h'); // send the letter 'h'
-  //sendFloat(3.141,2); // send float number with 2 decimal places
+  //sendInt(myInt);
+  // Uncomment to send a float:
+  //sendFloat(3.141,2);
 }
 
 void sendArr(char* arr){
-  TinyWireS.begin(I2C_SLAVE_ADDR);      // init I2C Slave mode
   int i=0;
   do{
       TinyWireS.send(arr[i]);
@@ -62,31 +75,20 @@ void sendArr(char* arr){
   TinyWireS.send('\0'); // send terminal character
 }
 
-void sendString(String str){
-  TinyWireS.begin(I2C_SLAVE_ADDR);      // init I2C Slave mode
-  int i=0;
-  do{
-      TinyWireS.send(str[i]);
-      i++;
-  }while(str[i]!='\0');
+void sendChar(char c){
+  TinyWireS.send(c);
   TinyWireS.send('\0'); // send terminal character
 }
 
-void sendChar(char c){
-  TinyWireS.begin(I2C_SLAVE_ADDR);      // init I2C Slave mode
-  TinyWireS.send(c);
-}
-
 void sendByte(byte b){
-  TinyWireS.begin(I2C_SLAVE_ADDR);      // init I2C Slave mode
   TinyWireS.send(b);
+  TinyWireS.send('\0'); // send terminal character
 }
 
 void sendFloat(float f, byte dec){     // float number, number of decimals
   byte n=sizeof(f);
   char B[n];
   dtostrf(f,n,dec,B); // 3 is number of decimals to send
-  TinyWireS.begin(I2C_SLAVE_ADDR);      // init I2C Slave mode
   int i=0;
   do{
       TinyWireS.send(B[i]);
@@ -99,7 +101,6 @@ void sendInt(int j){      // integer to send
   byte n=(1+log10(j)); // count the number of digits in the integer
   char B[n+1];              // create a char array of length #digits+1
   itoa(j,B,10); // convert integer to char array. 10 is for base10 format
-  TinyWireS.begin(I2C_SLAVE_ADDR);      // init I2C Slave mode
   int i=0;
   do{
       TinyWireS.send(B[i]);
@@ -109,10 +110,11 @@ void sendInt(int j){      // integer to send
 }
 
 void flashLED(byte n){
-  for (int i=0; i< n; i++){
-    digitalWrite(LEDpin,HIGH);
-    delay(100);
-    digitalWrite(LEDpin,LOW);
-    delay(100);
-  }
+    digitalWrite(LEDpin, LOW);
+    for(byte i=0;i<n;i++){
+        digitalWrite(LEDpin, HIGH);
+        tws_delay(100);
+        digitalWrite(LEDpin, LOW);
+        tws_delay(100);
+    }
 }
