@@ -8,7 +8,7 @@
 */
 
 #include <Wire.h>
-#define I2C_SLAVE_ADDR 0x08    // I2C address of slave (0x08)
+#define I2C_ADDR 0x08    // I2C address of slave (0x08)
 char arr[30]; // increase to hold size of transmitted data
 int i=0;
 int inum=0;   // to hold integer value read from I2C
@@ -20,7 +20,7 @@ void setup() {
 }
 
 void loop() {
-  Wire.requestFrom(I2C_SLAVE_ADDR, 1);
+  Wire.requestFrom(I2C_ADDR, 1);
   while (Wire.available()) {    
     char c = Wire.read();
     arr[i]=c;
@@ -38,5 +38,6 @@ void loop() {
       i++;
     }
   }
+
   delay(100); // it's not nice to be a nag.
 }
