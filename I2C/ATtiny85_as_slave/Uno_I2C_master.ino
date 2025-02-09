@@ -1,43 +1,70 @@
 /* Uno_I2C_master.ino
-   Uno as an I2C Master
+   Uno as an I2C Master, with Attiny85 as slave
    Author: David Dubins
    Date: 08-Feb-25
-   To work with Tiny85_I2C_Slave_Ex.ino from TinyWireS.h (BroHogan 1/12/11)
-   Library available at: https://playground.arduino.cc/uploads/Code/TinyWireS/index.zip
+   Written to work with TinyWireS.h available here: https://github.com/rambo/TinyWire
    Adapted from: https://pwbotics.wordpress.com/2021/05/05/programming-attiny85-and-i2c-communication-using-attiny85/
 */
 
 #include <Wire.h>
-#define I2C_ADDR 0x08    // I2C address of slave (0x08)
-char arr[30]; // increase to hold size of transmitted data
-int i=0;
-int inum=0;   // to hold integer value read from I2C
-float fnum=0.0; // to hold float number read from I2C
+const byte NUM_BYTES = 4;
+byte data[NUM_BYTES] = { 0 };
+byte bytesReceived = 0;
+unsigned long timeNow = millis();
+
+
+#define I2C_ADDR 0x08    // I2C address of the ATtiny85 slave (0x08)
+char arr[30]; // Buffer to hold the received data
+int i = 0;    // Index for filling the buffer
 
 void setup() {
-  Wire.begin();
-  Serial.begin(9600); // Start the serial monitor
+  Wire.begin();  // Initialize I2C as master
+  Serial.begin(9600);  // Start serial communication
+  Serial.print("Ready to send/receive data."); // send welcome msg
 }
 
 void loop() {
-  Wire.requestFrom(I2C_ADDR, 1);
-  while (Wire.available()) {    
-    char c = Wire.read();
-    arr[i]=c;
-    if(c=='\0'){
-      i=0;
-      // Uncomment to print received char array:
+  Wire.requestFrom(I2C_ADDR,64);  // Request up to 64 bytes (adjust as needed)
+  i=0;
+  while(Wire.available()) {    
+    char c = Wire.read();  // Read the next byte from the slave
+    arr[i] = c;            // Store it in the buffer
+    if (c == '\0') {       // If a null character is encountered, process the data
+      arr[i] = '\0';       // Ensure null termination for the string
+      // Print the received string
+      Serial.print(F("Received from slave: "));
       Serial.println(arr);
-      // Uncomment for reading integer:
-      //inum=atoi(arr);  // convert the array here as needed
-      //Serial.println(inum); // print the converted value
-      // Uncomment for reading float number:
-      //fnum=atof(arr);  // convert the array here as needed
-      //Serial.println(fnum); // print the converted value
-    }else{
-      i++;
+      // Uncomment for integer conversion (if needed)
+      // int inum = atoi(arr);
+      // Serial.print("Integer value: ");
+      // Serial.println(inum);
+
+      // Uncomment for float conversion (if needed)
+      // float fnum = atof(arr);
+      // Serial.print("Float value: ");
+      // Serial.println(fnum);
+      i = 0;  // Reset index for the next message
+    } else {
+      i++;  // Move to the next position in the buffer
     }
   }
-
-  delay(100); // it's not nice to be a nag.
+  while(Wire.available()>0){
+    char c = Wire.read();
+      Serial.print("Received from slave: ");
+      Serial.println(c,DEC);
+   }
+  delay(500); // wait between receiving and sending
+  // Now, send a response back to the slave (e.g., send the number of flashes)
+  byte flashes = 4;  // Example value (you can change this or calculate based on received data)
+  sendResponse(flashes);  // Send response to the slave
+  delay(500);  // Small delay to avoid overloading the slave
 }
+
+void sendResponse(byte n) {
+  Wire.beginTransmission(I2C_ADDR);  // Start I2C transmission to slave
+  Wire.write(n);  // Send the number of flashes
+  Wire.endTransmission();  // End the transmission
+  Serial.print("Sent to slave: ");
+  Serial.println(n);
+}
+
