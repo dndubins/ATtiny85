@@ -1,5 +1,7 @@
-/* ATtiny85 as an I2C Slave
+/* ATtiny85_I2C_slave.ino
+   ATtiny85 as an I2C Slave
    Author: David Dubins
+   Date: 08-Feb-25
    Modified version of Tiny85_I2C_Slave_Ex.ino from TinyWireS.h (BroHogan 1/12/11)
    Library available at: https://playground.arduino.cc/uploads/Code/TinyWireS/index.zip
    Adapted from: https://pwbotics.wordpress.com/2021/05/05/programming-attiny85-and-i2c-communication-using-attiny85/
