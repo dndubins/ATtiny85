@@ -31,7 +31,7 @@
 char message[] = "Test message to send.";
 int myInt=0;
 
-#define I2C_ADDR 0x08                   // I2C address (0x08)
+#define I2C_ADDR1 0x08                   // I2C address (0x08)
 byte LEDpin=3;                          // physical pin 2 is PB3
 byte Vpin=A2;                           // take a reading on physical pin 2
 
@@ -53,7 +53,7 @@ void loop() {
   delay(500); // wait a bit between sending and receiving
 
   // Ask for information from slave
-  TinyWireM.requestFrom(I2C_ADDR,1); // Request 1 byte from slave
+  TinyWireM.requestFrom(I2C_ADDR1,1); // Request 1 byte from slave
   myInt = TinyWireM.receive();          // get the number of flashes
   flashLED(myInt); // show you sent something
   delay(500); // wait a bit between sending and receiving
@@ -62,12 +62,12 @@ void loop() {
 void sendArr(char* arr){
   int i=0;
   do{
-      TinyWireM.beginTransmission(I2C_ADDR); // Start the transmission
+      TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
       TinyWireM.send(arr[i]);
       TinyWireM.endTransmission();         // end the transmission
       i++;
   }while(arr[i]!='\0');
-  TinyWireM.beginTransmission(I2C_ADDR);  // Start the transmission
+  TinyWireM.beginTransmission(I2C_ADDR1);  // Start the transmission
   TinyWireM.send('\0');                   // send terminal character
   TinyWireM.endTransmission();            // end the transmission
 }
@@ -75,20 +75,20 @@ void sendArr(char* arr){
 void sendString(String str){
   int n=str.length();
   for(int i=0;i<n+1;i++){
-      TinyWireM.beginTransmission(I2C_ADDR); // Start the transmission
+      TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
       TinyWireM.send(str[i]);
       TinyWireM.endTransmission();           // end the transmission
   }
 }
 
 void sendChar(char c){
-  TinyWireM.beginTransmission(I2C_ADDR); // Start the transmission
+  TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
   TinyWireM.send(c);
   TinyWireM.endTransmission();           // end the transmission
 }
 
 void sendByte(byte b){
-  TinyWireM.beginTransmission(I2C_ADDR); // Start the transmission
+  TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
   TinyWireM.send(b);
   TinyWireM.endTransmission();           // end the transmission
 }
@@ -97,7 +97,7 @@ void sendFloat(float f, byte dec){     // float number, number of decimals
   byte n=sizeof(f);
   char B[n];
   dtostrf(f,n,dec,B); // 3 is number of decimals to send
-  TinyWireM.beginTransmission(I2C_ADDR); // Start the transmission
+  TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
   int i=0;
   do{
       TinyWireM.send(B[i]);
@@ -111,7 +111,7 @@ void sendInt(int j){      // integer to send
   byte n=(1+log10(j)); // count the number of digits in the integer
   char B[n+1];              // create a char array of length #digits+1
   itoa(j,B,10); // convert integer to char array. 10 is for base10 format
-  TinyWireM.beginTransmission(I2C_ADDR); // Start the transmission
+  TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
   int i=0;
   do{
       TinyWireM.send(B[i]);
