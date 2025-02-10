@@ -1,5 +1,5 @@
 /* Uno_I2C_slave.ino
-   Uno as an I2C Slave
+   Uno as an I2C Slave, programmed for use with ATtiny85_I2C_master.ino.
    Author: David Dubins
    Date: 08-Feb-25
    To work with TinyWireM.h (BroHogan 1/12/11)
