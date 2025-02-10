@@ -1,7 +1,7 @@
 /* ATtiny85_I2C_slave-struct.ino
    ATtiny85 as an I2C Master
    Author: David Dubins
-   Date: 08-Feb-25
+   Date: 10-Feb-25
    Written to work with TinyWireS.h available here: https://github.com/rambo/TinyWire
    Adapted from: https://pwbotics.wordpress.com/2021/05/05/programming-attiny85-and-i2c-communication-using-attiny85/
 
