@@ -6,4 +6,4 @@ However, what if you'd like to transfer more than one variable, and they are dif
 a struct, and then create a union with a char array. Then, send the char array over I2C, and have it read in on the other end, to a char array that has a union with the same complicated structure.
 Then, you can send many different variable types at once, all in one go.
 Sounds interesting? Check out the following two programs:<p>
-Uno_I2C_master-struct.ino and ATtiny85_I2C_slave-struct.ino.<p> The implementation was easier and faster than I thought.
+Uno_I2C_master-struct.ino and ATtiny85_I2C_slave-struct.ino.<p> The implementation was easier and faster than I thought. I have the master send data inside the variable called TXdata to the slave. The slave then decodes the information with the same union, and sends it back to the master. The master receives the data in RXdata, then prints it out to show the journey was successful. The return trip isn't necessary, but the code is there if you need it. Maybe just a "true" that it worked.
