@@ -47,7 +47,7 @@ void loop() {
   receiveFromSlave(RXdata.myCharArr);  // Receive RXdata from slave
   delay(500);  // Small delay to avoid overloading the slave
   if(rcv){ // if new data has been received:
-    // Print the received string
+    // Print the received struct
     Serial.println(F("Received from slave: "));
     Serial.println(RXdata.sData.PVAL);
     Serial.println(RXdata.sData.Pin);
