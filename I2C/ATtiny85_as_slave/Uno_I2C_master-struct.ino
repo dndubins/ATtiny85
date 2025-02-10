@@ -8,6 +8,7 @@
 
 #include <Wire.h>         // start Wire.h as master (no address needed)
 #define I2C_ADDR1 0x08    // I2C address of the ATtiny85 slave (0x08)
+bool received=false;      // flag for new received data
 
 // Example of a structure to be sent over I2C (10 bytes total)
 struct myStruct { // example structure to send over I2C. This was for a servo.
@@ -41,32 +42,31 @@ void setup() {
 }
 
 void loop() {
-  // This is the big ask from the slave (getting the whole struct back):
-  receiveFromSlave();
+  // Send data to the slave:
+  sendToSlave(TXdata.myCharArr);  // Send TXdata to slave
   delay(500); // wait between receiving and sending
-  // Now, send a response back to the slave
-  sendToSlave();  // Send response to the slave
+  // Receive data from slave
+  receiveFromSlave(RXdata.myCharArr);  // Receive RXdata from slave
   delay(500);  // Small delay to avoid overloading the slave
+  if(received){ // if new data has been received:
+    // Print the received string
+    Serial.println(F("Received from slave: "));
+    Serial.println(RXdata.sData.PVAL);
+    Serial.println(RXdata.sData.Pin);
+    Serial.println(RXdata.sData.MIN);
+    Serial.println(RXdata.sData.MAX);
+    Serial.println(RXdata.sData.HOME);
+    Serial.println(RXdata.sData.POS);
+    received=false; // reset received flag
+  }
 }
 
-void receiveFromSlave(){
+void receiveFromSlave(char* a){
+  // Use this if you want to receive the whole struct:
   Wire.requestFrom(I2C_ADDR1,sizeof(myStruct));  // Request of size of struct (10 bytes here)
   int i=0;
   while(Wire.available()) {    
-    RXdata.myCharArr[i] = Wire.read();  // Read the next byte from the slave
-    if (RXdata.myCharArr[i] == '\0') {  // If a null character is encountered, process the data
-      // Print the received string
-      Serial.println(F("Received from slave: "));
-      Serial.println(RXdata.sData.PVAL);
-      Serial.println(RXdata.sData.Pin);
-      Serial.println(RXdata.sData.MIN);
-      Serial.println(RXdata.sData.MAX);
-      Serial.println(RXdata.sData.HOME);
-      Serial.println(RXdata.sData.POS);   
-      i = 0;  // Reset index for the next message
-    } else {
-      i++;  // Move to the next position in the buffer
-    }
+    RXdata.myCharArr[i++] = Wire.read();  // Read the next byte from the slave
   }
   // Use this if you only want to receive a single response character from the slave:
   /*Wire.requestFrom(I2C_ADDR1,1);  // Request 1 byte
@@ -75,11 +75,12 @@ void receiveFromSlave(){
     Serial.print(F("Received from slave: "));
     Serial.println(c);  
   }*/
+  if(i=sizeof(myStruct))received=true;  // new data has been received
 }
 
-void sendToSlave() {
+void sendToSlave(char* a) {
   Wire.beginTransmission(I2C_ADDR1);  // Start I2C transmission to slave
-  Wire.write(TXdata.myCharArr);  // Send the data as the char array myCharArr
+  Wire.write(a);  // Send the data as the char array myCharArr
   Wire.endTransmission();  // End the transmission
   Serial.println("Data sent to slave.");
 }
