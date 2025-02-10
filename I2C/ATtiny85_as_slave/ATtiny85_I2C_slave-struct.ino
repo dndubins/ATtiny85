@@ -77,7 +77,9 @@ void receiveEvent() {
 
 // Function to send data to the master when requested
 void requestEvent() {
-  sendArr(RXdata.myCharArr); // send sData back to the Master to check it.
+  sendArr(RXdata.myCharArr); // send sData back to the Master to check it.  
+  // Uncomment to send a single character to the master:
+  //sendChar('Y');
 }
 
 // Various functions to send data
@@ -88,6 +90,10 @@ void sendArr(char* arr){
      i++;
   }while(arr[i]!='\0');
   TinyWireS.send('\0'); // send terminal character
+}
+
+void sendChar(char c){
+  TinyWireS.send(c);
 }
 
 void flashLED(byte n){
