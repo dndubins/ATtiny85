@@ -69,8 +69,7 @@ void loop() { // The slave will continuously wait for requests or data from the 
 void receiveEvent() {
   int i=0;
   while (TinyWireS.available()) {
-    RXdata.myCharArr[i] = TinyWireS.receive();  // Receive the byte from the master
-    i++;
+    RXdata.myCharArr[i++] = TinyWireS.receive();  // Receive the byte from the master
   }
   flashLED(1);
 }
@@ -86,8 +85,7 @@ void requestEvent() {
 void sendArr(char* arr){
   int i=0;
   do{
-      TinyWireS.send(arr[i]);
-     i++;
+    TinyWireS.send(arr[i++]);
   }while(arr[i]!='\0');
   TinyWireS.send('\0'); // send terminal character
 }
