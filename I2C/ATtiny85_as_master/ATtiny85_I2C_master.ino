@@ -63,13 +63,12 @@ void sendArr(char* arr){
   int i=0;
   do{
       TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
-      TinyWireM.send(arr[i]);
+      TinyWireM.send(arr[i++]);
       TinyWireM.endTransmission();         // end the transmission
-      i++;
   }while(arr[i]!='\0');
   TinyWireM.beginTransmission(I2C_ADDR1);  // Start the transmission
-  TinyWireM.send('\0');                   // send terminal character
-  TinyWireM.endTransmission();            // end the transmission
+  TinyWireM.send('\0');                    // send terminal character
+  TinyWireM.endTransmission();             // end the transmission
 }
 
 void sendString(String str){
@@ -100,8 +99,7 @@ void sendFloat(float f, byte dec){     // float number, number of decimals
   TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
   int i=0;
   do{
-      TinyWireM.send(B[i]);
-      i++;
+      TinyWireM.send(B[i++]);
   }while(B[i]!='\0');
   TinyWireM.send('\0'); // send terminal character
   TinyWireM.endTransmission();           // end the transmission
