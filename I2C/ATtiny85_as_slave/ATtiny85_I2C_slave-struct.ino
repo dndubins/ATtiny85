@@ -1,5 +1,5 @@
 /* ATtiny85_I2C_slave-struct.ino
-   ATtiny85 as an I2C Master
+   ATtiny85 as an I2C slave. Programmed with Uno_I2C_master-struct.
    Author: David Dubins
    Date: 10-Feb-25
    Written to work with TinyWireS.h available here: https://github.com/rambo/TinyWire
