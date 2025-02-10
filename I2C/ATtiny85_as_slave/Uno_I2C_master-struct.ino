@@ -57,8 +57,10 @@ void loop() {
     Serial.println(RXdata.sData.MAX);
     Serial.println(RXdata.sData.HOME);
     Serial.println(RXdata.sData.POS);
-    received=false; // reset received flag
+  }else{
+    Serial.println("Data communications error.");
   }
+  received=false; // reset received flag
 }
 
 void receiveFromSlave(char* a){
