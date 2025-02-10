@@ -42,6 +42,14 @@ void setup() {
 
 void loop() {
   // This is the big ask from the slave (getting the whole struct back):
+  receiveFromSlave();
+  delay(500); // wait between receiving and sending
+  // Now, send a response back to the slave
+  sendToSlave();  // Send response to the slave
+  delay(500);  // Small delay to avoid overloading the slave
+}
+
+void receiveFromSlave(){
   Wire.requestFrom(I2C_ADDR1,sizeof(myStruct));  // Request of size of struct (10 bytes here)
   int i=0;
   while(Wire.available()) {    
@@ -67,16 +75,11 @@ void loop() {
     Serial.print(F("Received from slave: "));
     Serial.println(c);  
   }*/
-
-  delay(500); // wait between receiving and sending
-  // Now, send a response back to the slave
-  sendResponse();  // Send response to the slave
-  delay(500);  // Small delay to avoid overloading the slave
 }
 
-void sendResponse() {
+void sendToSlave() {
   Wire.beginTransmission(I2C_ADDR1);  // Start I2C transmission to slave
-  Wire.write(TXdata.myCharArr);  // Send the structure sData
+  Wire.write(TXdata.myCharArr);  // Send the data as the char array myCharArr
   Wire.endTransmission();  // End the transmission
   Serial.println("Data sent to slave.");
 }
