@@ -5,9 +5,9 @@ Here are some adaptations of these sketches.
 
 Links to the libraries are referred to in the sketches.<br>
 Here is the library for setting the ATtiny85 as a slave I2C device:<br>
-https://playground.arduino.cc/uploads/Code/TinyWireS/index.zip<br>
+https://github.com/rambo/TinyWire<br>
 Here is the library for setting the ATtiny85 as a master I2C device:<br>
-https://playground.arduino.cc/uploads/Code/TinyWireM/index.zip
+https://github.com/adafruit/TinyWireM<br>
 
 I have written example sketches for connecting an Arduino Uno (or Mega, or other Wire.h compatible device) with the ATtiny85, to send information from the ATtiny85 to the Uno.<p>
 
