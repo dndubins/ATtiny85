@@ -31,8 +31,6 @@
 
 #define I2C_ADDR 0x08  // ATtiny85 I2C Address
 byte LEDpin=3;                          // physical pin 2 is PB3
-byte vPin=A2;                           // take a reading on physical pin 3
-byte myInt=0;                           // to store integer read from master
 
 // Example of a structure to be sent over I2C (10 bytes total)
 struct myStruct { // example structure to send over I2C. This was for a servo.
