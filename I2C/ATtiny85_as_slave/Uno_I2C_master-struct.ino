@@ -24,9 +24,7 @@ struct myStruct { // example structure to send over I2C. This was for a servo.
 union myUnion { //declare union in global space
   char myCharArr[10]; // char array to be shared with sData
   myStruct sData; //occupies same memory as myCharArr
-}; //create a new union instance called myData
-myUnion TXdata;  // declare TXdata as the data to send to the slave
-myUnion RXdata;  // declare RXdata as the data to receive from the slave
+}TXdata,RXdata; //create two union instances called TXdata (to transmit) and RXdata (to receive)
 
 void setup() {
   Wire.begin();  // Initialize I2C as master
