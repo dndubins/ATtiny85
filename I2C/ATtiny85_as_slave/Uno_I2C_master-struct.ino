@@ -21,7 +21,7 @@ struct myStruct { // example structure to send over I2C. This was for a servo.
 
 // Declare a union to help decode the structure once received or sent
 union myUnion { //declare union in global space
-  char myCharArr[10]; // integer to be shared with sData
+  char myCharArr[10]; // char array to be shared with sData
   myStruct sData; //occupies same memory as myCharArr
 }; //create a new union instance called myData
 myUnion TXdata;  // declare TXdata as the data to send to the slave
