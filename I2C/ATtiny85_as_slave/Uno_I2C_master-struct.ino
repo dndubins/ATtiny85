@@ -41,6 +41,7 @@ void setup() {
 }
 
 void loop() {
+  // This is the big ask from the slave (getting the whole struct back):
   Wire.requestFrom(I2C_ADDR1,sizeof(myStruct));  // Request of size of struct (10 bytes here)
   int i=0;
   while(Wire.available()) {    
@@ -59,6 +60,14 @@ void loop() {
       i++;  // Move to the next position in the buffer
     }
   }
+  // Use this if you only want to receive a single response character from the slave:
+  /*Wire.requestFrom(I2C_ADDR1,1);  // Request 1 byte
+  while(Wire.available()) {    
+    char c = Wire.read();  // Read byte from the slave
+    Serial.print(F("Received from slave: "));
+    Serial.println(c);  
+  }*/
+
   delay(500); // wait between receiving and sending
   // Now, send a response back to the slave
   sendResponse();  // Send response to the slave
@@ -69,5 +78,5 @@ void sendResponse() {
   Wire.beginTransmission(I2C_ADDR1);  // Start I2C transmission to slave
   Wire.write(TXdata.myCharArr);  // Send the structure sData
   Wire.endTransmission();  // End the transmission
-  Serial.print("Data sent to slave.");
+  Serial.println("Data sent to slave.");
 }
