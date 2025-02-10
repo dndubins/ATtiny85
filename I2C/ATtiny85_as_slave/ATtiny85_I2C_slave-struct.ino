@@ -46,7 +46,7 @@ struct myStruct { // example structure to send over I2C. This was for a servo.
 
 // Declare a union to help decode the structure once received or sent
 union myUnion { //declare union in global space
-  char myCharArr[10]; // integer to be shared with sData
+  char myCharArr[sizeof(myStruct)]; // integer to be shared with sData
   myStruct sData; //occupies same memory as myCharArr
 }; //create a new union instance called myData
 myUnion RXdata;  // declare RXdata as the data to receive from the master
@@ -72,6 +72,7 @@ void receiveEvent() {
     RXdata.myCharArr[i] = TinyWireS.receive();  // Receive the byte from the master
     i++;
   }
+  flashLED(1);
 }
 
 // Function to send data to the master when requested
