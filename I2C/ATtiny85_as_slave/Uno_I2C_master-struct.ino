@@ -1,7 +1,7 @@
 /* Uno_I2C_master-struct.ino
    Uno as an I2C Master, with Attiny85 as slave
    Author: David Dubins
-   Date: 08-Feb-25
+   Date: 10-Feb-25
    Written to work with TinyWireS.h available here: https://github.com/rambo/TinyWire
    Adapted from: https://pwbotics.wordpress.com/2021/05/05/programming-attiny85-and-i2c-communication-using-attiny85/
 */
