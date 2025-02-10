@@ -8,7 +8,7 @@
 
 #include <Wire.h>         // start Wire.h as master (no address needed)
 #define I2C_ADDR1 0x08    // I2C address of the ATtiny85 slave (0x08)
-bool received=false;      // flag for new received data
+bool rcv=false;           // flag for new received data
 
 // Example of a structure to be sent over I2C (10 bytes total)
 struct myStruct { // example structure to send over I2C. This was for a servo.
@@ -31,7 +31,7 @@ myUnion RXdata;  // declare RXdata as the data to receive from the slave
 void setup() {
   Wire.begin();  // Initialize I2C as master
   Serial.begin(9600);  // Start serial communication
-  Serial.print("Ready to send/receive data."); // send welcome msg
+  Serial.print("Master ready."); // send welcome msg
   // initialize TXdata.sData with values
   TXdata.sData.PVAL=0.05; // significant data
   TXdata.sData.Pin=8;
@@ -48,7 +48,7 @@ void loop() {
   // Receive data from slave
   receiveFromSlave(RXdata.myCharArr);  // Receive RXdata from slave
   delay(500);  // Small delay to avoid overloading the slave
-  if(received){ // if new data has been received:
+  if(rcv){ // if new data has been received:
     // Print the received string
     Serial.println(F("Received from slave: "));
     Serial.println(RXdata.sData.PVAL);
@@ -60,7 +60,7 @@ void loop() {
   }else{
     Serial.println("Data communications error.");
   }
-  received=false; // reset received flag
+  rcv=false; // reset received flag
 }
 
 void receiveFromSlave(char* a){
@@ -77,7 +77,7 @@ void receiveFromSlave(char* a){
     Serial.print(F("Received from slave: "));
     Serial.println(c);  
   }*/
-  if(i=sizeof(myStruct))received=true;  // new data has been received
+  if(i==sizeof(myStruct))rcv=true;  // new data has been received of the correct size
 }
 
 void sendToSlave(char* a) {
