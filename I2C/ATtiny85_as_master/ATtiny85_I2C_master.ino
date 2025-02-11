@@ -2,7 +2,7 @@
    ATtiny85 as an I2C Master, programmed for use with Uno_I2C_slave.ino.
    Author: David Dubins
    Date: 08-Feb-25
-   Written to work with TinyWireM.h (by Adafruit, 1.1.3)
+   Written to work with TinyWireM.h (BroHogan 1/12/11)
    Library available at: https://playground.arduino.cc/uploads/Code/TinyWireM/index.zip
    Adapted from: https://pwbotics.wordpress.com/2021/05/05/programming-attiny85-and-i2c-communication-using-attiny85/
 
@@ -63,11 +63,11 @@ void sendArr(char* arr){
   int i=0;
   do{
       TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
-      TinyWireM.send(arr[i++]);
+      TinyWireM.write(arr[i++]);
       TinyWireM.endTransmission();         // end the transmission
   }while(arr[i]!='\0');
   TinyWireM.beginTransmission(I2C_ADDR1);  // Start the transmission
-  TinyWireM.send('\0');                    // send terminal character
+  TinyWireM.write('\0');                    // send terminal character
   TinyWireM.endTransmission();             // end the transmission
 }
 
@@ -75,20 +75,20 @@ void sendString(String str){
   int n=str.length();
   for(int i=0;i<n+1;i++){
       TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
-      TinyWireM.send(str[i]);
+      TinyWireM.write(str[i]);
       TinyWireM.endTransmission();           // end the transmission
   }
 }
 
 void sendChar(char c){
   TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
-  TinyWireM.send(c);
+  TinyWireM.write(c);
   TinyWireM.endTransmission();           // end the transmission
 }
 
 void sendByte(byte b){
   TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
-  TinyWireM.send(b);
+  TinyWireM.write(b);
   TinyWireM.endTransmission();           // end the transmission
 }
 
@@ -99,7 +99,7 @@ void sendFloat(float f, byte dec){     // float number, number of decimals
   TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
   int i=0;
   do{
-      TinyWireM.send(B[i++]);
+      TinyWireM.write(B[i++]);
   }while(B[i]!='\0');
   TinyWireM.send('\0'); // send terminal character
   TinyWireM.endTransmission();           // end the transmission
@@ -112,7 +112,7 @@ void sendInt(int j){      // integer to send
   TinyWireM.beginTransmission(I2C_ADDR1); // Start the transmission
   int i=0;
   do{
-      TinyWireM.send(B[i]);
+      TinyWireM.write(B[i]);
       i++;
   }while(B[i]!='\0');
   TinyWireM.send('\0'); // send terminal character
