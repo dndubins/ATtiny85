@@ -101,7 +101,7 @@ void sendFloat(float f, byte dec){     // float number, number of decimals
   do{
       TinyWireM.write(B[i++]);
   }while(B[i]!='\0');
-  TinyWireM.send('\0'); // send terminal character
+  TinyWireM.write('\0'); // send terminal character
   TinyWireM.endTransmission();           // end the transmission
 }
 
@@ -115,7 +115,7 @@ void sendInt(int j){      // integer to send
       TinyWireM.write(B[i]);
       i++;
   }while(B[i]!='\0');
-  TinyWireM.send('\0'); // send terminal character
+  TinyWireM.write('\0'); // send terminal character
   TinyWireM.endTransmission();           // end the transmission
 }
 
