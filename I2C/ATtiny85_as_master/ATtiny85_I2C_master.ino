@@ -2,7 +2,7 @@
    ATtiny85 as an I2C Master, programmed for use with Uno_I2C_slave.ino.
    Author: David Dubins
    Date: 08-Feb-25
-   Written to work with TinyWireM.h (BroHogan 1/12/11)
+   Written to work with TinyWireM.h (by Adafruit, 1.1.3)
    Library available at: https://playground.arduino.cc/uploads/Code/TinyWireM/index.zip
    Adapted from: https://pwbotics.wordpress.com/2021/05/05/programming-attiny85-and-i2c-communication-using-attiny85/
 
