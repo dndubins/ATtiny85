@@ -2,6 +2,7 @@
   LabToy85.ino Sketch
   Author: D. Dubins
   Date: 24-May-21
+  Last Updated: 17-Mar-25
   Description: This program uses an ATtiny85-20PU powered by a CR2032 battery to time x minutes set by pushing a button
   (pushing the button adds more time)
   This sketch uses the TM1637 library by Avishay Orpaz version 1.2.0
@@ -50,12 +51,12 @@
       -D-
 
   Note 1: To save more power, set output pinModes to be input pinmodes before sleeping.
-  Note 2: Always burn bootloader for a new chip. Burn with internal 1 MHz clock (will be more efficient on 3V battery).
+  Note 2: Always burn bootloader for a new chip. Burn with internal 16 MHz clock (piezo sounds less like a sick cat).
   Note 3: In deep sleep mode millis() stops functioning, so this program keeps track of time with the variable tOn.
 */
 
-#define OSC_N 78                // Calibrated value for OSCCAL (comment out if not calibrating)
-#define TCAL -2.02              // Calibrated value for core temperature (0.0 if not calibrating)
+#define OSC_N 94                // Calibrated value for OSCCAL (comment out if not calibrating)
+#define TCAL 23.4               // Calibrated value for core temperature (0.0 if not calibrating)
 
 #include <avr/sleep.h>          // sleep library
 #include <avr/power.h>          // power library
@@ -73,8 +74,14 @@
 #define DIO 4
 #define TMVCC 2                 // use PB2 for Vcc of TM1637 (physical pin 7)
 
-byte mode = 0;                  // mode=0: timer, mode=1: stopwatch, mode=2: temperature
-byte brightness = 3;            // brightness setting for TM1637 (0-7) (to save batteries, use a lower number) Use 2 for rechargeable, 3 for alkaline
+byte mode = 0;                  // to store mode
+enum modes {                    // define mode options as enum
+  TIMER,      // timer mode
+  STOPWATCH,  // stopwatch mode
+  TEMPERATURE // temperature mode
+};
+
+byte brightness = 5;            // brightness setting for TM1637 (0-7) (to save batteries, use a lower number) Use 2 for rechargeable, 3 for alkaline
 
 TM1637Display display(CLK, DIO);
 
@@ -105,12 +112,12 @@ const byte SEG_DEGC[] = {
 //Piezo Buzzer Parameters:
 //#define ACTIVEBUZZ        // if active buzzer, uncomment. If passive buzzer, comment out.
 #define BEEPTIME 100        // duration of beep in milliseconds
-#define BEEPFREQ 2183       // frequency of beep (change as required)
+#define BEEPFREQ 4940       // frequency of beep (change as required)              <-------   ### CHANGE THIS ###
 #define buzzPin 1           // use PB1 for piezo buzzer (physical pin 6)
 #define sw1 0               // use PB0 for set timer switch (physical pin 5)
 
 //timer variables
-unsigned long tDur = 0;         // for setting duration of timer
+unsigned long tDur = 0;         // for setting duration of timer. tDur is in seconds.
 volatile bool pushed = false;   // for storing if button has been pushed
 volatile bool beeped = true;    // whether or not device beeped. start out in true state upon device reset
 unsigned long tEnd = 0UL;       // for timer routine, end time in msec
@@ -125,14 +132,14 @@ void setup() {
   display.setBrightness(brightness);  // 0:MOST DIM, 7: BRIGHTEST
   if (!digitalRead(sw1)) {
     byte push = buttonRead(sw1);
-    if (push == 1) {                  // short push: mode=1 (stopwatch)
-      mode = 1;
+    if (push == 1) {                  // short push: mode=STOPWATCH
+      mode = STOPWATCH;
       stopWatch_reset();
     }
-    if (push == 2)mode = 2;           // long push: mode=2 (temperature)
+    if (push == 2)mode=TEMPERATURE;   // long push: mode=TEMPERATURE
     buttonReset(sw1, push);           // wait until button unpushed
   }else{
-    showPush();                       // mode=0 (timer)
+    showPush();                       // mode=TIMER
     sleep_interrupt(sw1);             // Call the sleep routine, wake when sw1 is pushed down
   }
 }
@@ -141,13 +148,19 @@ void loop() {
   byte p = buttonRead(sw1);           // take a button reading
   bool resetTimer=false;              // if true, reset the timer
 
-  if (mode == 0) {                    // mode=0 is timer mode
+  if (mode == TIMER) {
     if (p == 2){ 
       resetTimer=true;
     }else if (p == 1) {
       mode = 0;                       // set mode back to 0
       TMVCCon();                      // turn on Vcc for the TM1637 display
       beeped = false;                 // rearm the buzzer
+      if(tEnd>millis()){              // tEnd = 0 for the first button push. This fixes the logic.
+        float minLeft=float(tEnd-millis())/60000; // calculate the remaining minutes as a float number
+        float minRounded=minLeft - floor(minLeft); // get just the decimal
+        tDur=(60*ceil((float)(tEnd-millis())/60000.0));  // round up to nearest minute and write back to tDur (for adding a minute)
+        if(minRounded<(50.0/60.0))tDur-=60;     // round up to nearest minute if more than 10 seconds elapsed, otherwise rounds up to nearest 2.
+      }
       if (tDur >= 6 * 60 * 60) {      // if tDur>=6h
         tDur += 60 * 60;              // add 1 hr
       } else if (tDur >= 60 * 60) {   // if tDur>=1h
@@ -189,7 +202,7 @@ void loop() {
     }
   }
 
-  if (mode == 1) {                        // mode=1 is stopwatch mode
+  if (mode == STOPWATCH) {
     if (p == 0){
       showTimeSW(millis() - toffsetSW);   // show time elapsed
     }else if (p == 1) {
@@ -201,7 +214,7 @@ void loop() {
     }
   }
 
-  if (mode == 2) {                        // mode=2 is temperature mode
+  if (mode == TEMPERATURE) {
     TMVCCon();                            // turn on Vcc to the TM1637 display
     showTemp(readCoreTemp(100));          // show avg of 100 core temperature readings
     delay(DISPTIME);                      // show the time for DISPTIME
