@@ -7,7 +7,6 @@ With a bit of help from **ChatGPT**, I wrote a few barebones `#define` functions
 ```cpp
 // Fast pin modes, writes, and reads for the ATtiny85 (pins 0-5)
 // Modes: 0 = INPUT, 1 = OUTPUT, 2 = INPUT_PULLUP
-
 #define pinModeFast(p, m) \
   do { \
     if ((m)&1) DDRB |= (1 << (p)); \
