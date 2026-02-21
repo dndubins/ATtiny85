@@ -59,20 +59,17 @@
 #define TCAL 23.4  // Calibrated value for core temperature (0.0 if not calibrating)
 
 // Modes: 0=INPUT, 1=OUTPUT, 2=INPUT_PULLUP
-#define pinModeFast(p, m) \
-  if ((p) <= 5) { \
-    if ((m)&1) DDRB |= 1 << (p); \
-    else DDRB &= ~(1 << (p)); \
-    if (!((m)&1)) ((m)& 2 ? PORTB |= 1 << (p) : PORTB &= ~(1 << (p))); \
-  }
+// These should work on pins 0-5.
+#define pinModeFast85(p, m) \
+  if ((m)&1) DDRB |= 1 << (p); \
+  else DDRB &= ~(1 << (p)); \
+  if (!((m)&1)) ((m)&2 ? PORTB |= 1 << (p) : PORTB &= ~(1 << (p)))
 
-#define digitalWriteFast(p, v) \
-  if ((p) <= 5) { \
-    (v) ? PORTB |= 1 << (p) : PORTB &= ~(1 << (p)); \
-  }
+#define digitalWriteFast85(p, v) \
+  (v) ? PORTB |= 1 << (p) : PORTB &= ~(1 << (p))
 
-#define digitalReadFast(p) \
-  ((p) <= 5 ? ((PINB & (1 << (p))) ? 1 : 0) : 0)
+#define digitalReadFast85(p) \
+  (PINB & (1 << (p)))
 
 #include <avr/sleep.h>  // sleep library
 #include <avr/power.h>  // power library
