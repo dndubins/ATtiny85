@@ -1,5 +1,4 @@
-/*
-  LabToy85.ino Sketch
+/*LabToy85.ino Sketch
   Author: D. Dubins
   Date: 24-May-21
   Last Updated: 21-Feb-26
@@ -102,21 +101,21 @@ byte brightness = 5;  // brightness setting for TM1637 (0-7) (to save batteries,
 
 TM1637Display display(CLK, DIO);
 
-const uint8_t SEG_DONE[] = {
+const uint8_t SEG_DONE[] PROGMEM = {
   SEG_B | SEG_C | SEG_D | SEG_E | SEG_G,          // d
   SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,  // O
   SEG_C | SEG_E | SEG_G,                          // n
   SEG_A | SEG_D | SEG_E | SEG_F | SEG_G           // E
 };
 
-const uint8_t SEG_PUSH[] = {
+const uint8_t SEG_PUSH[] PROGMEM = {
   SEG_E | SEG_F | SEG_A | SEG_B | SEG_G,  // P
   SEG_F | SEG_E | SEG_D | SEG_C | SEG_B,  // U
   SEG_A | SEG_F | SEG_G | SEG_C | SEG_D,  // S
   SEG_F | SEG_E | SEG_G | SEG_B | SEG_C   // H
 };
 
-const byte SEG_DEGC[] = {
+const byte SEG_DEGC[] PROGMEM = {
   0x00,                           // space
   0x00,                           // space
   SEG_A | SEG_F | SEG_G | SEG_B,  // degree sign
@@ -218,7 +217,7 @@ void loop() {
           if (i % 2 == 0) {         // if i is even
             showTimeTMR(0, false);  // show zero
           } else {
-            display.setSegments(SEG_DONE);  // show "done" message
+            showSegments_P(SEG_DONE);  // show "done" message
           }
           if (beepBuzz(buzzPin, 3)) {  // flash and beep 3x
             resetTimer = true;         // flag the timer to reset
@@ -320,7 +319,7 @@ void showTime(unsigned long msec) {  // time remaining in msec
 
 void showPush() {
   TMVCCon();                      // turn on Vcc for the TM1637 display
-  display.setSegments(SEG_PUSH);  // show "PUSH" message
+  showSegments_P(SEG_PUSH);  // show "PUSH" message
   delay(DISPTIME);
   TMVCCoff();  // turn off Vcc for the TM1637 display
 }
@@ -578,8 +577,18 @@ float readCoreTemp(int n) {  // Calculates and reports the chip temperature of A
 void showTemp(float T) {                    // temperature
   static byte Tlast;                        // to hold previous temperature
   if (T != Tlast) {                         // only change the display if the temperature changes
-    display.setSegments(SEG_DEGC);          // show degree message
+    showSegments_P(SEG_DEGC);          // show degree message
     display.showNumberDec(T, false, 2, 0);  // false: don't show leading zeros, Start at first digit (position 0).
   }
   Tlast = T;  // store current temperature
+}
+
+void showSegments_P(const uint8_t *p) {
+  delayMicroseconds(50);    // wait a bit (in case waking up from sleep)
+  uint8_t buf[4]={0};       // define buffer as 4 bytes and clear it out
+  for (uint8_t i = 0; i < 4; i++) {
+    buf[i] = pgm_read_byte(&p[i]); // read next byte in progmem
+  }
+  display.setSegments(buf); // display 4 bytes
+  delayMicroseconds(50);    // wait a bit
 }
