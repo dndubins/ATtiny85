@@ -60,15 +60,15 @@
 
 // Modes: 0=INPUT, 1=OUTPUT, 2=INPUT_PULLUP
 // These should work on pins 0-5.
-#define pinModeFast85(p, m) \
+#define pinModeFast(p, m) \
   if ((m)&1) DDRB |= 1 << (p); \
   else DDRB &= ~(1 << (p)); \
   if (!((m)&1)) ((m)&2 ? PORTB |= 1 << (p) : PORTB &= ~(1 << (p)))
 
-#define digitalWriteFast85(p, v) \
+#define digitalWriteFast(p, v) \
   (v) ? PORTB |= 1 << (p) : PORTB &= ~(1 << (p))
 
-#define digitalReadFast85(p) \
+#define digitalReadFast(p) \
   (PINB & (1 << (p)))
 
 #include <avr/sleep.h>  // sleep library
