@@ -58,8 +58,8 @@
 #define OSC_N 94   // Calibrated value for OSCCAL (comment out if not calibrating)
 #define TCAL 23.4  // Calibrated value for core temperature (0.0 if not calibrating)
 
+// For fast pin modes, writes, and reads for the ATtiny84 (pins 0-5):
 // Modes: 0=INPUT, 1=OUTPUT, 2=INPUT_PULLUP
-// These should work on pins 0-5.
 #define pinModeFast(p, m) \
   if ((m)&1) DDRB |= 1 << (p); \
   else DDRB &= ~(1 << (p)); \
