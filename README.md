@@ -9,14 +9,19 @@ With a bit of help from **ChatGPT**, I wrote a few barebones `#define` functions
 // Modes: 0 = INPUT, 1 = OUTPUT, 2 = INPUT_PULLUP
 #define pinModeFast(p, m) \
   do { \
-    if ((m)&1) DDRB |= (1 << (p)); \
-    else DDRB &= ~(1 << (p)); \
-    if (!((m)&1)) ((m)&2 ? PORTB |= (1 << (p)) : PORTB &= ~(1 << (p))); \
+    if ((m) & 1) { \
+      DDRB  |=  (1 << (p)); \
+      PORTB &= ~(1 << (p)); \
+    } else { \
+      DDRB  &= ~(1 << (p)); \
+      if ((m) & 2) PORTB |=  (1 << (p)); \
+      else         PORTB &= ~(1 << (p)); \
+    } \
   } while(0)
 
 #define digitalWriteFast(p, v) \
   do { \
-    (v) ? PORTB |= (1 << (p)) : PORTB &= ~(1 << (p));
+    (v) ? PORTB |= (1 << (p)) : PORTB &= ~(1 << (p)); \
   } while(0)
 
 #define digitalReadFast(p) ((PINB & (1 << (p))) ? 1 : 0)
